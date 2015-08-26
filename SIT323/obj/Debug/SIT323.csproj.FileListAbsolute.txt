@@ -1,0 +1,7 @@
+c:\users\nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.exe.config
+c:\users\nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.exe
+c:\users\nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.pdb
+c:\users\nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.exe
+c:\users\nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.pdb
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names EASY wordlist.csv
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.csprojResolveAssemblyReference.cache

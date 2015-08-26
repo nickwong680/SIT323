@@ -1,0 +1,8 @@
+c:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\bin\Debug\SIT323Test.dll
+c:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\bin\Debug\SIT323Test.pdb
+c:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\bin\Debug\SIT323.exe
+c:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\bin\Debug\SIT323.pdb
+c:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\obj\Debug\SIT323Test.csprojResolveAssemblyReference.cache
+c:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\obj\Debug\SIT323Test.dll
+c:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\obj\Debug\SIT323Test.pdb
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\bin\Debug\Files\Names EASY wordlist.csv
