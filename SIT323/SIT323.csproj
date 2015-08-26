@@ -43,33 +43,67 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Constraints.cs" />
+    <Compile Include="Models\Crozzle.cs" />
     <Compile Include="Models\WordList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Files\Names EASY wordlist - Invalid 1.csv" />
-    <None Include="Files\Names EASY wordlist - Invalid 2.csv" />
+    <Content Include="Files\Names EASY wordlist - Invalid 1.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Names EASY wordlist - Invalid 2.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Files\Names EASY wordlist.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Files\Names EXTREME wordlist.csv" />
-    <None Include="Files\Names HARD wordlist.csv" />
-    <None Include="Files\Names MEDIUM wordlist.csv" />
+    <Content Include="Files\Names EXTREME wordlist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Names HARD wordlist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Names MEDIUM wordlist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Files\Names EASY crozzle - Invalid 1.txt" />
-    <Content Include="Files\Names EASY crozzle - Invalid 2.txt" />
-    <Content Include="Files\Names EASY crozzle.txt" />
-    <Content Include="Files\Names EXTREME crozzle - Invalid.txt" />
-    <Content Include="Files\Names EXTREME crozzle.txt" />
-    <Content Include="Files\Names HARD crozzle - Invalid.txt" />
-    <Content Include="Files\Names HARD crozzle.txt" />
-    <Content Include="Files\Names MEDIUM crozzle - Invalid 1.txt" />
-    <Content Include="Files\Names MEDIUM crozzle - Invalid 2.txt" />
-    <Content Include="Files\Names MEDIUM crozzle - Invalid 3.txt" />
-    <Content Include="Files\Names MEDIUM crozzle.txt" />
+    <Content Include="Files\Names EASY crozzle - Invalid 1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Names EASY crozzle - Invalid 2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Names EASY crozzle.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Names EXTREME crozzle - Invalid.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Names EXTREME crozzle.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Names HARD crozzle - Invalid.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Names HARD crozzle.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Names MEDIUM crozzle - Invalid 1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Names MEDIUM crozzle - Invalid 2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Names MEDIUM crozzle - Invalid 3.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Names MEDIUM crozzle.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
