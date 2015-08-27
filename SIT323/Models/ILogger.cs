@@ -7,7 +7,6 @@ namespace SIT323.Models
         List<LogMessage> LogList { get; set; }
     }
 
-
     public enum Level
     {
         Error,

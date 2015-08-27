@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SIT323.Models
 {
 
-    public abstract class Validator
+    public abstract class Validator: ILogger
     {
         protected string location;
         public List<LogMessage> LogList { get; set; }
@@ -27,7 +27,7 @@ namespace SIT323.Models
         }
     }
 
-    public class StringValidtor : Validator, ILogger
+    public class StringValidtor : Validator
     {
         private string value;
         public StringValidtor(string s, string location)
@@ -59,7 +59,7 @@ namespace SIT323.Models
     /// <summary>
     /// Validator is a Builder 
     /// </summary>
-    public class IntValidator : Validator, ILogger
+    public class IntValidator : Validator
     {
         protected int value = -1;
 
@@ -100,7 +100,7 @@ namespace SIT323.Models
         }
     }
 
-    public class WordListValidator<T> : Validator, ILogger
+    public class WordListValidator<T> : Validator
     {
         private List<T> list;
         public WordListValidator(List<T> l, string location)
@@ -124,5 +124,89 @@ namespace SIT323.Models
                 });
             return this;
         }
+    }
+
+
+    public class CrozzleValidator : Validator
+    {
+        private Crozzle crozzle;
+        public CrozzleValidator(Crozzle c)
+        {
+            LogList = new List<LogMessage>();
+            crozzle = c;
+        }
+
+        public CrozzleValidator AreCellsSizeCorrect(int row, int columns)
+        {
+            if (crozzle.Width != row)
+            {
+                LogList.Add(new LogMessage()
+                {
+                    Level = Level.Error,
+                    Location = "Row",
+                    TextMessage = string.Format("file contains ({0}) rows. instead of {1} rows", crozzle.Width, row)
+                });
+            }
+            for (int i = 0; i < crozzle.Width; i++)
+            {
+                if (crozzle[i].Length != columns)
+                {
+                    LogList.Add(new LogMessage()
+                    {
+                        Level = Level.Error,
+                        Location = "Columns",
+                        TextMessage = string.Format("row {0} contains ({1}) columns. instead of {2} columns", i, crozzle[i].Length, columns)
+                    });
+                }
+            }
+ 
+            return this;
+        }
+        public CrozzleValidator AreCellsValidAlphabet()
+        {
+            for (int i = 0; i < crozzle.Width; i++)
+            {
+                for (int j = 0; j < crozzle[i].Length; j++)
+                {
+                    string Message = null;
+                    switch (crozzle[i, j])
+                    {
+                        case '\t':
+                            Message = string.Format("cell [{0},{1}] contains ({2}), it should only contain exactly 1 alphabetic character", i, "tab", crozzle[i, j]);
+                            break;
+                        default:
+                            if (!char.IsLetter(crozzle[i, j]) && !char.IsWhiteSpace(crozzle[i, j]))
+                            {
+                                Message = string.Format( "cell [{0},{1}] contains ({2}), it should only contain exactly 1 alphabetic character",  i, j, crozzle[i, j]);
+                            }
+                            break;
+                    }
+                    if (Message != null)
+                    {
+                        LogList.Add(new LogMessage()
+                        {
+                            Level = Level.Error,
+                            Location = "Cell",
+                            TextMessage = Message
+                        });
+                    }
+                }
+            }
+
+//            for (int i = 0; i < crozzle.Width; i++)
+//            {
+//                if (crozzle[i].Length != columns)
+//                {
+//                    LogList.Add(new LogMessage()
+//                    {
+//                        Level = Level.Error,
+//                        Location = "Columns",
+//                        TextMessage = string.Format("row {0} contains ({1}) columns. instead of {2} columns", i, crozzle[i].Length, columns)
+//                    });
+//                }
+//            }
+            return this;
+        }
+
     }
 }

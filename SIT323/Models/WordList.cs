@@ -58,6 +58,8 @@ namespace SIT323.Models
             LogList.AddRange(new IntValidator(file[0], "field 0").IsInRange(MinWordCount, MaxWordCount).LogList);
             LogList.AddRange(new IntValidator(file[1], "field 1").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
             LogList.AddRange(new IntValidator(file[2], "field 2").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
+            int.TryParse(file[1], out _Width);
+            int.TryParse(file[2], out _Height);
 
             _WordList = file.ToList();
             _WordList.RemoveRange(0,3);
