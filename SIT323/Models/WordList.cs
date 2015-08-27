@@ -16,7 +16,7 @@ namespace SIT323.Models
         Extreme
     }
 
-    public class Wordlist 
+    public class Wordlist : ILogger
     {
         readonly int MinWordCount = 10;
         readonly int MaxWordCount = 1000;
@@ -28,7 +28,7 @@ namespace SIT323.Models
         private int _Width;
         private int _Height;
         private List<string> _WordList;
-
+        public List<LogMessage> LogList { get; set; }
         public Difficulty Level
         {
             get { return _Level; }
@@ -53,24 +53,20 @@ namespace SIT323.Models
         {
             string[] file = ReadWordListFromFile(fileName);
 
-            List<LogMessage> LogList = new List<LogMessage>();
+            LogList = new List<LogMessage>();
 
             LogList.AddRange(new IntValidator(file[0], "field 0").IsInRange(MinWordCount, MaxWordCount).LogList);
-            LogList.AddRange(new IntValidator(file[1], "field 0").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
-            LogList.AddRange(new IntValidator(file[2], "field 0").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
-
-            var stringvalidtor = new StringValidtor(":-", "word");
-            var stringvalidtor2 = new StringValidtor("", "word");
-
-
-
-            int.TryParse(file[0], out _WordsCount);
-            int.TryParse(file[1], out _Width);
-            int.TryParse(file[2], out _Height);
+            LogList.AddRange(new IntValidator(file[1], "field 1").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
+            LogList.AddRange(new IntValidator(file[2], "field 2").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
 
             _WordList = file.ToList();
             _WordList.RemoveRange(0,3);
 
+            foreach (var word in _WordList)
+            {
+                LogList.AddRange(new StringValidtor(word, "word").LogList);
+            }
+            LogList.AddRange(new WordListValidator<string>(_WordList, "wordlist").IsInRange(MinWordCount, MaxWordCount).LogList);
         }
 
         /// <summary>
@@ -86,6 +82,7 @@ namespace SIT323.Models
             string[] fileStrings = File.ReadAllLines(fileName);
             return fileStrings[0].Split(',');
         }
+
 
     }
 }

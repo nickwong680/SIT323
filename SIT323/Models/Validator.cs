@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 
 namespace SIT323.Models
 {
-    public class RegExp
-    {
-        
-    }
 
     public abstract class Validator
     {
@@ -52,7 +48,7 @@ namespace SIT323.Models
                 {
                     Level = Level.Error,
                     Location = location,
-                    TextMessage = string.Format("word value ({0}) is not an alphabetic", value)
+                    TextMessage = string.Format("word value ({0}) is not an alphabetic", s)
                 });
                 return false;
             }
@@ -60,23 +56,19 @@ namespace SIT323.Models
         }
     }
 
-
     /// <summary>
     /// Validator is a Builder 
     /// </summary>
     public class IntValidator : Validator, ILogger
     {
-        protected int value;
+        protected int value = -1;
 
         public IntValidator(string s, string location)
         {
             LogList = new List<LogMessage>();
             this.location = location;
 
-            IsEmpty(s);
-            IsInt(s);
-
-            int.TryParse(s, out value);
+            if (!IsEmpty(s)) if(IsInt(s)) int.TryParse(s, out value);
         }
 
         private bool IsInt(string s)
@@ -87,7 +79,7 @@ namespace SIT323.Models
                 {
                     Level = Level.Error,
                     Location = location,
-                    TextMessage = string.Format("value ({0}) is not an integer", value)
+                    TextMessage = string.Format("value ({0}) is not an integer", s)
                 });
                 return false;
             }
@@ -96,12 +88,39 @@ namespace SIT323.Models
 
         public IntValidator IsInRange(int min, int max)
         {
+            if (value == -1) return this;
             if (value < min || value > max)
                 LogList.Add(new LogMessage()
                 {
                     Level = Level.Error,
                     Location = location,
                     TextMessage = string.Format("size value ({0}) is not in range", value)
+                });
+            return this;
+        }
+    }
+
+    public class WordListValidator<T> : Validator, ILogger
+    {
+        private List<T> list;
+        public WordListValidator(List<T> l, string location)
+        {
+            list = l;
+            LogList = new List<LogMessage>();
+            this.location = location;
+
+            IsEmpty(string.Join(",", list.ToArray()));
+        }
+
+        public WordListValidator<T> IsInRange(int min, int max)
+        {
+            if (list.Count == 0) return this;
+            if (list.Count < min || list.Count > max)
+                LogList.Add(new LogMessage()
+                {
+                    Level = Level.Error,
+                    Location = location,
+                    TextMessage = string.Format("{0} contains ({1}) words. Expecting {2} to {3} words", location, list.Count, min, max)
                 });
             return this;
         }

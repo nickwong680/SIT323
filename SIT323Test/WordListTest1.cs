@@ -32,7 +32,6 @@ namespace SIT323Test
             var stringvalidtor2 = new StringValidtor("", "word");
             Assert.IsTrue(stringvalidtor.LogList.Count == 1);
             Assert.IsTrue(stringvalidtor2.LogList.Count == 1);
-
         }
 
         [TestMethod]
@@ -48,25 +47,21 @@ namespace SIT323Test
     [TestClass]
     public class WordListTest1
     {
-        Wordlist Wordlist;
-        //Validator Validator = new Validator(new List<LogMessage>());
-
-        readonly int MinWordCount = 10;
-        readonly int MaxWordCount = 1000;
-        readonly int MinCrozzleWeightCount = 4;
-         readonly int MaxCrozzleHeightCount = 400;
-
         [TestInitialize]
         public void InitWordList()
         {
-            Wordlist = new Wordlist("Files/Test 6 - wordlist.csv");
         }
-
         [TestMethod]
-        public void TestCheckWordsCount()
+        public void TestWordList5()
         {
-            bool test = (Wordlist.WordsCount > MinWordCount && Wordlist.WordsCount < MaxWordCount);
-            Assert.IsTrue(test);
+            var LogList = new Wordlist("Files/Test 5 - wordlist.csv").LogList;
+            Assert.IsTrue(LogList.Count == 4);
+        }
+        [TestMethod]
+        public void TestWordList6()
+        {
+            var LogList = new Wordlist("Files/Test 6 - wordlist.csv").LogList;
+            Assert.IsTrue(LogList.Count == 6);
         }
 
         [TestMethod]
