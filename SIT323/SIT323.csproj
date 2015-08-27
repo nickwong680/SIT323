@@ -43,65 +43,87 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Constraints.cs" />
     <Compile Include="Models\Crozzle.cs" />
+    <Compile Include="Models\ILogger.cs" />
+    <Compile Include="Models\Validator.cs" />
     <Compile Include="Models\WordList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="Files\Names EASY wordlist - Invalid 1.csv">
+    <Content Include="Files\Test 1 - wordlist.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names EASY wordlist - Invalid 2.csv">
+    <Content Include="Files\Test 10 - wordlist.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names EASY wordlist.csv">
+    <Content Include="Files\Test 11 - wordlist.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names EXTREME wordlist.csv">
+    <Content Include="Files\Test 12 - wordlist.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names HARD wordlist.csv">
+    <Content Include="Files\Test 2 - wordlist.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names MEDIUM wordlist.csv">
+    <Content Include="Files\Test 3 - wordlist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Test 4 - wordlist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Test 5 - wordlist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Test 6 - wordlist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Test 7 - wordlist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Test 8 - wordlist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Test 9 - wordlist.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Files\Names EASY crozzle - Invalid 1.txt">
+    <Content Include="Files\Test 1 - crozzle.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names EASY crozzle - Invalid 2.txt">
+    <Content Include="Files\Test 10 - crozzle.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names EASY crozzle.txt">
+    <Content Include="Files\Test 11 - crozzle.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names EXTREME crozzle - Invalid.txt">
+    <Content Include="Files\Test 12 - crozzle.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names EXTREME crozzle.txt">
+    <Content Include="Files\Test 2 - crozzle.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names HARD crozzle - Invalid.txt">
+    <Content Include="Files\Test 3 - crozzle.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names HARD crozzle.txt">
+    <Content Include="Files\Test 4 - crozzle.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names MEDIUM crozzle - Invalid 1.txt">
+    <Content Include="Files\Test 5 - crozzle.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names MEDIUM crozzle - Invalid 2.txt">
+    <Content Include="Files\Test 6 - crozzle.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names MEDIUM crozzle - Invalid 3.txt">
+    <Content Include="Files\Test 7 - crozzle.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Names MEDIUM crozzle.txt">
+    <Content Include="Files\Test 8 - crozzle.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Test 9 - crozzle.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

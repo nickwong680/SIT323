@@ -3,21 +3,27 @@ c:\users\nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT3
 c:\users\nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.pdb
 c:\users\nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.exe
 c:\users\nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.pdb
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names EASY wordlist.csv
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names EASY wordlist - Invalid 1.csv
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names EASY wordlist - Invalid 2.csv
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names EXTREME wordlist.csv
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names HARD wordlist.csv
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names MEDIUM wordlist.csv
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names EASY crozzle - Invalid 1.txt
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names EASY crozzle - Invalid 2.txt
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names EASY crozzle.txt
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names EXTREME crozzle - Invalid.txt
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names EXTREME crozzle.txt
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names HARD crozzle - Invalid.txt
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names HARD crozzle.txt
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names MEDIUM crozzle - Invalid 1.txt
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names MEDIUM crozzle - Invalid 2.txt
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names MEDIUM crozzle - Invalid 3.txt
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Names MEDIUM crozzle.txt
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.csprojResolveAssemblyReference.cache
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 1 - wordlist.csv
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 10 - wordlist.csv
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 11 - wordlist.csv
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 12 - wordlist.csv
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 2 - wordlist.csv
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 3 - wordlist.csv
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 4 - wordlist.csv
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 5 - wordlist.csv
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 6 - wordlist.csv
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 7 - wordlist.csv
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 8 - wordlist.csv
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 9 - wordlist.csv
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 1 - crozzle.txt
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 10 - crozzle.txt
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 11 - crozzle.txt
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 12 - crozzle.txt
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 2 - crozzle.txt
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 3 - crozzle.txt
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 4 - crozzle.txt
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 5 - crozzle.txt
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 6 - crozzle.txt
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 7 - crozzle.txt
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 8 - crozzle.txt
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 9 - crozzle.txt

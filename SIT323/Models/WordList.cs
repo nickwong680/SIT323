@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,8 +16,13 @@ namespace SIT323.Models
         Extreme
     }
 
-    public class Wordlist
+    public class Wordlist 
     {
+        readonly int MinWordCount = 10;
+        readonly int MaxWordCount = 1000;
+        readonly int MinCrozzleWeightCount = 4;
+        readonly int MaxCrozzleHeightCount = 400;
+
         private Difficulty _Level;
         private int _WordsCount;
         private int _Width;
@@ -46,9 +52,22 @@ namespace SIT323.Models
         public Wordlist(string fileName)
         {
             string[] file = ReadWordListFromFile(fileName);
-            _WordsCount = Convert.ToInt32(file[0]);
-            _Width = Convert.ToInt32(file[1]);
-            _Height = Convert.ToInt32(file[2]);
+
+            List<LogMessage> LogList = new List<LogMessage>();
+
+            LogList.AddRange(new IntValidator(file[0], "field 0").IsInRange(MinWordCount, MaxWordCount).LogList);
+            LogList.AddRange(new IntValidator(file[1], "field 0").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
+            LogList.AddRange(new IntValidator(file[2], "field 0").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
+
+            var stringvalidtor = new StringValidtor(":-", "word");
+            var stringvalidtor2 = new StringValidtor("", "word");
+
+
+
+            int.TryParse(file[0], out _WordsCount);
+            int.TryParse(file[1], out _Width);
+            int.TryParse(file[2], out _Height);
+
             _WordList = file.ToList();
             _WordList.RemoveRange(0,3);
 
@@ -67,5 +86,6 @@ namespace SIT323.Models
             string[] fileStrings = File.ReadAllLines(fileName);
             return fileStrings[0].Split(',');
         }
+
     }
 }
