@@ -114,6 +114,33 @@ namespace SIT323Test
     [TestClass]
     public class TestCrozzleConstrainst 
     {
-        
+        [TestMethod]
+        public void TestConstrainst()
+        {
+            var Wordlist = new Wordlist("Files/Test 1 - wordlist.csv");
+
+            var Crozzle = new Crozzle("Files/Test 1 - crozzle.txt", Wordlist);
+
+            var Constraints = new EasyConstraints(Crozzle);
+            
+        }
+
+        [TestMethod]
+        public void Array()
+        {
+
+            int width = 9;
+            int height = 9;
+
+
+            for (int i = 0; i < width*height; ++i)
+            {
+
+                int x = i%width;
+
+                int y = i/width; //Integer division
+
+            }
+        }
     }
 }
