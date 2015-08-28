@@ -128,18 +128,12 @@ namespace SIT323Test
         [TestMethod]
         public void Array()
         {
-
             int width = 9;
             int height = 9;
-
-
             for (int i = 0; i < width*height; ++i)
             {
-
                 int x = i%width;
-
                 int y = i/width; //Integer division
-
             }
         }
     }

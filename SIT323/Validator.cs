@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -220,5 +221,51 @@ namespace SIT323
             return this;
         }
 
+    }
+
+    public class IntersectValidator : Validator
+    {
+        private List<Word> WordsFromCrozzle;
+        public IntersectValidator(List<Word> words, string location)
+        {
+            List<Word> WordsFromCrozzle = words;
+            LogList = new List<LogMessage>();
+            this.location = location;
+        }
+        public IntersectValidator IntersectMoreThanOne()
+        {
+            foreach (Word word in WordsFromCrozzle)
+            {
+                if (word.IntersectWords.Count > 0)
+                {
+                    LogList.Add(new LogMessage()
+                    {
+                        Level = Level.Error,
+                        Location = location,
+                        TextMessage = string.Format("{0} intersects {1} not (1 or 2 words)", word.ToString(), word.IntersectWords.Count)
+                    });
+                }
+            }
+            return this;
+        }
+
+        public IntersectValidator IntersectLessThanTwo()
+        {
+            foreach (Word word in WordsFromCrozzle)
+            {
+                if (word.IntersectWords.Count < 3)
+                {
+                    LogList.Add(new LogMessage()
+                    {
+                        Level = Level.Error,
+                        Location = location,
+                        TextMessage =
+                            string.Format("{0} intersects {1} not (1 or 2 words)", word.ToString(),
+                                word.IntersectWords.Count)
+                    });
+                }
+            }
+            return this;
+        }
     }
 }

@@ -26,6 +26,11 @@ namespace SIT323.Models
         {
             CharacterList.Add(c);
         }
+
+        public override string ToString()
+        {
+            return String.Join(", ", CharacterList.Select(a => a.Alphabetic).ToArray());
+        }
     }
 
     public class Character

@@ -39,7 +39,19 @@ namespace SIT323.Models
         /// <returns></returns>
         public char this[int w,int h]
         {
-            get { return _CrozzleArray[w][h]; }
+            get
+            {
+                char c;
+                try
+                {
+                    c = _CrozzleArray[w][h];
+                }
+                catch (IndexOutOfRangeException e)
+                {
+                    c = ' ';
+                }
+                return c;
+            }
         }
 
         public Crozzle(string fileName, Wordlist wordlist)
