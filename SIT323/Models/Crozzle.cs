@@ -32,7 +32,7 @@ namespace SIT323.Models
 
         /// <summary>
         /// Indexer for Jagged array.
-        /// It looks like a multiple dimesmontion array but it's not.
+        /// It looks like a multiple dimesmontion array indexer but it's not.
         /// </summary>
         /// <param name="w"></param>
         /// <param name="h"></param>
@@ -51,7 +51,8 @@ namespace SIT323.Models
 
             LogList = new List<LogMessage>();
             LogList.AddRange(new CrozzleValidator(this)
-                .AreCellsSizeCorrect(wordlist.Width, wordlist.Height)
+                .AreCellsSizeCorrectAccordingToHeader(wordlist.Width, wordlist.Height)
+                .AreCellsSizeCorrectAccordingToRequirement(wordlist.Width, wordlist.Height)
                 .AreCellsValidAlphabet()
                 .LogList
                 );

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SIT323.Models;
 
-namespace SIT323.Models
+namespace SIT323
 {
 
     public abstract class Validator: ILogger
@@ -136,7 +138,7 @@ namespace SIT323.Models
             crozzle = c;
         }
 
-        public CrozzleValidator AreCellsSizeCorrect(int row, int columns)
+        private void AreCellsSizeCorrect(int row, int columns, string rowMsg, string columnsMsg)
         {
             if (crozzle.Width != row)
             {
@@ -144,7 +146,7 @@ namespace SIT323.Models
                 {
                     Level = Level.Error,
                     Location = "Row",
-                    TextMessage = string.Format("file contains ({0}) rows. instead of {1} rows", crozzle.Width, row)
+                    TextMessage = string.Format(rowMsg, crozzle.Width, row)
                 });
             }
             for (int i = 0; i < crozzle.Width; i++)
@@ -155,11 +157,21 @@ namespace SIT323.Models
                     {
                         Level = Level.Error,
                         Location = "Columns",
-                        TextMessage = string.Format("row {0} contains ({1}) columns. instead of {2} columns", i, crozzle[i].Length, columns)
+                        TextMessage = string.Format(columnsMsg, i, crozzle[i].Length, columns)
                     });
                 }
             }
- 
+        }
+        public CrozzleValidator AreCellsSizeCorrectAccordingToRequirement(int row, int columns)
+        {
+            AreCellsSizeCorrect(row, columns, "file contains ({0}) rows, instead of {1} rows as per requirement",
+                "row {0} contains ({1}) columns, instead of {2} columns as per requirement");
+            return this;
+        }
+        public CrozzleValidator AreCellsSizeCorrectAccordingToHeader(int row, int columns)
+        {
+            AreCellsSizeCorrect(row, columns, "file contains ({0}) rows, instead of {1} rows as per header",
+    "row {0} contains ({1}) columns, instead of {2} columns as per header");
             return this;
         }
         public CrozzleValidator AreCellsValidAlphabet()

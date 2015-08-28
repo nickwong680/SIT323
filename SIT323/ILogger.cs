@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SIT323.Models
+namespace SIT323
 {
     public interface ILogger
     {

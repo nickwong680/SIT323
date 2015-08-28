@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SIT323.Models
+namespace SIT323
 {
     public enum Difficulty
     {
@@ -15,13 +15,15 @@ namespace SIT323.Models
         Hard,
         Extreme
     }
-
+    /// <summary>
+    /// For Validation, Wordlist is coupled with Validator class and it's subclass IntValidator, StringValidtor and WordListValidator.
+    /// </summary>
     public class Wordlist : ILogger
     {
-        readonly int MinWordCount = 10;
-        readonly int MaxWordCount = 1000;
-        readonly int MinCrozzleWeightCount = 4;
-        readonly int MaxCrozzleHeightCount = 400;
+        public readonly int MinWordCount = 10;
+        public readonly int MaxWordCount = 1000;
+        public readonly int MinCrozzleWeightCount = 4;
+        public readonly int MaxCrozzleHeightCount = 400;
 
         private Difficulty _Level;
         private int _WordsCount;
@@ -63,12 +65,27 @@ namespace SIT323.Models
 
             _WordList = file.ToList();
             _WordList.RemoveRange(0,3);
-
             foreach (var word in _WordList)
             {
                 LogList.AddRange(new StringValidtor(word, "word").LogList);
             }
             LogList.AddRange(new WordListValidator<string>(_WordList, "wordlist").IsInRange(MinWordCount, MaxWordCount).LogList);
+
+            switch (file[3])
+            {
+                case "Easy":
+                    _Level = Difficulty.Easy;
+                    break;
+                case "Medium":
+                    _Level = Difficulty.Medium;
+                    break;
+                case "Hard":
+                    _Level = Difficulty.Hard;
+                    break;
+                case "Extreme":
+                    _Level = Difficulty.Extreme;
+                    break;
+            }
         }
 
         /// <summary>
