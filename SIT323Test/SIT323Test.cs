@@ -117,12 +117,15 @@ namespace SIT323Test
         [TestMethod]
         public void TestConstrainst()
         {
-            var Wordlist = new Wordlist("Files/Test 1 - wordlist.csv");
+            var Wordlist = new Wordlist("Files/Test 9 - wordlist.csv");
+            Assert.IsTrue(Wordlist.LogList.Count == 0);
 
-            var Crozzle = new Crozzle("Files/Test 1 - crozzle.txt", Wordlist);
+            var Crozzle = new Crozzle("Files/Test 9 - crozzle.txt", Wordlist);
+            Assert.IsTrue(Crozzle.LogList.Count == 0);
 
             var Constraints = new EasyConstraints(Crozzle);
-            
+            Assert.IsTrue(Constraints.LogList.Count == 0);
+
         }
 
         [TestMethod]

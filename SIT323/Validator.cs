@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing.Text;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using SIT323.Models;
@@ -223,20 +225,20 @@ namespace SIT323
 
     }
 
-    public class IntersectValidator : Validator
+    public class ConstraintValidator : Validator
     {
         private List<Word> WordsFromCrozzle;
-        public IntersectValidator(List<Word> words, string location)
+        public ConstraintValidator(List<Word> words, string location)
         {
-            List<Word> WordsFromCrozzle = words;
+            WordsFromCrozzle = words;
             LogList = new List<LogMessage>();
             this.location = location;
         }
-        public IntersectValidator IntersectMoreThanOne()
+        public ConstraintValidator IntersectMoreThanOne()
         {
             foreach (Word word in WordsFromCrozzle)
             {
-                if (word.IntersectWords.Count > 0)
+                if (word.IntersectWords.Count < 1)
                 {
                     LogList.Add(new LogMessage()
                     {
@@ -249,11 +251,11 @@ namespace SIT323
             return this;
         }
 
-        public IntersectValidator IntersectLessThanTwo()
+        public ConstraintValidator IntersectLessThanTwo()
         {
             foreach (Word word in WordsFromCrozzle)
             {
-                if (word.IntersectWords.Count < 3)
+                if (word.IntersectWords.Count < 1 || word.IntersectWords.Count > 2)
                 {
                     LogList.Add(new LogMessage()
                     {
@@ -267,5 +269,115 @@ namespace SIT323
             }
             return this;
         }
+
+        private void SearchNoGapWord(Word word, List<Position> positions, Direction direction)
+        {
+            foreach (Word searchWord in WordsFromCrozzle.Where(d => d.Direction == direction))
+            {
+                if (searchWord == word) continue; 
+                List<Position> searchWordPos = searchWord.CharacterList
+                    .Select(w => w.Position).ToList();
+                List<Position> found = searchWordPos.Intersect(positions).ToList();
+                if (found.Count > 0)
+                {
+                    foreach (Position position in found)
+                    {
+                        LogList.Add(new LogMessage()
+                        {
+                            Level = Level.Error,
+                            Location = location,
+                            TextMessage =
+                                string.Format("No gap({0}) between {1} and {2}",direction, word, searchWord,
+                                    word.IntersectWords.Count)
+                        });
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// This method could use some refactoring, due to time constraints I will leave it as it is for now.
+        /// </summary>
+        /// <returns></returns>
+        public ConstraintValidator ValidateNoGap()
+        {
+            foreach (Word word in WordsFromCrozzle)
+            {
+                List<Position> positions = new List<Position>();
+                switch (word.Direction)
+                {
+                    case Direction.Horizontal:
+                        var firstH = word.CharacterList.FirstOrDefault();
+                        for (int i = -1; i < 2; i++)
+                        {
+                            positions.Add(new Position()
+                            {
+                                Height = firstH.Position.Height + i,
+                                Width = firstH.Position.Width - 1
+                            });
+                        }
+                        var lastH = word.CharacterList.LastOrDefault();
+                        for (int i = -1; i < 2; i++)
+                        {
+                            positions.Add(new Position()
+                            {
+                                Height = lastH.Position.Height + i,
+                                Width = lastH.Position.Width + 1
+                            });
+                        }
+                        foreach (Character character in word.CharacterList)
+                        {
+                            positions.Add(new Position()
+                            {
+                                Height = character.Position.Height - 1,
+                                Width = character.Position.Width
+                            });
+                            positions.Add(new Position()
+                            {
+                                Height = character.Position.Height + 1,
+                                Width = character.Position.Width
+                            });
+                        }
+                        SearchNoGapWord(word, positions, word.Direction);
+                        break;
+                    case Direction.Vertical:
+                        var firstV = word.CharacterList.FirstOrDefault();
+                        for (int i = -1; i < 2; i++)
+                        {
+                            positions.Add(new Position()
+                            {
+                                Height = firstV.Position.Height + 1,
+                                Width = firstV.Position.Width + i
+                            });
+                        }
+                        var lastV = word.CharacterList.LastOrDefault();
+                        for (int i = -1; i < 2; i++)
+                        {
+                            positions.Add(new Position()
+                            {
+                                Height = lastV.Position.Height - 1,
+                                Width = lastV.Position.Width + i
+                            });
+                        }
+                        foreach (Character character in word.CharacterList)
+                        {
+                            positions.Add(new Position()
+                            {
+                                Height = character.Position.Height,
+                                Width = character.Position.Width - 1
+                            });
+                            positions.Add(new Position()
+                            {
+                                Height = character.Position.Height,
+                                Width = character.Position.Width + 1
+                            });
+                        }
+                        SearchNoGapWord(word, positions, word.Direction);
+
+                        break;
+                }
+            }
+            return this;
+        }
     }
+
 }

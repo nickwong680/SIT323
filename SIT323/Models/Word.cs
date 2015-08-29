@@ -29,7 +29,7 @@ namespace SIT323.Models
 
         public override string ToString()
         {
-            return String.Join(", ", CharacterList.Select(a => a.Alphabetic).ToArray());
+            return String.Format("{0} : {1}", String.Join("", CharacterList.Select(a => a.Alphabetic).ToArray()), Direction);
         }
     }
 

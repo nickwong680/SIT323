@@ -9,7 +9,6 @@ namespace SIT323
 {
     public abstract class Constraints : ILogger
     {
-        public List<LogMessage> LogList{ get; set; }
         protected Crozzle Crozzle{ get; set; }
         public List<Word> WordsFromCrozzle { get; set; }
 
@@ -51,7 +50,7 @@ namespace SIT323
             for (int i = 0; i < Crozzle.Height; i++)
             {
                 List<Word> wordList = new List<Word>();
-                for (int j = 0; j < Crozzle.Width - 1; j++)
+                for (int j = 0; j < Crozzle.Width; j++)
                 {
                     Character character = new Character(
                         Crozzle[j, i],
@@ -61,7 +60,8 @@ namespace SIT323
                             Width = i
                         });
                     Word word = wordList.LastOrDefault();
-                    Word tmpWord = ProcessCell(character, Crozzle[j + 1 , i], word, Direction.Vertical);
+                    char next = Crozzle[j + 1, i];
+                    Word tmpWord = ProcessCell(character, next, word, Direction.Vertical);
                     if (tmpWord != null && word != tmpWord)
                     {
                         wordList.Add(tmpWord);
@@ -146,6 +146,17 @@ namespace SIT323
             }
             return null;
         }
+
+        private void SearchIntersectingWords(Word word, List<Position> positions, Direction direction)
+        {
+            foreach (Word searchWord in WordsFromCrozzle.Where(d => d.Direction != direction))
+            {
+                List<Position> searchWordPos = searchWord.CharacterList
+                    .Select(w => w.Position).ToList();
+                List<Position> found = searchWordPos.Intersect(positions).ToList();
+                if (found.Count > 0) word.IntersectWords.Add(searchWord);
+            }
+        }
         public void Intersect()
         {
             foreach (Word word in WordsFromCrozzle)
@@ -167,6 +178,7 @@ namespace SIT323
                                 Width = character.Position.Width
                             });
                         }
+                        SearchIntersectingWords(word, positions, word.Direction);
                         break;
                     case Direction.Vertical:
                         foreach (Character character in word.CharacterList)
@@ -182,26 +194,27 @@ namespace SIT323
                                 Width = character.Position.Width + 1
                             });
                         }
+                        SearchIntersectingWords(word, positions, word.Direction);
                         break;
-                }
 
-                foreach (Word searchWord in WordsFromCrozzle)
-                {
-                    List<Position> searchWordPos = searchWord.CharacterList
-                        .Select(w => w.Position).ToList();
-                    List<Position> found = searchWordPos.Intersect(positions).ToList();
-                    if (found.Count > 0) word.IntersectWords.Add(searchWord);
-                    
                 }
             }
         }
+
+
+        public List<LogMessage> LogList { get; set; }
     }
 
     public class EasyConstraints : Constraints
     {
         public EasyConstraints(Crozzle c) : base(c)
         {
-            var log = new IntersectValidator(WordsFromCrozzle, "Constraint");
+            LogList = new List<LogMessage>();
+            LogList.AddRange(new ConstraintValidator(WordsFromCrozzle, "Constraint")
+                .IntersectLessThanTwo()
+                .ValidateNoGap()
+                .LogList
+                );
         }
     }
 }
