@@ -31,6 +31,11 @@ namespace SIT323
         private int _Height;
         private List<string> _WordList;
         public List<LogMessage> LogList { get; set; }
+
+        public List<string> WordList
+        {
+            get { return _WordList; }
+        }
         public Difficulty Level
         {
             get { return _Level; }

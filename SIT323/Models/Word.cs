@@ -44,6 +44,11 @@ namespace SIT323.Models
             Alphabetic = alphabetic;
             Position = position;
         }
+        public Character(char alphabetic, int score)
+        {
+            Alphabetic = alphabetic;
+            Score = score;
+        }
     }
 
     public struct Position

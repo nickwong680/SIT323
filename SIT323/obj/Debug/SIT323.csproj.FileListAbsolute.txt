@@ -27,4 +27,3 @@ C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\File
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 7 - crozzle.txt
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 8 - crozzle.txt
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 9 - crozzle.txt
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.csprojResolveAssemblyReference.cache

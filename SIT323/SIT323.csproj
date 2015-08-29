@@ -47,6 +47,7 @@
     <Compile Include="Models\Crozzle.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="Models\Word.cs" />
+    <Compile Include="Score.cs" />
     <Compile Include="Validator.cs" />
     <Compile Include="Models\WordList.cs" />
     <Compile Include="Program.cs" />

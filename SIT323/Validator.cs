@@ -11,7 +11,9 @@ using SIT323.Models;
 
 namespace SIT323
 {
-
+    /// <summary>
+    /// Validators uses builder pattern to chain methods.
+    /// </summary>
     public abstract class Validator: ILogger
     {
         protected string location;
@@ -61,9 +63,6 @@ namespace SIT323
         }
     }
 
-    /// <summary>
-    /// Validator is a Builder 
-    /// </summary>
     public class IntValidator : Validator
     {
         protected int value = -1;
@@ -73,7 +72,8 @@ namespace SIT323
             LogList = new List<LogMessage>();
             this.location = location;
 
-            if (!IsEmpty(s)) if(IsInt(s)) int.TryParse(s, out value);
+            IsEmpty(s);
+            if (IsInt(s)) int.TryParse(s, out value);
         }
 
         private bool IsInt(string s)
@@ -130,7 +130,6 @@ namespace SIT323
             return this;
         }
     }
-
 
     public class CrozzleValidator : Validator
     {
@@ -234,12 +233,13 @@ namespace SIT323
             LogList = new List<LogMessage>();
             this.location = location;
         }
-        public ConstraintValidator IntersectMoreThanOne()
+        public ConstraintValidator AreWordsIntersectingMoreThanOnce()
         {
             foreach (Word word in WordsFromCrozzle)
             {
                 if (word.IntersectWords.Count < 1)
                 {
+                    word.IsValid = false;
                     LogList.Add(new LogMessage()
                     {
                         Level = Level.Error,
@@ -247,16 +247,18 @@ namespace SIT323
                         TextMessage = string.Format("{0} intersects {1} not (1 or 2 words)", word.ToString(), word.IntersectWords.Count)
                     });
                 }
+                word.IsValid = true;
             }
             return this;
         }
 
-        public ConstraintValidator IntersectLessThanTwo()
+        public ConstraintValidator AreWordsIntersectingOnceOrTwice()
         {
             foreach (Word word in WordsFromCrozzle)
             {
                 if (word.IntersectWords.Count < 1 || word.IntersectWords.Count > 2)
                 {
+                    word.IsValid = false;
                     LogList.Add(new LogMessage()
                     {
                         Level = Level.Error,
@@ -266,6 +268,7 @@ namespace SIT323
                                 word.IntersectWords.Count)
                     });
                 }
+                word.IsValid = true;
             }
             return this;
         }
@@ -282,6 +285,7 @@ namespace SIT323
                 {
                     foreach (Position position in found)
                     {
+                        word.IsValid = false;
                         LogList.Add(new LogMessage()
                         {
                             Level = Level.Error,
@@ -380,4 +384,59 @@ namespace SIT323
         }
     }
 
+    public class ConstraintWithWordListValidator : Validator
+    {
+         private List<Word> WordsFromCrozzle;
+         private Wordlist WordList;
+         private List<String> wordsInString;
+
+         public ConstraintWithWordListValidator(List<Word> words, Wordlist wordlist , string location)
+         {
+            WordList = wordlist;
+            WordsFromCrozzle = words;
+            LogList = new List<LogMessage>();
+            this.location = location;
+
+            wordsInString = new List<String>();
+            foreach (List<Character> chars in WordsFromCrozzle.Select(w => w.CharacterList))
+            {
+                wordsInString.Add(String.Join("", chars.Select(a => a.Alphabetic).ToArray()));
+            }
+        }
+
+        public ConstraintWithWordListValidator AreThereNoDupeWords()
+        {
+            var dupes = wordsInString.GroupBy(w => w)
+                .Where(group => group.Count() > 1)
+                .Select(group => group.Key);
+            foreach (string dupe in dupes)
+            {
+                LogList.Add(new LogMessage()
+                {
+                    Level = Level.Error,
+                    Location = location,
+                    TextMessage =
+                        string.Format("{0} exists more than once", dupe)
+                });
+            }
+            return this;
+        }
+
+        public ConstraintWithWordListValidator AreWordsOnWordList()
+        {
+            var gatecrashers = new HashSet<string>(wordsInString);
+            gatecrashers.ExceptWith(WordList.WordList);
+            foreach (string gatecrasher in gatecrashers)
+            {
+                LogList.Add(new LogMessage()
+                {
+                    Level = Level.Error,
+                    Location = location,
+                    TextMessage =
+                        string.Format("{0} is not in the wordlist", gatecrasher)
+                });
+            }
+            return this;
+        }
+    }
 }

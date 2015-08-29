@@ -9,15 +9,23 @@ namespace SIT323
 {
     public abstract class Constraints : ILogger
     {
+        protected Wordlist Wordlist { get; set; }
         protected Crozzle Crozzle{ get; set; }
         public List<Word> WordsFromCrozzle { get; set; }
 
-        protected Constraints(Crozzle c)
+        protected Constraints(Crozzle c, Wordlist w)
         {
+            Wordlist = w;
             Crozzle = c;
             WordsFromCrozzle = new List<Word>();
             MakeCrozzleWords();
             Intersect();
+
+            LogList = new List<LogMessage>();
+            LogList.AddRange(new ConstraintWithWordListValidator(WordsFromCrozzle, Wordlist, "Constraint")
+                .AreWordsOnWordList()
+                .AreThereNoDupeWords()
+                .LogList);
         }
 
         private void MakeCrozzleWords()
@@ -207,12 +215,44 @@ namespace SIT323
 
     public class EasyConstraints : Constraints
     {
-        public EasyConstraints(Crozzle c) : base(c)
+        public EasyConstraints(Crozzle c, Wordlist w) : base(c,w)
         {
-            LogList = new List<LogMessage>();
-            LogList.AddRange(new ConstraintValidator(WordsFromCrozzle, "Constraint")
-                .IntersectLessThanTwo()
+            LogList.AddRange(new ConstraintValidator(WordsFromCrozzle, "EasyConstraints")
+                .AreWordsIntersectingOnceOrTwice()
                 .ValidateNoGap()
+                .LogList
+                );
+        }
+    }
+    public class MediumConstraints : Constraints
+    {
+        public MediumConstraints(Crozzle c, Wordlist w)
+            : base(c, w)
+        {
+            LogList.AddRange(new ConstraintValidator(WordsFromCrozzle, "MediumConstraints")
+                .AreWordsIntersectingOnceOrTwice()
+                .LogList
+                );
+        }
+    }
+    public class HardConstraints : Constraints
+    {
+        public HardConstraints(Crozzle c, Wordlist w)
+            : base(c, w)
+        {
+            LogList.AddRange(new ConstraintValidator(WordsFromCrozzle, "HardConstraints")
+                .AreWordsIntersectingMoreThanOnce()
+                .LogList
+                );
+        }
+    }
+    public class ExtremeConstraints : Constraints
+    {
+        public ExtremeConstraints(Crozzle c, Wordlist w)
+            : base(c, w)
+        {
+            LogList.AddRange(new ConstraintValidator(WordsFromCrozzle, "ExtremeConstraints")
+                .AreWordsIntersectingMoreThanOnce()
                 .LogList
                 );
         }
