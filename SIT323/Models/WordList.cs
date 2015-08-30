@@ -37,7 +37,6 @@ namespace SIT323
         ///     Variables for requirements defined in Assignment 1.pdf
         /// </summary>
         public readonly int MaxCrozzleHeightCount = 400;
-
         public readonly int MaxWordCount = 1000;
         public readonly int MinCrozzleWeightCount = 4;
         public readonly int MinWordCount = 10;

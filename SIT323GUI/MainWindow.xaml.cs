@@ -1,5 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media;
 using Microsoft.Win32;
 using SIT323;
 using SIT323.Models;
@@ -13,12 +19,25 @@ namespace SIT323GUI
     {
         private Crozzle _crozzle;
         private Wordlist _wordlist;
-
         public MainWindow()
         {
             InitializeComponent();
         }
+        private void CreateCrozzle(Constraints con)
+        {
+            //Height="334"  Width="585"
 
+            int widthSize = (int) (CrozzleDataGrid.Width/_wordlist.Width);
+            int heighSize = (int)(CrozzleDataGrid.Height / _wordlist.Height);
+
+            for (int i = 0; i < _wordlist.Width; i++)
+            {
+                DataGridTextColumn col = new DataGridTextColumn();
+                col.Header = i;
+                col.Width = widthSize;
+                CrozzleDataGrid.Columns.Add(col);
+            }
+        }
         private void ClearAll()
         {
             _crozzle = null;
@@ -29,7 +48,10 @@ namespace SIT323GUI
             ColumnsBox.Text = string.Empty;
             TextBlockLog.Text = string.Empty;
             ScoreBox.Text = string.Empty;
+            ScoreBox.Background = Brushes.White;
             WordListBox.Items.Clear();
+            CrozzleDataGrid.Columns.Clear();
+            CrozzleDataGrid.Items.Clear();
         }
 
         private void MenuOpenWordList_Click(object sender, RoutedEventArgs e)
@@ -49,13 +71,24 @@ namespace SIT323GUI
                 LevelBox.Text = _wordlist.Level.ToString();
                 RowsBox.Text = _wordlist.Width.ToString();
                 ColumnsBox.Text = _wordlist.Height.ToString();
-
             }
             else
             {
                 TextBlockLog.Text += _wordlist.LogListInString();
                 MenuOpenCrozzle.IsEnabled = false;
             }
+        }
+        
+        private void MenuClearLog_Click(object sender, RoutedEventArgs e)
+        {
+            TextBlockLog.Text = string.Empty;
+        }
+        private void MenuSaveLog_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text file (*.txt)|*.txt";
+            if (saveFileDialog.ShowDialog() == true)
+                File.WriteAllText(saveFileDialog.FileName, TextBlockLog.Text);
         }
 
         private void MenuOpenCrozzle_Click(object sender, RoutedEventArgs e)
@@ -80,12 +113,14 @@ namespace SIT323GUI
                     {
                         WordListBox.Items.Add(word.ToString());
                     }
+                    CreateCrozzle(con);
+                    ScoreBox.Background = Brushes.LightSeaGreen;
                 }
-                DataGrid.ItemsSource = _wordlist.WordList;
             }
             else
             {
                 TextBlockLog.Text += _crozzle.LogListInString();
+                ScoreBox.Background = Brushes.PaleVioletRed;
             }
         }
 
