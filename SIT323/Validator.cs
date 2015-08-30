@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using SIT323.Models;
 
 namespace SIT323
@@ -80,7 +81,8 @@ namespace SIT323
         /// <returns>true if indeed</returns>
         private bool IsAlphabetic(string s)
         {
-            if (s.Any(x => !char.IsLetter(x)))
+            //if (s.Any(x => !char.IsLetter(x)))
+            if (!Regex.IsMatch(s, @"^[a-zA-Z]*$"))
             {
                 LogList.Add(new LogMessage
                 {
@@ -124,7 +126,8 @@ namespace SIT323
         /// <returns>true if it is</returns>
         private bool IsInt(string s)
         {
-            if (s.Any(x => !char.IsDigit(x)))
+//            if (s.Any(x => !char.IsDigit(x)))
+            if(!Regex.IsMatch(s, @"^\d*$"))
             {
                 LogList.Add(new LogMessage
                 {

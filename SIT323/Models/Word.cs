@@ -79,7 +79,7 @@ namespace SIT323.Models
         public char Alphabetic;
 
         /// <summary>
-        ///     Position this character is in the array
+        ///     Position this character in the array
         /// </summary>
         public Position Position;
 

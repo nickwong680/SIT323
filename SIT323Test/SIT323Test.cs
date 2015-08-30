@@ -71,7 +71,7 @@ namespace SIT323Test
         public void TestWordList6()
         {
             var logList = new Wordlist("Files/Test 6 - wordlist.csv").LogList;
-            Assert.IsTrue(logList.Count == 6);
+            Assert.IsTrue(logList.Count == 7);
         }
 
         [TestMethod]
@@ -107,7 +107,7 @@ namespace SIT323Test
             Assert.IsTrue(wordlist.LogList.Count == 0);
 
             var crozzle = new Crozzle("Files/Test 8 - crozzle.txt", wordlist);
-            Assert.IsTrue(crozzle.LogList.Count == 7);
+            Assert.IsTrue(crozzle.LogList.Count == 12);
         }
     }
 
