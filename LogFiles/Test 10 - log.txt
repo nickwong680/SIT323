@@ -1,0 +1,4 @@
+ProcessingC:\SD\Dropbox\Deakin\SIT323 - Practical Software Development\Assignment 1\26-08-2015.Files for Marking\Test 10 - wordlist.csv
+ProcessingC:\SD\Dropbox\Deakin\SIT323 - Practical Software Development\Assignment 1\26-08-2015.Files for Marking\Test 10 - crozzle.txt
+Error   MediumConstraints    JOHNATHON intersects 4 not (1 or 2 words)
+Error   MediumConstraints    ROGER intersects 3 not (1 or 2 words)

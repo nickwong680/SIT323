@@ -1,0 +1,14 @@
+ProcessingC:\SD\Dropbox\Deakin\SIT323 - Practical Software Development\Assignment 1\26-08-2015.Files for Marking\Test 8 - wordlist.csv
+ProcessingC:\SD\Dropbox\Deakin\SIT323 - Practical Software Development\Assignment 1\26-08-2015.Files for Marking\Test 8 - crozzle.txt
+Error   Columns    row 0 contains (4) columns, instead of 5 columns as per header
+Error   Columns    row 1 contains (4) columns, instead of 5 columns as per header
+Error   Columns    row 2 contains (4) columns, instead of 5 columns as per header
+Error   Columns    row 3 contains (4) columns, instead of 5 columns as per header
+Error   Columns    row 4 contains (3) columns, instead of 5 columns as per header
+Error   Columns    row 0 contains (4) columns, instead of 5 columns as per requirement
+Error   Columns    row 1 contains (4) columns, instead of 5 columns as per requirement
+Error   Columns    row 2 contains (4) columns, instead of 5 columns as per requirement
+Error   Columns    row 3 contains (4) columns, instead of 5 columns as per requirement
+Error   Columns    row 4 contains (3) columns, instead of 5 columns as per requirement
+Error   Cell    cell [0,0] contains (?), it should only contain exactly 1 alphabetic character
+Error   Cell    cell [4,tab] contains (	), it should only contain exactly 1 alphabetic character

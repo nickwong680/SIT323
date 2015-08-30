@@ -1,0 +1,5 @@
+ProcessingC:\SD\Dropbox\Deakin\SIT323 - Practical Software Development\Assignment 1\26-08-2015.Files for Marking\Test 5 - wordlist.csv
+Error   field 0    size value (5) is not in range
+Error   field 1    size value (500) is not in range
+Error   field 2    size value (1000) is not in range
+Error   wordlist    wordlist contains (3) words. Expecting 10 to 1000 words

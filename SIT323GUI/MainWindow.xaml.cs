@@ -30,12 +30,26 @@ namespace SIT323GUI
             int widthSize = (int) (CrozzleDataGrid.Width/_wordlist.Width);
             int heighSize = (int)(CrozzleDataGrid.Height / _wordlist.Height);
 
-            for (int i = 0; i < _wordlist.Width; i++)
+
+            for (int i = 0; i < _crozzle.Height; i++)
             {
                 DataGridTextColumn col = new DataGridTextColumn();
-                col.Header = i;
+                col.Header = i.ToString();
                 col.Width = widthSize;
+                col.Binding = new Binding(i.ToString());
                 CrozzleDataGrid.Columns.Add(col);
+
+            }
+
+            for (int i = 0; i < _crozzle.Width; i++)
+            {
+                dynamic row = new ExpandoObject();
+                for (int j = 0; j < _crozzle[i].Length; j++)
+                {
+                    ((IDictionary<String, Object>)row)[j.ToString()] = _crozzle[i][j];
+
+                }
+                CrozzleDataGrid.Items.Add(row);
             }
         }
         private void ClearAll()

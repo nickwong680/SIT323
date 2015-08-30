@@ -1,0 +1,8 @@
+ProcessingC:\SD\Dropbox\Deakin\SIT323 - Practical Software Development\Assignment 1\26-08-2015.Files for Marking\Test 6 - wordlist.csv
+Error   field 0    is empty
+Error   field 0    size value (0) is not in range
+Error   field 1    value (banana) is not an integer
+Error   field 2    value (capsicum) is not an integer
+Error   word    is empty
+Error   word    word value (:-)) is not an alphabetic
+Error   wordlist    wordlist contains (3) words. Expecting 10 to 1000 words

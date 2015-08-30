@@ -1,0 +1,6 @@
+ProcessingC:\SD\Dropbox\Deakin\SIT323 - Practical Software Development\Assignment 1\26-08-2015.Files for Marking\Test 11 - wordlist.csv
+ProcessingC:\SD\Dropbox\Deakin\SIT323 - Practical Software Development\Assignment 1\26-08-2015.Files for Marking\Test 11 - crozzle.txt
+Error   HardConstraints    LE intersects 0 not (1 or 2 words)
+Error   HardConstraints    RAS intersects 0 not (1 or 2 words)
+Error   HardConstraints    ORAN intersects 0 not (1 or 2 words)
+Error   HardConstraints    RAY intersects 0 not (1 or 2 words)

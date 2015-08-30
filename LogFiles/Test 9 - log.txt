@@ -1,0 +1,10 @@
+ProcessingC:\SD\Dropbox\Deakin\SIT323 - Practical Software Development\Assignment 1\26-08-2015.Files for Marking\Test 9 - wordlist.csv
+ProcessingC:\SD\Dropbox\Deakin\SIT323 - Practical Software Development\Assignment 1\26-08-2015.Files for Marking\Test 9 - crozzle.txt
+Error   Constraint    SELRAHC is not in the wordlist
+Error   Constraint    MARY exists more than once
+Error   EasyConstraints    No gap(Horizontal) between MARY and MATTHEW
+Error   EasyConstraints    No gap(Horizontal) between MATTHEW and MARY
+Error   EasyConstraints    No gap(Horizontal) between JACK and GARY
+Error   EasyConstraints    No gap(Horizontal) between GARY and JACK
+Error   EasyConstraints    No gap(Vertical) between MARY and JESSICA
+Error   EasyConstraints    No gap(Vertical) between JESSICA and MARY
