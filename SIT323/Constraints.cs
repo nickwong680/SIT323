@@ -253,6 +253,7 @@ namespace SIT323
         {
             LogList.AddRange(new ConstraintValidator(WordsFromCrozzle, "ExtremeConstraints")
                 .AreWordsIntersectingMoreThanOnce()
+                .AreWordsConnected()
                 .LogList
                 );
         }

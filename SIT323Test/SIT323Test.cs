@@ -124,8 +124,8 @@ namespace SIT323Test
             Assert.IsTrue(crozzle1.LogList.Count == 0);
             var constraints1 = new EasyConstraints(crozzle1, wordlist1);
             Assert.IsTrue(constraints1.LogList.Count == 0);
-            var score4 = Score.PointsFactory(constraints1.WordsFromCrozzle, PointScheme.OneEach).TotalScore;
-
+            var score1 = Score.PointsFactory(constraints1.WordsFromCrozzle, PointScheme.OneEach).TotalScore;
+            Assert.IsTrue(score1 == 57);
 
             var wordlist5 = new Wordlist("Files/Test 5 - wordlist.csv");
             Assert.IsTrue(wordlist5.LogList.Count == 4);
@@ -157,10 +157,21 @@ namespace SIT323Test
             Assert.IsTrue(crozzle2.LogList.Count == 0);
             var constraints2 = new MediumConstraints(crozzle2, wordlist2);
             Assert.IsTrue(constraints2.LogList.Count == 0);
+            var score2 = Score.PointsFactory(constraints2.WordsFromCrozzle, PointScheme.Incremental).TotalScore;
+            Assert.IsTrue(score2 == 687);
         }
         [TestMethod]
         public void TestConstrainsHard()
         {
+            var wordlist3 = new Wordlist("Files/Test 3 - wordlist.csv");
+            Assert.IsTrue(wordlist3.LogList.Count == 0);
+            var crozzle3 = new Crozzle("Files/Test 3 - crozzle.txt", wordlist3);
+            Assert.IsTrue(crozzle3.LogList.Count == 0);
+            var constraints3 = new HardConstraints(crozzle3, wordlist3);
+            Assert.IsTrue(constraints3.LogList.Count == 0);
+            var score3 = Score.PointsFactory(constraints3.WordsFromCrozzle, PointScheme.IncrementalWithBonusPerWord).TotalScore;
+            Assert.IsTrue(score3 == 2060);
+
             var wordlist7 = new Wordlist("Files/Test 7 - wordlist.csv");
             Assert.IsTrue(wordlist7.LogList.Count == 0);
             var crozzle7 = new Crozzle("Files/Test 7 - crozzle.txt", wordlist7);
@@ -173,29 +184,10 @@ namespace SIT323Test
             var constraints11 = new HardConstraints(crozzle11, wordlist11);
             Assert.IsTrue(constraints11.LogList.Count == 4);
 
-            var wordlist3 = new Wordlist("Files/Test 3 - wordlist.csv");
-            Assert.IsTrue(wordlist3.LogList.Count == 0);
-            var crozzle3 = new Crozzle("Files/Test 3 - crozzle.txt", wordlist3);
-            Assert.IsTrue(crozzle3.LogList.Count == 0);
-            var constraints3 = new HardConstraints(crozzle3, wordlist3);
-            Assert.IsTrue(constraints3.LogList.Count == 0);
         }
         [TestMethod]
         public void TestConstrainsExtreme()
         {
-
-            var wordlist12 = new Wordlist("Files/Test 12 - wordlist.csv");
-            Assert.IsTrue(wordlist12.LogList.Count == 0);
-            var crozzle12 = new Crozzle("Files/Test 12 - crozzle.txt", wordlist12);
-            Assert.IsTrue(crozzle12.LogList.Count == 0);
-            var constraints12 = new ExtremeConstraints(crozzle12, wordlist12);
-            //Assert.IsTrue(constraints12.LogList.Count == 4);
-
-
-            var wordlist8 = new Wordlist("Files/Test 8 - wordlist.csv");
-            Assert.IsTrue(wordlist8.LogList.Count == 0);
-            var crozzle8 = new Crozzle("Files/Test 8 - crozzle.txt", wordlist8);
-            Assert.IsTrue(crozzle8.LogList.Count == 12);
 
             var wordlist4 = new Wordlist("Files/Test 4 - wordlist.csv");
             Assert.IsTrue(wordlist4.LogList.Count == 0);
@@ -203,20 +195,20 @@ namespace SIT323Test
             Assert.IsTrue(crozzle4.LogList.Count == 0);
             var constraints4 = new ExtremeConstraints(crozzle4, wordlist4);
             Assert.IsTrue(constraints4.LogList.Count == 0);
-            var score4 = Score.PointsFactory(constraints4.WordsFromCrozzle, PointScheme.Custom).TotalScore;
+            var score4 = Score.PointsFactory(constraints4.WordsFromCrozzle, PointScheme.CustomWithBonusPerIntersection).TotalScore;
+            Assert.IsTrue(score4 == 1375);
 
+            var wordlist12 = new Wordlist("Files/Test 12 - wordlist.csv");
+            Assert.IsTrue(wordlist12.LogList.Count == 0);
+            var crozzle12 = new Crozzle("Files/Test 12 - crozzle.txt", wordlist12);
+            Assert.IsTrue(crozzle12.LogList.Count == 0);
+            var constraints12 = new ExtremeConstraints(crozzle12, wordlist12);
+            Assert.IsTrue(constraints12.LogList.Count == 1);
 
-        }
-        [TestMethod]
-        public void Array()
-        {
-            int width = 9;
-            int height = 9;
-            for (int i = 0; i < width*height; ++i)
-            {
-                int x = i%width;
-                int y = i/width; //Integer division
-            }
+            var wordlist8 = new Wordlist("Files/Test 8 - wordlist.csv");
+            Assert.IsTrue(wordlist8.LogList.Count == 0);
+            var crozzle8 = new Crozzle("Files/Test 8 - crozzle.txt", wordlist8);
+            Assert.IsTrue(crozzle8.LogList.Count == 12);
         }
     }
 }

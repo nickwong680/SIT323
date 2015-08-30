@@ -14,6 +14,9 @@ namespace SIT323.Models
         public List<Character> CharacterList { get; set; }
         public List<Word> IntersectWords { get; set; }
 
+        // using it for DFS sorting algorithm
+        public bool Visited { get; set; }
+
         public Word(Direction d)
         {
             Direction = d;
