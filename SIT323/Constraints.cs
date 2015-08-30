@@ -211,6 +211,10 @@ namespace SIT323
 
 
         public List<LogMessage> LogList { get; set; }
+        public string LogListInString()
+        {
+            return string.Join(Environment.NewLine, LogList.Select(l => l.ToString()));
+        }
     }
 
     public class EasyConstraints : Constraints

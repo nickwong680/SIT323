@@ -13,6 +13,10 @@ namespace SIT323.Models
         private int _Width;
         private int _Height;
         public List<LogMessage> LogList { get; set; }
+        public string LogListInString()
+        {
+            return string.Join(Environment.NewLine, LogList.Select(l => l.ToString()));
+        }
 
         private Wordlist _Wordlist;
 

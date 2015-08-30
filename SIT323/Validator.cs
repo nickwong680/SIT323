@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SIT323.Models;
 
@@ -11,6 +12,10 @@ namespace SIT323
     {
         protected string location;
         public List<LogMessage> LogList { get; set; }
+        public string LogListInString()
+        {
+            return string.Join(Environment.NewLine, LogList.Select(l => l.ToString()));
+        }
 
         protected bool IsEmpty(string s)
         {
@@ -413,24 +418,21 @@ namespace SIT323
                     Level = Level.Error,
                     Location = location + "Ex3",
                     TextMessage =
-                        string.Format("This crozzle contains {0} of group, instead of 1", connectedGroup.Count)
+                        string.Format("This crozzle contains ({0}) group, instead of 1", connectedGroup.Count)
                 });
             }
             return this;
         }
 
         /// <summary>
-        ///     Finds connected using depth-first-search
+        ///     Finds connected words using depth-first-search
         /// </summary>
         /// <param name="word"></param>
         /// <param name="group"></param>
         /// <param name="words"></param>
         private void DFSOnWords(Word word, List<Word> group, List<Word> words)
         {
-            if (group.Contains(word))
-            {
-                return;
-            }
+            if (group.Contains(word)) return;
             group.Add(word);
             word.Visited = true;
             foreach (var i in word.IntersectWords)

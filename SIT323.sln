@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIT323", "SIT323\SIT323.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIT323Test", "SIT323Test\SIT323Test.csproj", "{F8C05363-DD82-4B6B-AE68-3160E4821258}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIT323GUI", "SIT323GUI\SIT323GUI.csproj", "{35B42D05-C07D-4B6D-AF33-3AA8AE949C20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F8C05363-DD82-4B6B-AE68-3160E4821258}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8C05363-DD82-4B6B-AE68-3160E4821258}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8C05363-DD82-4B6B-AE68-3160E4821258}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35B42D05-C07D-4B6D-AF33-3AA8AE949C20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35B42D05-C07D-4B6D-AF33-3AA8AE949C20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35B42D05-C07D-4B6D-AF33-3AA8AE949C20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35B42D05-C07D-4B6D-AF33-3AA8AE949C20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

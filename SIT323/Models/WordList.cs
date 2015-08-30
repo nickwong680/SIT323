@@ -32,6 +32,10 @@ namespace SIT323
         private List<string> _WordList;
         public List<LogMessage> LogList { get; set; }
 
+        public string LogListInString()
+        {
+            return string.Join(Environment.NewLine, LogList.Select(l => l.ToString()));
+        }
         public List<string> WordList
         {
             get { return _WordList; }
@@ -76,18 +80,18 @@ namespace SIT323
             }
             LogList.AddRange(new WordListValidator<string>(_WordList, "wordlist").IsInRange(MinWordCount, MaxWordCount).LogList);
 
-            switch (file[3])
+            switch (file[3].ToUpper())
             {
-                case "Easy":
+                case "EASY":
                     _Level = Difficulty.Easy;
                     break;
-                case "Medium":
+                case "MEDIUM":
                     _Level = Difficulty.Medium;
                     break;
-                case "Hard":
+                case "HARD":
                     _Level = Difficulty.Hard;
                     break;
-                case "Extreme":
+                case "EXTREME":
                     _Level = Difficulty.Extreme;
                     break;
             }
