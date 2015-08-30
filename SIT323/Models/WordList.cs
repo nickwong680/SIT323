@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SIT323
 {
+    /// <summary>
+    ///     enum of Difficulty in Easy Medium Hard or Extreme
+    /// </summary>
     public enum Difficulty
     {
         Easy,
@@ -15,51 +15,40 @@ namespace SIT323
         Hard,
         Extreme
     }
+
     /// <summary>
-    /// For Validation, Wordlist is coupled with Validator class and it's subclass IntValidator, StringValidtor and WordListValidator.
+    ///     Reads Test # - wordlist.csv file
+    ///     For Validation, Wordlist is coupled with Validator class and it's subclass IntValidator, StringValidtor and
+    ///     WordListValidator.
     /// </summary>
     public class Wordlist : ILogger
     {
-        public readonly int MinWordCount = 10;
-        public readonly int MaxWordCount = 1000;
-        public readonly int MinCrozzleWeightCount = 4;
+        /// <summary>
+        ///     Height parsed from file
+        /// </summary>
+        private readonly int _height;
+
+        /// <summary>
+        ///     Width parsed from file
+        /// </summary>
+        private readonly int _width;
+
+        /// <summary>
+        ///     Variables for requirements defined in Assignment 1.pdf
+        /// </summary>
         public readonly int MaxCrozzleHeightCount = 400;
 
-        private Difficulty _Level;
-        private int _WordsCount;
-        private int _Width;
-        private int _Height;
-        private List<string> _WordList;
-        public List<LogMessage> LogList { get; set; }
+        public readonly int MaxWordCount = 1000;
+        public readonly int MinCrozzleWeightCount = 4;
+        public readonly int MinWordCount = 10;
 
-        public string LogListInString()
-        {
-            return string.Join(Environment.NewLine, LogList.Select(l => l.ToString()));
-        }
-        public List<string> WordList
-        {
-            get { return _WordList; }
-        }
-        public Difficulty Level
-        {
-            get { return _Level; }
-        }
-
-        public int WordsCount
-        {
-            get { return _WordsCount; }
-        }
-
-        public int Width
-        {
-            get { return _Width; }
-        }
-
-        public int Height
-        {
-            get { return _Height; }
-        }
-
+        /// <summary>
+        ///     Constructor for wordlist takes filename of wordlist file
+        ///     Validate header fields and log any error messages
+        ///     Words are added to a List of WordList
+        ///     Difficulty level is parsed
+        /// </summary>
+        /// <param name="fileName">filename in string</param>
         public Wordlist(string fileName)
         {
             string[] file = ReadWordListFromFile(fileName);
@@ -67,41 +56,88 @@ namespace SIT323
             LogList = new List<LogMessage>();
 
             LogList.AddRange(new IntValidator(file[0], "field 0").IsInRange(MinWordCount, MaxWordCount).LogList);
-            LogList.AddRange(new IntValidator(file[1], "field 1").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
-            LogList.AddRange(new IntValidator(file[2], "field 2").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
-            int.TryParse(file[1], out _Width);
-            int.TryParse(file[2], out _Height);
+            LogList.AddRange(
+                new IntValidator(file[1], "field 1").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
+            LogList.AddRange(
+                new IntValidator(file[2], "field 2").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
+            int.TryParse(file[1], out _width);
+            int.TryParse(file[2], out _height);
 
-            _WordList = file.ToList();
-            _WordList.RemoveRange(0,3);
-            foreach (var word in _WordList)
+            WordList = file.ToList();
+            WordList.RemoveRange(0, 3);
+            foreach (var word in WordList)
             {
                 LogList.AddRange(new StringValidtor(word, "word").LogList);
             }
-            LogList.AddRange(new WordListValidator<string>(_WordList, "wordlist").IsInRange(MinWordCount, MaxWordCount).LogList);
+            LogList.AddRange(
+                new WordListValidator<string>(WordList, "wordlist").IsInRange(MinWordCount, MaxWordCount).LogList);
 
             switch (file[3].ToUpper())
             {
                 case "EASY":
-                    _Level = Difficulty.Easy;
+                    Level = Difficulty.Easy;
                     break;
                 case "MEDIUM":
-                    _Level = Difficulty.Medium;
+                    Level = Difficulty.Medium;
                     break;
                 case "HARD":
-                    _Level = Difficulty.Hard;
+                    Level = Difficulty.Hard;
                     break;
                 case "EXTREME":
-                    _Level = Difficulty.Extreme;
+                    Level = Difficulty.Extreme;
                     break;
             }
         }
 
         /// <summary>
-        /// Reads a wordlist and return it in a array 
-        /// Assumes all strings are on a single
-        /// strings are then splits into substrings using ',' spectator
-        /// 
+        ///     public get porperty for List of words
+        /// </summary>
+        public List<string> WordList { get; private set; }
+
+        /// <summary>
+        ///     public get porperty for Difficulty of level
+        /// </summary>
+        public Difficulty Level { get; private set; }
+
+        /// <summary>
+        ///     public get porperty number of words
+        /// </summary>
+        public int WordsCount { get; private set; }
+
+        /// <summary>
+        ///     getter porperty for width
+        /// </summary>
+        public int Width
+        {
+            get { return _width; }
+        }
+
+        /// <summary>
+        ///     getter porperty for height
+        /// </summary>
+        public int Height
+        {
+            get { return _height; }
+        }
+
+        /// <summary>
+        ///     List of Logessage as per required by ILogger
+        /// </summary>
+        public List<LogMessage> LogList { get; set; }
+
+        /// <summary>
+        ///     Return all log message in one concatenated string as per required by ILogger
+        /// </summary>
+        /// <returns>string of all message</returns>
+        public string LogListInString()
+        {
+            return string.Join(Environment.NewLine, LogList.Select(l => l.ToString()));
+        }
+
+        /// <summary>
+        ///     Reads a wordlist and return it in a array
+        ///     Assumes all strings are on a single
+        ///     strings are then splits into substrings using ',' spectator
         /// </summary>
         /// <param name="fileName">name of the wordlist</param>
         /// <returns>return a array of string</returns>
@@ -110,7 +146,5 @@ namespace SIT323
             string[] fileStrings = File.ReadAllLines(fileName);
             return fileStrings[0].Split(',');
         }
-
-
     }
 }

@@ -5,6 +5,9 @@ using SIT323.Models;
 
 namespace SIT323
 {
+    /// <summary>
+    ///     PointScore struct to hold point of cell
+    /// </summary>
     public struct PointScore
     {
         public int Height;
@@ -12,18 +15,22 @@ namespace SIT323
         public int Width;
     }
 
+    /// <summary>
+    ///     Score class give points to words according to PointScheme defined in difficulty level of Crozzle
+    /// </summary>
     public class Score
     {
         private readonly PointScheme _pointScheme;
         private readonly List<Character> _pointsList;
         private readonly List<Word> _wordsFromCrozzle;
+
         /// <summary>
-        /// Constructor for Score class.
-        /// Brings the list of valid words from Crozzle and score points to scope
+        ///     Constructor for Score class.
+        ///     Brings the list of valid words from Crozzle and score points to scope
         /// </summary>
         /// <param name="wlist">Generic List of Word </param>
         /// <param name="points">>Generic List of Character</param>
-        /// <param name="ps"></param>
+        /// <param name="ps">PointScheme enum</param>
         public Score(List<Word> wlist, List<Character> points, PointScheme ps)
         {
             _pointScheme = ps;
@@ -32,10 +39,14 @@ namespace SIT323
             ApplyPoints();
         }
 
-        public int TotalScore { get; private set; }
         /// <summary>
-        /// Calauate points.
-        ///  Method could use some refactoring.
+        ///     public get porperty of Total score of word
+        /// </summary>
+        public int TotalScore { get; private set; }
+
+        /// <summary>
+        ///     Calauate points.
+        ///     Method could use some refactoring.
         /// </summary>
         private void ApplyPoints()
         {
@@ -86,7 +97,7 @@ namespace SIT323
 
         /// <summary>
         ///     Uses factory pattern for creating points base on alphabet character determined by scheme
-        /// and constructs the Score class.
+        ///     and constructs the Score class.
         /// </summary>
         /// <param name="wordlist">Generic List of Words</param>
         /// <param name="point">Scheme of points</param>
@@ -149,6 +160,9 @@ namespace SIT323
         }
     }
 
+    /// <summary>
+    ///     PointScheme reflects on the difficulty level of Crozzle
+    /// </summary>
     public enum PointScheme
     {
         OneEach,

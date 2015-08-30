@@ -11,8 +11,8 @@ namespace SIT323GUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Crozzle crozzle;
-        private Wordlist wordlist;
+        private Crozzle _crozzle;
+        private Wordlist _wordlist;
 
         public MainWindow()
         {
@@ -21,8 +21,8 @@ namespace SIT323GUI
 
         private void ClearAll()
         {
-            crozzle = null;
-            wordlist = null;
+            _crozzle = null;
+            _wordlist = null;
             MenuOpenCrozzle.IsEnabled = false;
             LevelBox.Text = string.Empty;
             RowsBox.Text = string.Empty;
@@ -39,21 +39,21 @@ namespace SIT323GUI
             openFileDialog.Filter = "CSV files|*.csv";
             if (openFileDialog.ShowDialog() == true)
             {
-                wordlist = new Wordlist(openFileDialog.FileName);
+                _wordlist = new Wordlist(openFileDialog.FileName);
                 TextBlockLog.Text += "Processing" + openFileDialog.FileName + Environment.NewLine;
             }
-            if (wordlist == null) return;
-            if (wordlist.LogList.Count == 0)
+            if (_wordlist == null) return;
+            if (_wordlist.LogList.Count == 0)
             {
                 MenuOpenCrozzle.IsEnabled = true;
-                LevelBox.Text = wordlist.Level.ToString();
-                RowsBox.Text = wordlist.Width.ToString();
-                ColumnsBox.Text = wordlist.Height.ToString();
+                LevelBox.Text = _wordlist.Level.ToString();
+                RowsBox.Text = _wordlist.Width.ToString();
+                ColumnsBox.Text = _wordlist.Height.ToString();
 
             }
             else
             {
-                TextBlockLog.Text += wordlist.LogListInString();
+                TextBlockLog.Text += _wordlist.LogListInString();
                 MenuOpenCrozzle.IsEnabled = false;
             }
         }
@@ -65,11 +65,11 @@ namespace SIT323GUI
 
             if (openFileDialog.ShowDialog() == true)
             {
-                crozzle = new Crozzle(openFileDialog.FileName, wordlist);
+                _crozzle = new Crozzle(openFileDialog.FileName, _wordlist);
                 TextBlockLog.Text += "Processing" + openFileDialog.FileName + Environment.NewLine;
             }
-            if (crozzle == null) return;
-            if (crozzle.LogList.Count == 0)
+            if (_crozzle == null) return;
+            if (_crozzle.LogList.Count == 0)
             {
                 Constraints con;
                 ScoreBox.Text = ApplyConstraintsAndGetScore(out con).ToString();
@@ -81,11 +81,11 @@ namespace SIT323GUI
                         WordListBox.Items.Add(word.ToString());
                     }
                 }
-                DataGrid.ItemsSource = wordlist.WordList;
+                DataGrid.ItemsSource = _wordlist.WordList;
             }
             else
             {
-                TextBlockLog.Text += crozzle.LogListInString();
+                TextBlockLog.Text += _crozzle.LogListInString();
             }
         }
 
@@ -93,22 +93,22 @@ namespace SIT323GUI
         {
             con = null;
             var pointScheme = default(PointScheme);
-            switch (wordlist.Level)
+            switch (_wordlist.Level)
             {
                 case Difficulty.Easy:
-                    con = new EasyConstraints(crozzle, wordlist);
+                    con = new EasyConstraints(_crozzle, _wordlist);
                     pointScheme = PointScheme.OneEach;
                     break;
                 case Difficulty.Medium:
-                    con = new MediumConstraints(crozzle, wordlist);
+                    con = new MediumConstraints(_crozzle, _wordlist);
                     pointScheme = PointScheme.Incremental;
                     break;
                 case Difficulty.Hard:
-                    con = new HardConstraints(crozzle, wordlist);
+                    con = new HardConstraints(_crozzle, _wordlist);
                     pointScheme = PointScheme.IncrementalWithBonusPerWord;
                     break;
                 case Difficulty.Extreme:
-                    con = new ExtremeConstraints(crozzle, wordlist);
+                    con = new ExtremeConstraints(_crozzle, _wordlist);
                     pointScheme = PointScheme.CustomWithBonusPerIntersection;
                     break;
             }

@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SIT323.Models;
 
 namespace SIT323
 {
+    /// <summary>
+    ///     Abstract class of Constraints
+    ///     Implements Ilogger interface
+    /// </summary>
     public abstract class Constraints : ILogger
     {
-        protected Wordlist Wordlist { get; set; }
-        protected Crozzle Crozzle{ get; set; }
-        public List<Word> WordsFromCrozzle { get; set; }
-
+        /// <summary>
+        ///     Base class constructor
+        ///     Calls AreWordsOnWordList() and AreThereNoDupeWords() that are applicable to all subclasses
+        /// </summary>
+        /// <param name="c">Crozzle</param>
+        /// <param name="w">Wordlist</param>
         protected Constraints(Crozzle c, Wordlist w)
         {
             Wordlist = w;
@@ -28,6 +32,35 @@ namespace SIT323
                 .LogList);
         }
 
+        /// <summary>
+        ///     Wordlist constructed from Wordlist class
+        /// </summary>
+        protected Wordlist Wordlist { get; set; }
+
+        /// <summary>
+        ///     Crozzle constructed from Crozzle class
+        /// </summary>
+        protected Crozzle Crozzle { get; set; }
+
+        /// <summary>
+        ///     List of words to be created
+        /// </summary>
+        public List<Word> WordsFromCrozzle { get; set; }
+
+        /// <summary>
+        ///     List of Logessage as per required by ILogger
+        /// </summary>
+        public List<LogMessage> LogList { get; set; }
+
+        /// <summary>
+        ///     Return all log message in one concatenated string as per required by ILogger
+        /// </summary>
+        /// <returns>string of all message</returns>
+        public string LogListInString()
+        {
+            return string.Join(Environment.NewLine, LogList.Select(l => l.ToString()));
+        }
+
         private void MakeCrozzleWords()
         {
             //Horizontal Traversal
@@ -38,7 +71,7 @@ namespace SIT323
                 {
                     Character character = new Character(
                         Crozzle[i, j],
-                        new Position()
+                        new Position
                         {
                             Height = i,
                             Width = j
@@ -62,7 +95,7 @@ namespace SIT323
                 {
                     Character character = new Character(
                         Crozzle[j, i],
-                        new Position()
+                        new Position
                         {
                             Height = j,
                             Width = i
@@ -80,55 +113,53 @@ namespace SIT323
         }
 
         /// <summary>
-        /// [S][S] skip
-        /// [S][C] skip
-        /// [C][C] alloc or add
-        /// [C][S] dealloc or skip
+        ///     [S][S] skip
+        ///     [S][C] skip
+        ///     [C][C] alloc or add
+        ///     [C][S] dealloc or skip
         /// </summary>
-        /// <param name="current"></param>
-        /// <param name="next"></param>
-        /// <param name="word"></param>
-        /// <param name="direction"></param>
+        /// <param name="current">Current Character</param>
+        /// <param name="next">next Character in char</param>
+        /// <param name="word">Current word</param>
+        /// <param name="direction">Direction - Horizontal or Vertical</param>
         /// <returns></returns>
         private Word ProcessCell(Character current, char next, Word word, Direction direction)
         {
-            //if current cell and the next cell is letter
+            //If [C][C] if current cell and the next cell is letter 
+            //Else [C][S] dealloc or skip
             if (char.IsLetter(current.Alphabetic) && char.IsLetter(next))
             {
                 if (word == null)
                 {
                     return new Word(direction, current);
                 }
-                else
+                Character lastCharacter = word.CharacterList.LastOrDefault();
+                switch (direction)
                 {
-                    Character lastCharacter = word.CharacterList.LastOrDefault();
-                    switch (direction)
-                    {
-                        case Direction.Horizontal:
-                            if (current.Position.Width - lastCharacter.Position.Width == 1)
-                            {
-                                word.CharacterList.Add(current);
-                            }
-                            else
-                            {
-                                word = new Word(direction, current);
-                            }
-                            break;
-                        case Direction.Vertical:
-                            if (current.Position.Height - lastCharacter.Position.Height == 1)
-                            {
-                                word.CharacterList.Add(current);
-                            }
-                            else
-                            {
-                                word = new Word(direction, current);
-                            }
-                            break;
-                    }
-                    return word;
+                    case Direction.Horizontal:
+                        if (current.Position.Width - lastCharacter.Position.Width == 1)
+                        {
+                            word.CharacterList.Add(current);
+                        }
+                        else
+                        {
+                            word = new Word(direction, current);
+                        }
+                        break;
+                    case Direction.Vertical:
+                        if (current.Position.Height - lastCharacter.Position.Height == 1)
+                        {
+                            word.CharacterList.Add(current);
+                        }
+                        else
+                        {
+                            word = new Word(direction, current);
+                        }
+                        break;
                 }
+                return word;
             }
-            else if (char.IsLetter(current.Alphabetic) && char.IsWhiteSpace(next))
+            if (char.IsLetter(current.Alphabetic) && char.IsWhiteSpace(next))
             {
                 if (word == null) return null;
                 Character lastCharacter = word.CharacterList.LastOrDefault();
@@ -155,6 +186,12 @@ namespace SIT323
             return null;
         }
 
+        /// <summary>
+        ///     Search any Intersecting words in oppsite direction and add to IntersectWords porperty
+        /// </summary>
+        /// <param name="word">Word that other words may inersect</param>
+        /// <param name="positions">list of position to seach for</param>
+        /// <param name="direction">direction current word</param>
         private void SearchIntersectingWords(Word word, List<Position> positions, Direction direction)
         {
             foreach (Word searchWord in WordsFromCrozzle.Where(d => d.Direction != direction))
@@ -165,6 +202,10 @@ namespace SIT323
                 if (found.Count > 0) word.IntersectWords.Add(searchWord);
             }
         }
+
+        /// <summary>
+        ///     Loop each word from Crozzle and finds any Intersecting words for both directions
+        /// </summary>
         public void Intersect()
         {
             foreach (Word word in WordsFromCrozzle)
@@ -175,12 +216,12 @@ namespace SIT323
                     case Direction.Horizontal:
                         foreach (Character character in word.CharacterList)
                         {
-                            positions.Add(new Position()
+                            positions.Add(new Position
                             {
                                 Height = character.Position.Height - 1,
                                 Width = character.Position.Width
                             });
-                            positions.Add(new Position()
+                            positions.Add(new Position
                             {
                                 Height = character.Position.Height + 1,
                                 Width = character.Position.Width
@@ -191,12 +232,12 @@ namespace SIT323
                     case Direction.Vertical:
                         foreach (Character character in word.CharacterList)
                         {
-                            positions.Add(new Position()
+                            positions.Add(new Position
                             {
                                 Height = character.Position.Height,
                                 Width = character.Position.Width - 1
                             });
-                            positions.Add(new Position()
+                            positions.Add(new Position
                             {
                                 Height = character.Position.Height,
                                 Width = character.Position.Width + 1
@@ -204,22 +245,20 @@ namespace SIT323
                         }
                         SearchIntersectingWords(word, positions, word.Direction);
                         break;
-
                 }
             }
         }
-
-
-        public List<LogMessage> LogList { get; set; }
-        public string LogListInString()
-        {
-            return string.Join(Environment.NewLine, LogList.Select(l => l.ToString()));
-        }
     }
 
+    /// <summary>
+    ///     EasyConstraints class inherits from Abstract class
+    ///     Call applicable validators based on project requirement
+    ///     AreWordsIntersectingOnceOrTwice()
+    ///     ValidateNoGap()
+    /// </summary>
     public class EasyConstraints : Constraints
     {
-        public EasyConstraints(Crozzle c, Wordlist w) : base(c,w)
+        public EasyConstraints(Crozzle c, Wordlist w) : base(c, w)
         {
             LogList.AddRange(new ConstraintValidator(WordsFromCrozzle, "EasyConstraints")
                 .AreWordsIntersectingOnceOrTwice()
@@ -228,6 +267,12 @@ namespace SIT323
                 );
         }
     }
+
+    /// <summary>
+    ///     MediumConstraints class inherits from Abstract class
+    ///     Call applicable validator based on project requirement
+    ///     AreWordsIntersectingOnceOrTwice()
+    /// </summary>
     public class MediumConstraints : Constraints
     {
         public MediumConstraints(Crozzle c, Wordlist w)
@@ -239,6 +284,12 @@ namespace SIT323
                 );
         }
     }
+
+    /// <summary>
+    ///     HardConstraints class inherits from Abstract class
+    ///     Call applicable validator based on project requirement
+    ///     AreWordsIntersectingOnceOrTwice()
+    /// </summary>
     public class HardConstraints : Constraints
     {
         public HardConstraints(Crozzle c, Wordlist w)
@@ -250,6 +301,13 @@ namespace SIT323
                 );
         }
     }
+
+    /// <summary>
+    ///     ExtremeConstraints class inherits from Abstract class
+    ///     Call applicable validator based on project requirement
+    ///     AreWordsIntersectingMoreThanOnce()
+    ///     AreWordsConnected()
+    /// </summary>
     public class ExtremeConstraints : Constraints
     {
         public ExtremeConstraints(Crozzle c, Wordlist w)

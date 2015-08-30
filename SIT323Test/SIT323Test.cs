@@ -6,7 +6,7 @@ using SIT323.Models;
 
 namespace SIT323Test
 {
-    public class SIT323Test
+    public class Sit323Test
     {
         
     }
@@ -14,19 +14,19 @@ namespace SIT323Test
     [TestClass]
     public class TestValidator
     {
-        readonly int MinWordCount = 10;
-        readonly int MaxWordCount = 1000;
-        readonly int MinCrozzleWeightCount = 4;
-        readonly int MaxCrozzleHeightCount = 400;
+        readonly int _minWordCount = 10;
+        readonly int _maxWordCount = 1000;
+        readonly int _minCrozzleWeightCount = 4;
+        readonly int _maxCrozzleHeightCount = 400;
 
-        private IntValidator Validator;
+        private IntValidator _validator;
 
-        private List<LogMessage> logger;
+        private List<LogMessage> _logger;
 
         [TestInitialize]
         public void InitLogger()
         {
-           logger = new List<LogMessage>();
+           _logger = new List<LogMessage>();
         }
 
         [TestMethod]
@@ -58,20 +58,20 @@ namespace SIT323Test
         [TestMethod]
         public void TestWordList1()
         {
-            var LogList = new Wordlist("Files/Test 1 - wordlist.csv").LogList;
-            Assert.IsTrue(LogList.Count == 0);
+            var logList = new Wordlist("Files/Test 1 - wordlist.csv").LogList;
+            Assert.IsTrue(logList.Count == 0);
         }
         [TestMethod]
         public void TestWordList5()
         {
-            var LogList = new Wordlist("Files/Test 5 - wordlist.csv").LogList;
-            Assert.IsTrue(LogList.Count == 4);
+            var logList = new Wordlist("Files/Test 5 - wordlist.csv").LogList;
+            Assert.IsTrue(logList.Count == 4);
         }
         [TestMethod]
         public void TestWordList6()
         {
-            var LogList = new Wordlist("Files/Test 6 - wordlist.csv").LogList;
-            Assert.IsTrue(LogList.Count == 6);
+            var logList = new Wordlist("Files/Test 6 - wordlist.csv").LogList;
+            Assert.IsTrue(logList.Count == 6);
         }
 
         [TestMethod]
@@ -94,20 +94,20 @@ namespace SIT323Test
         [TestMethod]
         public void TestCrozzle7()
         {
-            var Wordlist = new Wordlist("Files/Test 7 - wordlist.csv");
-            Assert.IsTrue(Wordlist.LogList.Count == 0);
+            var wordlist = new Wordlist("Files/Test 7 - wordlist.csv");
+            Assert.IsTrue(wordlist.LogList.Count == 0);
 
-            var Crozzle = new Crozzle("Files/Test 7 - crozzle.txt", Wordlist);
-            Assert.IsTrue(Crozzle.LogList.Count == 2);
+            var crozzle = new Crozzle("Files/Test 7 - crozzle.txt", wordlist);
+            Assert.IsTrue(crozzle.LogList.Count == 2);
         }
         [TestMethod]
         public void TestCrozzle8()
         {
-            var Wordlist = new Wordlist("Files/Test 8 - wordlist.csv");
-            Assert.IsTrue(Wordlist.LogList.Count == 0);
+            var wordlist = new Wordlist("Files/Test 8 - wordlist.csv");
+            Assert.IsTrue(wordlist.LogList.Count == 0);
 
-            var Crozzle = new Crozzle("Files/Test 8 - crozzle.txt", Wordlist);
-            Assert.IsTrue(Crozzle.LogList.Count == 7);
+            var crozzle = new Crozzle("Files/Test 8 - crozzle.txt", wordlist);
+            Assert.IsTrue(crozzle.LogList.Count == 7);
         }
     }
 
