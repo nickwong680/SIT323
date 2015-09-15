@@ -54,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SIT323 Assignment.sln" />
     <None Include="App.config" />
     <Content Include="Files\Test 1 - wordlist.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -91,6 +92,7 @@
     <Content Include="Files\Test 9 - wordlist.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Files\Test 1 - crozzle.txt">

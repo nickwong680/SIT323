@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIT323Test", "SIT323Test\SI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIT323GUI", "SIT323GUI\SIT323GUI.csproj", "{35B42D05-C07D-4B6D-AF33-3AA8AE949C20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrozzleFormApplication", "CrozzleApplication\CrozzleFormApplication.csproj", "{D99B5107-B237-4DCE-B859-67F52FD8E552}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{35B42D05-C07D-4B6D-AF33-3AA8AE949C20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35B42D05-C07D-4B6D-AF33-3AA8AE949C20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35B42D05-C07D-4B6D-AF33-3AA8AE949C20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D99B5107-B237-4DCE-B859-67F52FD8E552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D99B5107-B237-4DCE-B859-67F52FD8E552}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D99B5107-B237-4DCE-B859-67F52FD8E552}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D99B5107-B237-4DCE-B859-67F52FD8E552}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

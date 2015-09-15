@@ -1,0 +1,9 @@
+C:\SD\Dropbox\Deakin\-=SIT323 - Practical Software Development\Assignment 1\SIT323 Assignment 1 Solution\CrozzleApplication\bin\Debug\CrozzleApplication.exe.config
+C:\SD\Dropbox\Deakin\-=SIT323 - Practical Software Development\Assignment 1\SIT323 Assignment 1 Solution\CrozzleApplication\bin\Debug\CrozzleApplication.exe
+C:\SD\Dropbox\Deakin\-=SIT323 - Practical Software Development\Assignment 1\SIT323 Assignment 1 Solution\CrozzleApplication\bin\Debug\CrozzleApplication.pdb
+C:\SD\Dropbox\Deakin\-=SIT323 - Practical Software Development\Assignment 1\SIT323 Assignment 1 Solution\CrozzleApplication\obj\Debug\CrozzleFormApplication.csprojResolveAssemblyReference.cache
+C:\SD\Dropbox\Deakin\-=SIT323 - Practical Software Development\Assignment 1\SIT323 Assignment 1 Solution\CrozzleApplication\obj\Debug\CrozzleApplication.SIT323AssignmentForm.resources
+C:\SD\Dropbox\Deakin\-=SIT323 - Practical Software Development\Assignment 1\SIT323 Assignment 1 Solution\CrozzleApplication\obj\Debug\CrozzleApplication.Properties.Resources.resources
+C:\SD\Dropbox\Deakin\-=SIT323 - Practical Software Development\Assignment 1\SIT323 Assignment 1 Solution\CrozzleApplication\obj\Debug\CrozzleFormApplication.csproj.GenerateResource.Cache
+C:\SD\Dropbox\Deakin\-=SIT323 - Practical Software Development\Assignment 1\SIT323 Assignment 1 Solution\CrozzleApplication\obj\Debug\CrozzleApplication.exe
+C:\SD\Dropbox\Deakin\-=SIT323 - Practical Software Development\Assignment 1\SIT323 Assignment 1 Solution\CrozzleApplication\obj\Debug\CrozzleApplication.pdb
