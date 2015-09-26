@@ -54,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SIT323Project2\SIT323Project2.csproj">
+      <Project>{c33ae56e-0e14-44f9-b260-ae89555c5437}</Project>
+      <Name>SIT323Project2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIT323\SIT323.csproj">
       <Project>{12629118-f6f5-4f2e-81f3-74372493395a}</Project>
       <Name>SIT323</Name>

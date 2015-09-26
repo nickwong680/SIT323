@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SIT323.Models
 {
+    #region Word Class
+
     /// <summary>
     ///     Word class for each Crozzle word
     /// </summary>
@@ -68,6 +71,10 @@ namespace SIT323.Models
         }
     }
 
+    #endregion
+
+    #region Character Class
+
     /// <summary>
     ///     Character class
     /// </summary>
@@ -111,6 +118,10 @@ namespace SIT323.Models
         }
     }
 
+    #endregion
+
+    #region Position struct
+
     /// <summary>
     ///     Struct to hold the height and width of the position
     /// </summary>
@@ -120,12 +131,21 @@ namespace SIT323.Models
         public int Width;
     }
 
+    #endregion
+
+    #region Direction enum
+
     /// <summary>
     ///     enum of Direction in Horizontal or Vertical
     /// </summary>
+    [Flags]
     public enum Direction
     {
-        Horizontal,
-        Vertical
+        None = 0,
+        Horizontal = 1,
+        Vertical = 2,
+        All = Horizontal | Vertical,
     }
+
+    #endregion
 }

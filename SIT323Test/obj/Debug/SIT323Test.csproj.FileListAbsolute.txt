@@ -1,6 +1,5 @@
 c:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\bin\Debug\SIT323Test.dll
 c:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\bin\Debug\SIT323Test.pdb
-c:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\bin\Debug\SIT323.exe
 c:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\bin\Debug\SIT323.pdb
 c:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\obj\Debug\SIT323Test.csprojResolveAssemblyReference.cache
 c:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\obj\Debug\SIT323Test.dll
@@ -29,3 +28,10 @@ C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\bin\Debug\
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\bin\Debug\Files\Test 7 - crozzle.txt
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\bin\Debug\Files\Test 8 - crozzle.txt
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323Test\bin\Debug\Files\Test 9 - crozzle.txt
+C:\Users\Nick\Documents\Visual Studio 2013\Projects\SIT323\SIT323Test\bin\Debug\Files\Ass2 - Test 1 - wordlist EASY.csv
+C:\Users\Nick\Documents\Visual Studio 2013\Projects\SIT323\SIT323Test\bin\Debug\Files\Ass2 - Test 2 - wordlist MEDIUM.csv
+C:\Users\Nick\Documents\Visual Studio 2013\Projects\SIT323\SIT323Test\bin\Debug\Files\Ass2 - Test 3 - wordlist HARD.csv
+C:\Users\Nick\Documents\Visual Studio 2013\Projects\SIT323\SIT323Test\bin\Debug\Files\Ass2 - Test 4 - wordlist EXTREME.csv
+C:\Users\Nick\Documents\Visual Studio 2013\Projects\SIT323\SIT323Test\bin\Debug\SIT323Project2.dll
+C:\Users\Nick\Documents\Visual Studio 2013\Projects\SIT323\SIT323Test\bin\Debug\SIT323Project2.pdb
+C:\Users\Nick\Documents\Visual Studio 2013\Projects\SIT323\SIT323Test\bin\Debug\SIT323.dll

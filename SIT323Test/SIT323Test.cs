@@ -109,6 +109,7 @@ namespace SIT323Test
             var crozzle = new Crozzle("Files/Test 8 - crozzle.txt", wordlist);
             Assert.IsTrue(crozzle.LogList.Count == 12);
         }
+
     }
 
     [TestClass]
@@ -209,6 +210,18 @@ namespace SIT323Test
             Assert.IsTrue(wordlist8.LogList.Count == 0);
             var crozzle8 = new Crozzle("Files/Test 8 - crozzle.txt", wordlist8);
             Assert.IsTrue(crozzle8.LogList.Count == 12);
+        }
+    }
+
+    [TestClass]
+    public class TestGenerator
+    {
+        [TestMethod]
+        public void TestProject2()
+        {
+            var wordlist = new Wordlist("Files/Ass2 - Test 1 - wordlist EASY.csv");
+            Assert.IsTrue(wordlist.LogList.Count == 0);
+
         }
     }
 }
