@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CrozzleGenerator.cs" />
+    <Compile Include="Models\CrozzleProject2.cs" />
     <Compile Include="Models\Grid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

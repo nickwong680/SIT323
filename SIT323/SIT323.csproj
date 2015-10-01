@@ -57,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SIT323 Assignment.sln" />
-    <None Include="App.config" />
+    <None Include="Models\App.config" />
     <Content Include="Files\Test 1 - wordlist.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

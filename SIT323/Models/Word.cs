@@ -14,10 +14,10 @@ namespace SIT323.Models
         /// <summary>
         ///     Default constructor
         /// </summary>
-        /// <param name="d">direction of word</param>
-        public Word(Direction d)
+        /// <param name="direction">direction of word</param>
+        public Word(Direction direction)
         {
-            Direction = d;
+            Direction = direction;
             CharacterList = new List<Character>();
             IntersectWords = new List<Word>();
         }
@@ -25,12 +25,25 @@ namespace SIT323.Models
         /// <summary>
         ///     Constructor that takes the first the chracter of the word and the direction
         /// </summary>
-        /// <param name="d">direction enum</param>
-        /// <param name="c">character </param>
-        public Word(Direction d, Character c)
-            : this(d)
+        /// <param name="direction">direction of word</param>
+        /// <param name="character">character </param>
+        public Word(Direction direction, Character character)
+            : this(direction)
         {
-            CharacterList.Add(c);
+            CharacterList.Add(character);
+        }
+        /// <summary>
+        /// Constructor to take direction and full string
+        /// </summary>
+        /// <param name="direction">direction of word</param>
+        /// <param name="character">full string</param>
+        public Word(Direction direction, string character) 
+            : this(direction)
+        {
+            foreach (char c in character)
+            {
+                CharacterList.Add(new Character(c));
+            }
         }
 
         /// <summary>
@@ -95,14 +108,18 @@ namespace SIT323.Models
         /// </summary>
         public int Score;
 
+        public Character(char alphabetic)
+        {
+            Alphabetic = alphabetic;
+        }
         /// <summary>
         ///     Constructor takes in alphabetic and positon
         /// </summary>
         /// <param name="alphabetic">alphabetic char</param>
         /// <param name="position">position enum</param>
-        public Character(char alphabetic, Position position)
+        public Character(char alphabetic, Position position) : 
+            this (alphabetic)
         {
-            Alphabetic = alphabetic;
             Position = position;
         }
 
@@ -111,9 +128,10 @@ namespace SIT323.Models
         /// </summary>
         /// <param name="alphabetic">alphabetic char</param>
         /// <param name="score">score int</param>
-        public Character(char alphabetic, int score)
+        public Character(char alphabetic, int score):
+             this (alphabetic)
+
         {
-            Alphabetic = alphabetic;
             Score = score;
         }
     }

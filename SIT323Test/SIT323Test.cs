@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SIT323;
 using SIT323.Models;
+using SIT323Project2;
+using SIT323Project2.Models;
 
 namespace SIT323Test
 {
@@ -220,6 +222,11 @@ namespace SIT323Test
         public void TestProject2()
         {
             var wordlist = new Wordlist("Files/Ass2 - Test 1 - wordlist EASY.csv");
+            var crozzle = new CrozzleProject2(wordlist);
+
+            CrozzleGenerator gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Easy);
+            gen.PlaceWordToGrid();
+            System.Diagnostics.Debug.WriteLine(crozzle.ToString());
             Assert.IsTrue(wordlist.LogList.Count == 0);
 
         }

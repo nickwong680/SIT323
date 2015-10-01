@@ -1,5 +1,3 @@
-c:\users\nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.pdb
-c:\users\nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.pdb
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 1 - wordlist.csv
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 10 - wordlist.csv
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 11 - wordlist.csv
@@ -24,7 +22,9 @@ C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\File
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 7 - crozzle.txt
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 8 - crozzle.txt
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\Files\Test 9 - crozzle.txt
-C:\Users\Nick\Documents\Visual Studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.dll.config
-C:\Users\Nick\Documents\Visual Studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.dll
-C:\Users\Nick\Documents\Visual Studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.dll
-C:\Users\Nick\Documents\Visual Studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.csprojResolveAssemblyReference.cache
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.dll.config
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.dll
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.pdb
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.csprojResolveAssemblyReference.cache
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.dll
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.pdb
