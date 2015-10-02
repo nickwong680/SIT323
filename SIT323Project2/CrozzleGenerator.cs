@@ -13,16 +13,20 @@ namespace SIT323Project2
 
         private readonly Difficulty _difficulty;
         private readonly Wordlist _wordlist;
+        private List<string> _wordsNotAddedList;
 
         public CrozzleGenerator(CrozzleProject2 crozzle, Wordlist wordlist, Difficulty difficulty)
         {
             this.Crozzle = crozzle;
             this._wordlist = wordlist;
             this._difficulty = difficulty;
-            WordsNotAddedList = new List<string>(wordlist.WordList.OrderByDescending(w => w.Count()));
+            this._wordsNotAddedList = new List<string>(wordlist.WordList.OrderByDescending(w => w.Count()));
         }
 
-        public List<string> WordsNotAddedList { get; private set; }
+        public List<string> WordsNotAddedList
+        {
+            get { return _wordsNotAddedList; }
+        }
 
         public AddWordToGrid Adder { get; private set; }
 
@@ -31,9 +35,12 @@ namespace SIT323Project2
             get { return _wordlist; }
         }
 
-  
+        public void FindInterectableWords()
+        {
+            List<Span> spans = Crozzle.InterectableWords();
+        }
 
-        private Dictionary<string, int> FindWordsInterectOn(Word word)
+        private Dictionary<string, int> FindWordsInterectableWords(Word word)
         {
             var words = new Dictionary<string, int>();
             for (var i = 0; i < word.CharacterList.Count; i++)
@@ -46,7 +53,10 @@ namespace SIT323Project2
             }
             return words;
         }
-
+        /// <summary>
+        /// Start by placing first word (the most longest word) to center of the crozzle
+        /// 
+        /// </summary>
         public void PlaceWordsToGrid()
         {
             Word word;
@@ -58,10 +68,14 @@ namespace SIT323Project2
                 Crozzle.Wordlist.Add(word);
                 WordsNotAddedList.Remove(word.ToString());
             }
-//            do
-//            {
-//
-//            } while (WordsNotAddedList.Count > 0);
+            do
+            {
+                List<Span> spans = Crozzle.InterectableWords();
+                var span = new MatchSpanToWord(spans, WordsNotAddedList);
+
+
+
+            } while (WordsNotAddedList.Count > 0);
 
             Console.WriteLine(Crozzle.ToString());
         }

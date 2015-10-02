@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="AddWordToGrid.cs" />
     <Compile Include="CrozzleGenerator.cs" />
+    <Compile Include="MatchSpanToWord.cs" />
     <Compile Include="Models\CrozzleProject2.cs" />
     <Compile Include="Models\Grid.cs" />
     <Compile Include="Models\Span.cs" />
