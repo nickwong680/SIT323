@@ -225,7 +225,7 @@ namespace SIT323Test
             var wordlist = new Wordlist("Files/Ass2 - Test 1 - wordlist EASY.csv");
             var crozzle = new CrozzleProject2(wordlist);
             CrozzleGenerator gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Easy);
-            gen.PlaceWordsToGrid();
+        
 
             System.Diagnostics.Debug.WriteLine(crozzle.ToString());
 
@@ -240,7 +240,8 @@ namespace SIT323Test
 
             Word word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
 
-            gen.AddWordToGrid(word, 0, 0);
+            AddWordToGrid addie = new AddWordToGrid(gen, word , 0,  0);
+
             List<Span> interectableWords = crozzle.InterectableWords();
 
             Assert.IsTrue(interectableWords.Count == word.CharacterList.Count);

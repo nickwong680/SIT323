@@ -80,7 +80,7 @@ namespace SIT323Project2.Models
                         int back = i - 1;
                         int next = i + 1;
 
-                        if (direction == Direction.Horizontal)
+                        if (direction == Direction.Vertical)
                         {
                             while (!exit)
                             {

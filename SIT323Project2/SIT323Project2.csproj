@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddWordToGrid.cs" />
     <Compile Include="CrozzleGenerator.cs" />
     <Compile Include="Models\CrozzleProject2.cs" />
     <Compile Include="Models\Grid.cs" />

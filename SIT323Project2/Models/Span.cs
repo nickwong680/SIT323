@@ -9,41 +9,41 @@ namespace SIT323Project2.Models
 {
     public class Span
     {
-        private Direction direction;
-        private char character;
-        private List<char> preCharacterPlaceable;
-        private List<char> postCharacterPlaceable;
-        private Position position;
+        private Direction _direction;
+        private char _character;
+        private List<char> _preCharacterPlaceable;
+        private List<char> _postCharacterPlaceable;
+        private Position _position;
 
 
         public Direction Direction
         {
-            get { return direction; }
-            set { direction = value; }
+            get { return _direction; }
+            set { _direction = value; }
         }
 
         public char Character
         {
-            get { return character; }
-            set { character = value; }
+            get { return _character; }
+            set { _character = value; }
         }
 
         public Position Position
         {
-            get { return position; }
-            set { position = value; }
+            get { return _position; }
+            set { _position = value; }
         }
 
         public List<char> PreCharacterPlaceable
         {
-            get { return preCharacterPlaceable; }
-            set { preCharacterPlaceable = value; }
+            get { return _preCharacterPlaceable; }
+            set { _preCharacterPlaceable = value; }
         }
 
         public List<char> PostCharacterPlaceable
         {
-            get { return postCharacterPlaceable; }
-            set { postCharacterPlaceable = value; }
+            get { return _postCharacterPlaceable; }
+            set { _postCharacterPlaceable = value; }
         }
     }
 }
