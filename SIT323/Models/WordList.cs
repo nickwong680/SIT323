@@ -63,7 +63,7 @@ namespace SIT323
             int.TryParse(file[2], out _height);
 
             WordList = file.ToList();
-            WordList.RemoveRange(0, 3);
+            WordList.RemoveRange(0, 4);
             foreach (var word in WordList)
             {
                 LogList.AddRange(new StringValidtor(word, "word").LogList);

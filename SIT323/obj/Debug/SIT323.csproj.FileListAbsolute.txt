@@ -25,6 +25,6 @@ C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\File
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.dll.config
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.dll
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.pdb
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.csprojResolveAssemblyReference.cache
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.dll
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.pdb
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.csprojResolveAssemblyReference.cache

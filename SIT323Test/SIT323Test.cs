@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SIT323;
 using SIT323.Models;
@@ -216,18 +217,32 @@ namespace SIT323Test
     }
 
     [TestClass]
-    public class TestGenerator
+    public class TestProject2
     {
         [TestMethod]
-        public void TestProject2()
+        public void TestGenerator()
         {
             var wordlist = new Wordlist("Files/Ass2 - Test 1 - wordlist EASY.csv");
             var crozzle = new CrozzleProject2(wordlist);
-
             CrozzleGenerator gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Easy);
-            gen.PlaceWordToGrid();
+
+
+        }
+        [TestMethod]
+        public void TestSpanableAfterAddWordToGrid()
+        {
+            var wordlist = new Wordlist("Files/Ass2 - Test 1 - wordlist EASY.csv");
+            var crozzle = new CrozzleProject2(wordlist);
+            CrozzleGenerator gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Easy);
+
+            Word word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
+
+            gen.AddWordToGrid(word, 0, 0);
+            var interectableWords = crozzle.InterectableWords();
+
+            Assert.IsTrue(interectableWords.Count == word.CharacterList.Count);
+
             System.Diagnostics.Debug.WriteLine(crozzle.ToString());
-            Assert.IsTrue(wordlist.LogList.Count == 0);
 
         }
     }
