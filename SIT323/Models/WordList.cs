@@ -59,8 +59,8 @@ namespace SIT323
                 new IntValidator(file[1], "field 1").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
             LogList.AddRange(
                 new IntValidator(file[2], "field 2").IsInRange(MinCrozzleWeightCount, MaxCrozzleHeightCount).LogList);
-            int.TryParse(file[1], out _width);
-            int.TryParse(file[2], out _height);
+            int.TryParse(file[1], out _height);
+            int.TryParse(file[2], out _width);
 
             WordList = file.ToList();
             WordList.RemoveRange(0, 4);

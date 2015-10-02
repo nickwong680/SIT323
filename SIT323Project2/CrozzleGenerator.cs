@@ -9,7 +9,7 @@ namespace SIT323Project2
 {
     public class CrozzleGenerator
     {
-        private readonly CrozzleProject2 crozzle;
+        public readonly CrozzleProject2 crozzle;
 
         private readonly Difficulty difficulty;
         private Wordlist wordlist;
@@ -24,9 +24,17 @@ namespace SIT323Project2
 
         public List<string> WordsNotAddedList { get; private set; }
 
-        public void PlaceSingleWordToGrid(Word word, int width, int height)
+        /// <summary>
+        /// This method does a few things
+        ///     It add word to grid
+        /// 
+        /// </summary>
+        /// <param name="word"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void PlaceSingleWordToGrid(Word word, int height, int width)
         {
-            AddWordToGrid(word, width, height);
+            AddWordToGrid(word, height, width);
             crozzle.Wordlist.Add(word);
             WordsNotAddedList.Remove(word.ToString());
         }
@@ -38,16 +46,22 @@ namespace SIT323Project2
         /// <param name="pos"></param>
         public void PlaceSingleWordToGrid(Word word, Position pos)
         {
-            PlaceSingleWordToGrid(word, pos.Width, pos.Height);
+            PlaceSingleWordToGrid(word,  pos.Height, pos.Width);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void PlaceWordsToGrid()
         {
             Word word;
             if (crozzle.Wordlist.Count == 0)
             {
-                word = new Word(Direction.Vertical, WordsNotAddedList.FirstOrDefault());
-                PlaceSingleWordToGrid(word, 0, 0);
+                word = new Word(Direction.Horizontal, WordsNotAddedList.FirstOrDefault());
+                PlaceSingleWordToGrid(word, (wordlist.Height / 2), (wordlist.Width / 2) - (word.CharacterList.Count / 2));
+
+//                word = new Word(Direction.Horizontal, WordsNotAddedList.FirstOrDefault());
+//                PlaceSingleWordToGrid(word, (wordlist.Width / 2) - (word.CharacterList.Count / 2), wordlist.Height / 2);
+//            
             }
 //            do
 //            {
@@ -71,9 +85,9 @@ namespace SIT323Project2
             return words;
         }
 
-        private bool DoesWordFit(Word word, int width, int height)
+        private bool DoesWordFit(Word word, int height, int width)
         {
-            if (word.Direction == Direction.Vertical)
+            if (word.Direction == Direction.Horizontal)
             {
                 var span = height;
                 for (var i = 0; i < word.CharacterList.Count; i++)
@@ -97,7 +111,7 @@ namespace SIT323Project2
                 var span = width;
                 for (var i = 0; i < word.CharacterList.Count; i++)
                 {
-                    var grid = crozzle[span, width];
+                    var grid = crozzle[height, width];
                     switch (grid.SpannableDirection)
                     {
                         case Direction.Horizontal:
@@ -115,7 +129,7 @@ namespace SIT323Project2
         }
 
 
-        public void AddWordToGrid(Word word, int width, int height)
+        public void AddWordToGrid(Word word, int height, int width)
         {
             crozzle.Wordlist.Add(word);
             if (word.Direction == Direction.Vertical)
@@ -126,7 +140,7 @@ namespace SIT323Project2
                     var grid = crozzle[span, width];
                     grid.Character = word.CharacterList[i].Alphabetic;
                     word.CharacterList[i].Position = new Position {Height = span, Width = width};
-                    grid.HorizontalWord = word;
+                    grid.VerticalWord = word;
                     grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
                         ? Direction.Horizontal
                         : Direction.None;
@@ -138,17 +152,17 @@ namespace SIT323Project2
                 var span = width;
                 for (var i = 0; i < word.CharacterList.Count; i++)
                 {
-                    var grid = crozzle[height, span];
+                    var grid = crozzle[height,span];
                     grid.Character = word.CharacterList[i].Alphabetic;
                     word.CharacterList[i].Position = new Position {Height = height, Width = span};
                     grid.HorizontalWord = word;
                     grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
-                        ? Direction.Horizontal
+                        ? Direction.Vertical
                         : Direction.None;
                     span++;
                 }
             }
-            UpdateGrid(word, width, height);
+            UpdateGrid(word, height, width);
         }
 
         /// <summary>
@@ -158,19 +172,19 @@ namespace SIT323Project2
         ///     E = Empty
         ///     X = To be Touched
         /// </summary>
-        private void UpdateHeadAndTailGrid(Word word, int width, int height)
+        private void UpdateHeadAndTailGrid(Word word, int height, int weight)
         {
             Grid headGrid;
             Grid tailGrid;
-            if (word.Direction == Direction.Horizontal)
+            if (word.Direction == Direction.Vertical)
             {
-                headGrid = crozzle[width, height - 1];
-                tailGrid = crozzle[width, height + word.CharacterList.Count];
+                headGrid = crozzle[height - 1, weight];
+                tailGrid = crozzle[height + word.CharacterList.Count, weight];
             }
             else
             {
-                headGrid = crozzle[width - 1, height];
-                tailGrid = crozzle[width + word.CharacterList.Count, height];
+                headGrid = crozzle[height, weight - 1];
+                tailGrid = crozzle[height, weight + word.CharacterList.Count];
             }
             if (headGrid != null) headGrid.SpannableDirection = Direction.None;
             if (tailGrid != null) tailGrid.SpannableDirection = Direction.None;
@@ -185,7 +199,7 @@ namespace SIT323Project2
         ///     E = Empty
         ///     X = To be Touched
         /// </summary>
-        private void UpdateSurroundedGrids(Word word, int width, int height)
+        private void UpdateSurroundedGrids(Word word, int height, int width)
         {
             for (var i = -1; i < 2; i++)
             {
@@ -194,7 +208,7 @@ namespace SIT323Project2
                 {
                     if (word.Direction == Direction.Horizontal)
                     {
-                        var grid = crozzle[width + i, height + j];
+                        var grid = crozzle[height + i, width + j];
                         if (grid == null) continue;
                         grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
                             ? Direction.Vertical
@@ -202,7 +216,7 @@ namespace SIT323Project2
                     }
                     else
                     {
-                        var grid = crozzle[width + j, height + i];
+                        var grid = crozzle[height + j, width + i];
                         if (grid == null) continue;
                         grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
                             ? Direction.Horizontal
@@ -212,18 +226,18 @@ namespace SIT323Project2
             }
         }
 
-        private void UpdateGrid(Word word, int width, int height)
+        private void UpdateGrid(Word word, int height, int width)
         {
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    UpdateHeadAndTailGrid(word, width, height);
-                    UpdateSurroundedGrids(word, width, height);
+                    UpdateHeadAndTailGrid(word, height, width);
+                    UpdateSurroundedGrids(word, height, width);
                     break;
                 case Difficulty.Medium:
                 case Difficulty.Hard:
                 case Difficulty.Extreme:
-                    UpdateHeadAndTailGrid(word, width, height);
+                    UpdateHeadAndTailGrid(word, height, width);
                     break;
             }
         }

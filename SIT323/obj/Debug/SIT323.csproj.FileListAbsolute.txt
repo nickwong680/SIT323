@@ -27,4 +27,3 @@ C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT3
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\bin\Debug\SIT323.pdb
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.dll
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.pdb
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\SIT323\obj\Debug\SIT323.csprojResolveAssemblyReference.cache
