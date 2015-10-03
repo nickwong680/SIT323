@@ -198,6 +198,38 @@ namespace SIT323Project2.Models
                 }
                 outString += Environment.NewLine;
             }
+
+            outString += Environment.NewLine;
+            outString += PrintDirection();
+
+            return outString;
+        }
+
+        private string PrintDirection()
+        {
+            string outString = string.Empty;
+            foreach (Grid[] rows in _crozzleArray)
+            {
+                foreach (Grid grid in rows)
+                {
+                    switch (grid.SpannableDirection)
+                    {
+                        case Direction.Horizontal:
+                            outString += "-";
+                            break;
+                        case Direction.Vertical:
+                            outString += "|";
+                            break;
+                        case Direction.None:
+                            outString += "*";
+                            break;
+                        case Direction.All:
+                            outString += " ";
+                            break;
+                    }
+                }
+                outString += Environment.NewLine;
+            }
             return outString;
         }
     }

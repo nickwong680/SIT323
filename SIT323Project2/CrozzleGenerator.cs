@@ -65,19 +65,54 @@ namespace SIT323Project2
                 word = new Word(Direction.Horizontal, WordsNotAddedList.FirstOrDefault());
                 Adder = new AddWordToGrid(this, word, (_wordlist.Height/2),
                     (_wordlist.Width/2) - (word.CharacterList.Count/2));
-                Crozzle.Wordlist.Add(word);
                 WordsNotAddedList.Remove(word.ToString());
             }
+
             do
             {
                 List<Span> spans = Crozzle.InterectableWords();
-                var span = new MatchSpanToWord(spans, WordsNotAddedList);
+                var match = new MatchSpanToWord(spans, WordsNotAddedList);
+                List<WordMatch> matches = match.Match();
+                if (!matches.Any())
+                {
+                    break;
+                }
+
+                WordMatch matched = matches.FirstOrDefault();
+
+                word = new Word(matched.Span.Direction, matched.Word);
+
+                Position pos = matched.Span.Position;
+                if (matched.Span.Direction == Direction.Vertical)
+                {
+                    pos.Height -= matched.MatchIndex;
+                }
+                else
+                {
+                    pos.Width -= matched.MatchIndex;
+                }
+
+                Adder = new AddWordToGrid(this, word, pos);
+                WordsNotAddedList.Remove(word.ToString());
 
 
 
-            } while (WordsNotAddedList.Count > 0);
+                Console.WriteLine(String.Join(",", Crozzle.Wordlist));
+                Console.WriteLine(Crozzle.ToString());
+
+                if (Crozzle.Wordlist.Count > 10) break;
+
+            } while (true);
 
             Console.WriteLine(Crozzle.ToString());
+        }
+
+        private void Add(Word word, WordMatch match)
+        {
+            Adder = new AddWordToGrid(this, word, (_wordlist.Height / 2),
+    (_wordlist.Width / 2) - (word.CharacterList.Count / 2));
+            Crozzle.Wordlist.Add(word);
+            WordsNotAddedList.Remove(word.ToString());
         }
     }
 }

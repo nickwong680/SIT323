@@ -22,13 +22,14 @@ namespace SIT323Project2
         }
 
         public AddWordToGrid(CrozzleGenerator crozzleGenerator, Word word, int height, int wdith) :
-            this(crozzleGenerator, word, new Position() { Height = height, Width = wdith })
+            this(crozzleGenerator, word, new Position() {Height = height, Width = wdith})
         {
         }
-        public AddWordToGrid(CrozzleGenerator crozzleGenerator, Word word,Position position)
+
+        public AddWordToGrid(CrozzleGenerator crozzleGenerator, Word word, Position position)
         {
             _word = word;
-            _position = position;     
+            _position = position;
             _crozzleGenerator = crozzleGenerator;
             Add();
         }
@@ -86,7 +87,7 @@ namespace SIT323Project2
                 {
                     var grid = _crozzleGenerator.Crozzle[span, Position.Width];
                     grid.Character = Word.CharacterList[i].Alphabetic;
-                    Word.CharacterList[i].Position = new Position { Height = span, Width = Position.Width };
+                    Word.CharacterList[i].Position = new Position {Height = span, Width = Position.Width};
                     grid.VerticalWord = Word;
                     grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
                         ? Direction.Horizontal
@@ -101,7 +102,7 @@ namespace SIT323Project2
                 {
                     var grid = _crozzleGenerator.Crozzle[Position.Height, span];
                     grid.Character = Word.CharacterList[i].Alphabetic;
-                    Word.CharacterList[i].Position = new Position { Height = Position.Height, Width = span };
+                    Word.CharacterList[i].Position = new Position {Height = Position.Height, Width = span};
                     grid.HorizontalWord = Word;
                     grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
                         ? Direction.Vertical
@@ -148,6 +149,10 @@ namespace SIT323Project2
         /// </summary>
         private void UpdateSurroundedGrids()
         {
+            if (Word.ToString() == "DASH")
+            {
+                int tt = 0;
+            }
             for (var i = -1; i < 2; i++)
             {
                 if (i == 0) continue;
@@ -157,17 +162,39 @@ namespace SIT323Project2
                     {
                         var grid = _crozzleGenerator.Crozzle[Position.Height + i, Position.Width + j];
                         if (grid == null) continue;
-                        grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
-                            ? Direction.Vertical
-                            : Direction.None;
+                        if (grid.VerticalWord != null && 
+                            grid.HorizontalWord == null &&
+                            grid.SpannableDirection == Direction.Horizontal
+                            )
+                        {
+                            grid.SpannableDirection = Direction.Horizontal;
+                        }
+                        else
+                        {
+                            grid.SpannableDirection = (grid.SpannableDirection == Direction.All ||
+                                                       grid.SpannableDirection == Direction.Vertical)
+                                ? Direction.Vertical
+                                : Direction.None;
+                        }
                     }
                     else
                     {
                         var grid = _crozzleGenerator.Crozzle[Position.Height + j, Position.Width + i];
                         if (grid == null) continue;
-                        grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
-                            ? Direction.Horizontal
-                            : Direction.None;
+                        if (grid.HorizontalWord != null &&
+                            grid.VerticalWord == null &&
+                            grid.SpannableDirection == Direction.Vertical
+                            )
+                        {
+                            grid.SpannableDirection = Direction.Vertical;
+                        }
+                        else
+                        {
+                            grid.SpannableDirection = (grid.SpannableDirection == Direction.All ||
+                                                       grid.SpannableDirection == Direction.Horizontal)
+                                ? Direction.Horizontal
+                                : Direction.None;
+                        }
                     }
                 }
             }

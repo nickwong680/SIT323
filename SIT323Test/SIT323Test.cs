@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SIT323;
 using SIT323.Models;
@@ -220,6 +221,29 @@ namespace SIT323Test
     public class TestProject2
     {
         [TestMethod]
+        public void TestRegex()
+        {
+            var s = "EXAMPLE";
+            var regexPattern = string.Format(@"^\w{{0,5}}(P)\w{{0,4}}$");
+
+            var match = Regex.Match(s, regexPattern);
+            if (match.Success)
+            {
+                var tt = match.Groups[1].Index;
+            }
+
+//            var matchs = Regex.Matches(s, regexPattern);
+//            foreach (Match match in matchs)
+//                    {
+//                        if (match.Success)
+//                        {
+//                            var tt = match.Groups[1].Index;
+//                        }
+//                    }
+
+
+        }
+        [TestMethod]
         public void TestGenerator()
         {
             var wordlist = new Wordlist("Files/Ass2 - Test 1 - wordlist EASY.csv");
@@ -227,15 +251,12 @@ namespace SIT323Test
             CrozzleGenerator gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Easy);
 
 
-
             Word word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
             gen.PlaceWordsToGrid();
 
             List<Span> interectableWords = crozzle.InterectableWords();
 
-            Assert.IsTrue(interectableWords.Count == word.CharacterList.Count);
-            Assert.IsTrue(interectableWords.FirstOrDefault().PostCharacterPlaceable.Count == wordlist.Height - 1);
-
+   
             System.Diagnostics.Debug.WriteLine(crozzle.ToString());
 
 

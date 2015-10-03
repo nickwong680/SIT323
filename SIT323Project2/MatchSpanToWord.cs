@@ -1,40 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using SIT323.Models;
 using SIT323Project2.Models;
 
 namespace SIT323Project2
 {
     [Flags]
-    enum MatchType
+    internal enum MatchType
     {
-        Left,
-        Center,
-        Right,
-        Simple = Left | Center | Right,
+        PreMatch,
+        CenterMatch,
+        PostMatch,
+        Simple = PreMatch | CenterMatch | PostMatch
     }
-    class Match
+
+    internal class WordMatch
     {
-        private Span _span;
-        private Position _position;
-        private Word _word;
         private MatchType _matchType;
+        private Span _span;
+        private string _word;
+        private int _matchIndex;
+
+        public MatchType MatchType
+        {
+            get { return _matchType; }
+        }
+
+        public Span Span
+        {
+            get { return _span; }
+        }
+
+        public string Word
+        {
+            get { return _word; }
+        }
+
+        public int MatchIndex
+        {
+            get { return _matchIndex; }
+        }
+
+        public WordMatch(MatchType matchType, Span span, string word, int matchIndex)
+        {
+            _matchIndex = matchIndex;
+            _span = span;
+            _word = word;
+            _matchType = matchType;
+        }
     }
-    class MatchSpanToWord
+
+    internal class MatchSpanToWord
     {
-        private List<Span> _spans;
-        private List<string> _wordsNotAddedList;
         private int _maxWordLength;
+        private readonly List<Span> _spans;
+        private readonly List<string> _wordsNotAddedList;
 
         public MatchSpanToWord(List<Span> spans, List<string> wordsNotAddedList)
         {
             _spans = spans;
             _wordsNotAddedList = wordsNotAddedList;
             _maxWordLength = wordsNotAddedList.FirstOrDefault().Count();
-            SimpleMatches();
         }
 
         private void ComplexMatches()
@@ -44,37 +72,80 @@ namespace SIT323Project2
             //Center
 
             //Right
-
-
         }
 
-        private void SimpleMatches()
+        public List<WordMatch> Match()
         {
-            List<string> matches = new List<string>();
+            List<WordMatch> matches = new List<WordMatch>();
             foreach (Span span in _spans)
             {
-                if (span.PreCharacterPlaceable.Count == 0)
+                var simple = (String.Join("", span.PreCharacterPlaceable) + String.Join("", span.PostCharacterPlaceable)).Replace("\0","");
+                if (String.IsNullOrEmpty(simple))
                 {
-                    var tt = _wordsNotAddedList.Where(w => w.StartsWith(span.Character.ToString()));
-                }
-                else if (span.PostCharacterPlaceable.Count == 0)
-                {
-
+                    matches.AddRange(SimpleMatche(span));
                 }
                 else
                 {
-                    var tt = _wordsNotAddedList.Where(w => w.StartsWith(span.Character.ToString()));
-
+//ComplexMatches();
                 }
             }
-            //Left 
 
-            //Center
-
-            //Right
-
-
+            return matches;
         }
 
+        public List<WordMatch> SimpleMatche(Span span)
+        {
+            List<WordMatch> matches = new List<WordMatch>();
+
+            string regexPattern;
+            MatchType matchType;
+
+            if (span.PreCharacterPlaceable.Count == 0)
+            {
+//                    matches.AddRange(
+//                        _wordsNotAddedList.Where(w => 
+//                            w.StartsWith(span.Character.ToString()) && 
+//                            w.Length < maxLength));
+                regexPattern = string.Format(@"^({0})\w{{{1}}}$",
+                    span.Character,
+                    span.PreCharacterPlaceable.Count);
+                matchType = MatchType.PreMatch;
+            }
+            else if (span.PostCharacterPlaceable.Count == 0)
+            {
+                regexPattern = string.Format(@"^\w{{{0}}}({1})$",
+                    span.Character,
+                    span.PostCharacterPlaceable.Count);
+                matchType = MatchType.PostMatch;
+            }
+            else
+            {
+                regexPattern = string.Format(@"^\w{{0,{0}}}({1})\w{{0,{2}}}$",
+                    span.PreCharacterPlaceable.Count,
+                    span.Character,
+                    span.PostCharacterPlaceable.Count);
+                matchType = MatchType.CenterMatch;
+            }
+
+            Regex regex = new Regex(regexPattern);
+            foreach (string word in _wordsNotAddedList)
+            {
+                var wordMatch = regex.Match(word);
+                if (wordMatch.Success)
+                {
+                    matches.Add(new WordMatch(matchType, span, word, wordMatch.Groups[1].Index));
+                }
+
+//                    MatchCollection wordMatch = regex.Matches(word);
+//                    if (wordMatch.Count > 0)
+//                    {
+//                        foreach (Match m in wordMatch)
+//                        {
+//                            matches.Add(new WordMatch(matchType, span, word, m.Index));
+//                        }
+//                    }
+            }
+            return matches;
+        }
     }
 }
