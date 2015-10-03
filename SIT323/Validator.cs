@@ -290,22 +290,23 @@ namespace SIT323
             {
                 for (var j = 0; j < _crozzle[i].Length; j++)
                 {
+                    char c = _crozzle[i, j];
                     string message = null;
-                    switch (_crozzle[i, j])
+                    switch (c)
                     {
                         case '\t':
                             message =
                                 string.Format(
                                     "cell [{0},{1}] contains ({2}), it should only contain exactly 1 alphabetic character",
-                                    i, "tab", _crozzle[i, j]);
+                                    i, "tab", c);
                             break;
                         default:
-                            if (!char.IsLetter(_crozzle[i, j]) && !char.IsWhiteSpace(_crozzle[i, j]))
+                            if (!char.IsLetter(c) && !char.IsWhiteSpace(c) &&  c != '\0')
                             {
                                 message =
                                     string.Format(
                                         "cell [{0},{1}] contains ({2}), it should only contain exactly 1 alphabetic character",
-                                        i, j, _crozzle[i, j]);
+                                        i, j, c);
                             }
                             break;
                     }

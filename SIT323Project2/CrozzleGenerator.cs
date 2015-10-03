@@ -53,6 +53,7 @@ namespace SIT323Project2
             }
             return words;
         }
+
         /// <summary>
         /// Start by placing first word (the most longest word) to center of the crozzle
         /// 
@@ -97,16 +98,17 @@ namespace SIT323Project2
                     pos.Width -= matched.MatchIndex;
                 }
 
+                if (word.ToString() == "LET")
+                {
+                    break;
+                }
                 Adder = new AddWordToGrid(this, word, pos);
                 WordsNotAddedList.Remove(word.ToString());
-
-
 
                 Console.WriteLine(String.Join(",", Crozzle.Wordlist));
                 Console.WriteLine(Crozzle.ToString());
 
                 if (Crozzle.Wordlist.Count > 20) break;
-
             } while (true);
 
             Console.WriteLine(Crozzle.ToString());
@@ -114,8 +116,8 @@ namespace SIT323Project2
 
         private void Add(Word word, WordMatch match)
         {
-            Adder = new AddWordToGrid(this, word, (_wordlist.Height / 2),
-    (_wordlist.Width / 2) - (word.CharacterList.Count / 2));
+            Adder = new AddWordToGrid(this, word, (_wordlist.Height/2),
+                (_wordlist.Width/2) - (word.CharacterList.Count/2));
             Crozzle.Wordlist.Add(word);
             WordsNotAddedList.Remove(word.ToString());
         }

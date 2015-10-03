@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SIT323;
 using SIT323.Models;
 
@@ -10,8 +7,30 @@ namespace SIT323Project2.Models
 {
     public class CrozzleProject2
     {
+        private readonly Grid[][] _crozzleArrayOfGrid;
         private readonly List<Word> _wordlist;
-        private readonly Grid[][] _crozzleArray;
+        private int _height;
+
+        private int _width;
+
+        public CrozzleProject2(Wordlist wordlist)
+        {
+            //_wordlist = new List<string>(wordlist.WordList.OrderByDescending(w => w.Count()));
+            _wordlist = new List<Word>();
+            _width = wordlist.Width;
+            _height = wordlist.Height;
+
+            _crozzleArrayOfGrid = new Grid[wordlist.Height][];
+            for (var i = 0; i < wordlist.Height; i++)
+            {
+                _crozzleArrayOfGrid[i] = new Grid[wordlist.Width];
+                for (var j = 0; j < _crozzleArrayOfGrid[i].Length; j++)
+                {
+                    _crozzleArrayOfGrid[i][j] = new Grid {Position = new Position {Height = i, Width = j}};
+                }
+            }
+        }
+
 
         public Grid this[int w, int h]
         {
@@ -20,7 +39,7 @@ namespace SIT323Project2.Models
                 Grid c;
                 try
                 {
-                    c = _crozzleArray[w][h];
+                    c = _crozzleArrayOfGrid[w][h];
                 }
                 catch (IndexOutOfRangeException e)
                 {
@@ -36,43 +55,38 @@ namespace SIT323Project2.Models
             get { return _wordlist; }
         }
 
-        private int _width;
-        private int _height;
-
-        public CrozzleProject2(Wordlist wordlist)
+        public char[][] CrozzleArrayOfChar()
         {
-            //_wordlist = new List<string>(wordlist.WordList.OrderByDescending(w => w.Count()));
-            _wordlist = new List<Word>();
-            _width = wordlist.Width;
-            _height = wordlist.Height;
-
-            _crozzleArray = new Grid[wordlist.Height][];
-            for (int i = 0; i < wordlist.Height; i++)
+            var outArrayOfChar = new char[_crozzleArrayOfGrid.Length][];
+            for (var i = 0; i < _crozzleArrayOfGrid.Length; i++)
             {
-                _crozzleArray[i] = new Grid[wordlist.Width];
-                for (int j = 0; j < _crozzleArray[i].Length; j++)
+                outArrayOfChar[i] = new char[_crozzleArrayOfGrid[i].Length];
+                for (var j = 0; j < _crozzleArrayOfGrid[i].Length; j++)
                 {
-                    _crozzleArray[i][j] = new Grid(){Position = new Position(){Height = i, Width = j}};
+                    char c = (_crozzleArrayOfGrid[i][j].Character == default(char)) ? default(char) : _crozzleArrayOfGrid[i][j].Character;
+                    outArrayOfChar[i][j] = _crozzleArrayOfGrid[i][j].Character;
                 }
             }
+            return outArrayOfChar;
         }
+
         /// <summary>
-        /// Pending refactoring
+        ///     Pending refactoring
         /// </summary>
         /// <returns></returns>
         public List<Span> InterectableWords()
         {
-            List<Span> spans = new List<Span>();
-            for (int i = 0; i < _crozzleArray.Length; i++)
+            var spans = new List<Span>();
+            for (var i = 0; i < _crozzleArrayOfGrid.Length; i++)
             {
-                for (int j = 0; j < _crozzleArray[i].Length; j++)
+                for (var j = 0; j < _crozzleArrayOfGrid[i].Length; j++)
                 {
-                    Grid grid = this[i,j];
-                    Direction direction = grid.SpannableDirection;
+                    var grid = this[i, j];
+                    var direction = grid.SpannableDirection;
                     if (direction == Direction.None) continue;
 
-                    List<char> preCharacterPlaceable = new List<char>();
-                    List<char> postCharacterPlaceable = new List<char>();
+                    var preCharacterPlaceable = new List<char>();
+                    var postCharacterPlaceable = new List<char>();
 
                     if (grid.Character != '\0')
                     {
@@ -81,15 +95,15 @@ namespace SIT323Project2.Models
                             var tt = 0;
                         }
 
-                        bool exit = false;
-                        int back = (direction == Direction.Vertical) ? i - 1 : j - 1;
-                        int next = (direction == Direction.Vertical) ? i + 1 : j + 1;
+                        var exit = false;
+                        var back = (direction == Direction.Vertical) ? i - 1 : j - 1;
+                        var next = (direction == Direction.Vertical) ? i + 1 : j + 1;
 
                         if (direction == Direction.Vertical)
                         {
                             while (!exit)
                             {
-                                Grid nextGrid = this[next,j];
+                                var nextGrid = this[next, j];
                                 if (nextGrid == null) break;
                                 switch (nextGrid.SpannableDirection)
                                 {
@@ -106,9 +120,9 @@ namespace SIT323Project2.Models
                             exit = false;
                             while (!exit)
                             {
-                                Grid nextGrid = this[back,j];
+                                var nextGrid = this[back, j];
                                 if (nextGrid == null) break;
-                                switch (this[back,j].SpannableDirection)
+                                switch (this[back, j].SpannableDirection)
                                 {
                                     case Direction.Vertical:
                                     case Direction.All:
@@ -125,9 +139,9 @@ namespace SIT323Project2.Models
                         {
                             while (!exit)
                             {
-                                Grid nextGrid = this[i,next];
+                                var nextGrid = this[i, next];
                                 if (nextGrid == null) break;
-                                switch (this[i,next].SpannableDirection)
+                                switch (this[i, next].SpannableDirection)
                                 {
                                     case Direction.Horizontal:
                                     case Direction.All:
@@ -142,13 +156,13 @@ namespace SIT323Project2.Models
                             exit = false;
                             while (!exit)
                             {
-                                Grid nextGrid = this[i,back];
+                                var nextGrid = this[i, back];
                                 if (nextGrid == null) break;
-                                switch (this[i,back].SpannableDirection)
+                                switch (this[i, back].SpannableDirection)
                                 {
                                     case Direction.Horizontal:
                                     case Direction.All:
-                                        preCharacterPlaceable.Add(this[i,back].Character);
+                                        preCharacterPlaceable.Add(this[i, back].Character);
                                         break;
                                     default:
                                         exit = true;
@@ -160,13 +174,13 @@ namespace SIT323Project2.Models
 
                         if (postCharacterPlaceable.Count + preCharacterPlaceable.Count > 0)
                         {
-                            Span span = new Span()
+                            var span = new Span
                             {
                                 Character = grid.Character,
                                 Direction = grid.SpannableDirection,
-                                Position = new Position() { Height = i, Width = j, },
+                                Position = new Position {Height = i, Width = j},
                                 PostCharacterPlaceable = postCharacterPlaceable,
-                                PreCharacterPlaceable = preCharacterPlaceable,
+                                PreCharacterPlaceable = preCharacterPlaceable
                             };
                             spans.Add(span);
                         }
@@ -175,14 +189,32 @@ namespace SIT323Project2.Models
             }
             return spans;
         }
+
+        public string PrintCharacter()
+        {
+            var outString = string.Empty;
+            foreach (var rows in _crozzleArrayOfGrid)
+            {
+                foreach (var grid in rows)
+                {
+                    if (grid.Character != default(char))
+                    {
+                        outString += grid.Character;
+                    }
+                }
+                outString += Environment.NewLine;
+            }
+            return outString;
+        }
+
         public override string ToString()
         {
-            string outString = string.Empty;
-            foreach (Grid[] rows in _crozzleArray)
+            var outString = string.Empty;
+            foreach (var rows in _crozzleArrayOfGrid)
             {
-                foreach (Grid grid in rows)
+                foreach (var grid in rows)
                 {
-                    if (grid.Character == '\0')
+                    if (grid.Character == default(char))
                     {
                         switch (grid.SpannableDirection)
                         {
@@ -207,19 +239,18 @@ namespace SIT323Project2.Models
                 }
                 outString += Environment.NewLine;
             }
-
             outString += Environment.NewLine;
             outString += PrintDirection();
 
             return outString;
         }
 
-        private string PrintDirection()
+        public string PrintDirection()
         {
-            string outString = string.Empty;
-            foreach (Grid[] rows in _crozzleArray)
+            var outString = string.Empty;
+            foreach (var rows in _crozzleArrayOfGrid)
             {
-                foreach (Grid grid in rows)
+                foreach (var grid in rows)
                 {
                     switch (grid.SpannableDirection)
                     {

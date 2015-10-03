@@ -13,7 +13,11 @@ namespace SIT323Project2
         PreMatch,
         CenterMatch,
         PostMatch,
-        Simple = PreMatch | CenterMatch | PostMatch
+        PreComplexMatch,
+        CenterComplexMatch,
+        PostComplexMatch,
+        Simple = PreMatch | CenterMatch | PostMatch,
+        Complex = PreComplexMatch | CenterComplexMatch | PostComplexMatch
     }
 
     internal class WordMatch
@@ -22,6 +26,13 @@ namespace SIT323Project2
         private Span _span;
         private string _word;
         private int _matchIndex;
+        private string _regexMatched;
+
+
+        public string RegexMatched
+        {
+            get { return _regexMatched; }
+        }
 
         public MatchType MatchType
         {
@@ -43,12 +54,13 @@ namespace SIT323Project2
             get { return _matchIndex; }
         }
 
-        public WordMatch(MatchType matchType, Span span, string word, int matchIndex)
+        public WordMatch(MatchType matchType, Span span, string word, int matchIndex, string regexMatched)
         {
             _matchIndex = matchIndex;
             _span = span;
             _word = word;
             _matchType = matchType;
+            _regexMatched = regexMatched;
         }
     }
 
@@ -70,7 +82,7 @@ namespace SIT323Project2
             List<WordMatch> matches = new List<WordMatch>();
             foreach (Span span in _spans)
             {
-                if (span.Character.ToString() == "DASH")
+                if (span.Character.ToString() == "LET")
                 {
                     var tt = 3;
                 }
@@ -78,33 +90,87 @@ namespace SIT323Project2
                 var simple =
                     (String.Join("", span.PreCharacterPlaceable) + String.Join("", span.PostCharacterPlaceable)).Replace
                         ("\0", "");
-                if (String.IsNullOrEmpty(simple))
+                if (!String.IsNullOrEmpty(simple))
                 {
-                    matches.AddRange(SimpleMatche(span));
+                    matches.AddRange(ComplexMatches(span));
                 }
                 else
                 {
-                    matches.AddRange(ComplexMatches(span));
+                    matches.AddRange(SimpleMatch(span));
                 }
             }
 
             return matches;
         }
 
+        private List<string> _ComplexMatchRegexStringBuilder(List<Char> placeable)
+        {
+            List<string> strList = new List<string>();
+
+            bool beginWithSpace = true;
+            foreach (char c in placeable)
+            {
+                if (beginWithSpace == true && c == default(char))
+                {
+                    strList.Add(@"\w?");
+                }
+                else
+                {
+                    beginWithSpace = false;
+                    strList.Add((c == '\0') ? @"\w" : c.ToString());
+                }
+            }
+            return strList;
+        }
+
         private List<WordMatch> ComplexMatches(Span span)
         {
-            List<WordMatch> matches = new List<WordMatch>();
-
-            string regexPattern;
+            string regexPattern = "^";
             MatchType matchType;
+            if (span.PreCharacterPlaceable.Count != 0 && span.PostCharacterPlaceable.Count != 0)
+            {
+                regexPattern += String.Join("", _ComplexMatchRegexStringBuilder(span.PreCharacterPlaceable));
 
+                regexPattern += span.Character;
+
+                var reversedCopy = new List<char>(span.PostCharacterPlaceable);
+                reversedCopy.Reverse();
+                var reversedCopyBuilded = _ComplexMatchRegexStringBuilder(reversedCopy);
+                reversedCopyBuilded.Reverse();
+                var reversedString = String.Join("", reversedCopyBuilded);
+                regexPattern += reversedString;
+
+                matchType = MatchType.CenterComplexMatch;
+
+            }
+            else if (span.PreCharacterPlaceable.Count != 0)
+            {
+                regexPattern += String.Join("", _ComplexMatchRegexStringBuilder(span.PreCharacterPlaceable));
+                regexPattern += span.Character;
+                
+                matchType = MatchType.PreComplexMatch;
+            }
+            else
+            {
+                regexPattern += span.Character;
+
+                var reversedCopy = new List<char>(span.PostCharacterPlaceable);
+                reversedCopy.Reverse();
+                var reversedCopyBuilded = _ComplexMatchRegexStringBuilder(reversedCopy);
+                reversedCopyBuilded.Reverse();
+                var reversedString = String.Join("", reversedCopyBuilded);
+                regexPattern += reversedString;
+
+                matchType = MatchType.PostComplexMatch;
+            }
+            regexPattern += "$";
+            return MatchRegex(span, regexPattern, matchType);
+            
 
         }
 
-        public List<WordMatch> SimpleMatche(Span span)
+        public List<WordMatch> SimpleMatch(Span span)
         {
-            List<WordMatch> matches = new List<WordMatch>();
-
             string regexPattern;
             MatchType matchType;
 
@@ -135,6 +201,12 @@ namespace SIT323Project2
                 matchType = MatchType.PostMatch;
             }
 
+            return MatchRegex(span, regexPattern, matchType);
+        }
+
+        public List<WordMatch> MatchRegex(Span span, string regexPattern, MatchType matchType)
+        {
+            List<WordMatch> matchList = new List<WordMatch>();
 
             Regex regex = new Regex(regexPattern);
             foreach (string word in _wordsNotAddedList)
@@ -142,19 +214,10 @@ namespace SIT323Project2
                 var wordMatch = regex.Match(word);
                 if (wordMatch.Success)
                 {
-                    matches.Add(new WordMatch(matchType, span, word, wordMatch.Groups[1].Index));
+                    matchList.Add(new WordMatch(matchType, span, word, wordMatch.Groups[1].Index, regexPattern));
                 }
-
-//                    MatchCollection wordMatch = regex.Matches(word);
-//                    if (wordMatch.Count > 0)
-//                    {
-//                        foreach (Match m in wordMatch)
-//                        {
-//                            matches.Add(new WordMatch(matchType, span, word, m.Index));
-//                        }
-//                    }
             }
-            return matches;
+            return matchList;
         }
     }
 }

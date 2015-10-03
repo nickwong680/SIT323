@@ -26,13 +26,38 @@ namespace SIT323.Models
         {
             _wordlist = wordlist;
             _crozzleArray = ReadCrozzleFromFile(fileName);
+
+            Init();
+
+//            Width = _crozzleArray.Length;
+//            Height = _crozzleArray[0].Length;
+//
+//            LogList = new List<LogMessage>();
+//            LogList.AddRange(new CrozzleValidator(this)
+//                .AreCellsSizeCorrectAccordingToHeader(wordlist.Width, wordlist.Height)
+//                .AreCellsSizeCorrectAccordingToRequirement(wordlist.Width, wordlist.Height)
+//                .AreCellsValidAlphabet()
+//                .LogList
+//                );
+        }
+
+        public Crozzle(char[][] generatedCrozzle, Wordlist wordlist)
+        {
+            _wordlist = wordlist;
+            _crozzleArray = generatedCrozzle;
+
+            Init();
+        }
+
+        private void Init()
+        {
             Width = _crozzleArray.Length;
             Height = _crozzleArray[0].Length;
 
             LogList = new List<LogMessage>();
             LogList.AddRange(new CrozzleValidator(this)
-                .AreCellsSizeCorrectAccordingToHeader(wordlist.Width, wordlist.Height)
-                .AreCellsSizeCorrectAccordingToRequirement(wordlist.Width, wordlist.Height)
+                .AreCellsSizeCorrectAccordingToHeader(_wordlist.Height, _wordlist.Width)
+                .AreCellsSizeCorrectAccordingToRequirement(_wordlist.Height, _wordlist.Width)
                 .AreCellsValidAlphabet()
                 .LogList
                 );

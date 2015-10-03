@@ -159,7 +159,7 @@ namespace SIT323
                 }
                 return word;
             }
-            if (char.IsLetter(current.Alphabetic) && char.IsWhiteSpace(next))
+            if (char.IsLetter(current.Alphabetic) && (char.IsWhiteSpace(next) || next == default (char)))
             {
                 if (word == null) return null;
                 Character lastCharacter = word.CharacterList.LastOrDefault();

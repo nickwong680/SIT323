@@ -48,7 +48,7 @@ namespace SIT323Project2
                         case Direction.All:
                             return false;
                     }
-                    if (grid.Character != '\0' && grid.Character != Word.CharacterList[i].Alphabetic)
+                    if (grid.Character != default(char) && grid.Character != Word.CharacterList[i].Alphabetic)
                     {
                         return false;
                     }
@@ -89,9 +89,17 @@ namespace SIT323Project2
                     grid.Character = Word.CharacterList[i].Alphabetic;
                     Word.CharacterList[i].Position = new Position {Height = span, Width = Position.Width};
                     grid.VerticalWord = Word;
-                    grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
+                    if (grid.HorizontalWord == null && grid.SpannableDirection == Direction.Vertical)
+                    {
+                        grid.SpannableDirection = Direction.Horizontal;
+                    }
+                    else
+                    {
+                       grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
                         ? Direction.Horizontal
                         : Direction.None;
+                    
+                    }
                     span++;
                 }
             }
@@ -104,9 +112,16 @@ namespace SIT323Project2
                     grid.Character = Word.CharacterList[i].Alphabetic;
                     Word.CharacterList[i].Position = new Position {Height = Position.Height, Width = span};
                     grid.HorizontalWord = Word;
-                    grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
-                        ? Direction.Vertical
-                        : Direction.None;
+                    if (grid.VerticalWord == null && grid.SpannableDirection == Direction.Horizontal)
+                    {
+                        grid.SpannableDirection = Direction.Vertical;
+                    }
+                    else
+                    {
+                        grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
+                            ? Direction.Vertical
+                            : Direction.None;
+                    }
                     span++;
                 }
             }
@@ -162,6 +177,12 @@ namespace SIT323Project2
                     {
                         var grid = _crozzleGenerator.Crozzle[Position.Height + i, Position.Width + j];
                         if (grid == null) continue;
+
+//                        grid.SpannableDirection = (grid.SpannableDirection == Direction.All ||
+//                           grid.SpannableDirection == Direction.Vertical)
+//                           ? Direction.Vertical
+//                           : Direction.None;
+
                         if (grid.VerticalWord != null && 
                             grid.HorizontalWord == null &&
                             grid.SpannableDirection == Direction.Horizontal
@@ -181,6 +202,11 @@ namespace SIT323Project2
                     {
                         var grid = _crozzleGenerator.Crozzle[Position.Height + j, Position.Width + i];
                         if (grid == null) continue;
+//                        grid.SpannableDirection = (grid.SpannableDirection == Direction.All ||
+//                           grid.SpannableDirection == Direction.Horizontal)
+//                           ? Direction.Horizontal
+//                           : Direction.None;
+
                         if (grid.HorizontalWord != null &&
                             grid.VerticalWord == null &&
                             grid.SpannableDirection == Direction.Vertical
@@ -206,12 +232,12 @@ namespace SIT323Project2
             {
                 case Difficulty.Easy:
                     UpdateHeadAndTailGrid();
-                    UpdateSurroundedGrids();
                     break;
                 case Difficulty.Medium:
                 case Difficulty.Hard:
                 case Difficulty.Extreme:
                     UpdateHeadAndTailGrid();
+                    UpdateSurroundedGrids();
                     break;
             }
         }

@@ -113,7 +113,6 @@ namespace SIT323Test
             var crozzle = new Crozzle("Files/Test 8 - crozzle.txt", wordlist);
             Assert.IsTrue(crozzle.LogList.Count == 12);
         }
-
     }
 
     [TestClass]
@@ -223,6 +222,8 @@ namespace SIT323Test
         [TestMethod]
         public void TestRegex()
         {
+            char ttt = default(char);
+
             var s = "EXAMPLE";
             var regexPattern = string.Format(@"^\w{{0,5}}(P)\w{{0,4}}$");
 
@@ -244,22 +245,55 @@ namespace SIT323Test
 
         }
         [TestMethod]
+        public void TestGridPlacement()
+        {
+            var wordlist = new Wordlist("Files/Ass2 - Test 4 - wordlist EXTREME.csv");
+            var crozzle = new CrozzleProject2(wordlist);
+            CrozzleGenerator gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Extreme);
+
+            Word word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
+            Word word2 = new Word(Direction.Horizontal, wordlist.WordList[2]);
+            Word word3 = new Word(Direction.Horizontal, wordlist.WordList[3]);
+
+            var Adder = new AddWordToGrid(gen, word, 0,0);
+            var addd = new AddWordToGrid(gen, word2, 2, 0);
+            var adddd = new AddWordToGrid(gen, word3, 4, 0);
+
+            System.Diagnostics.Debug.WriteLine(crozzle.ToString());
+        }
+        [TestMethod]
+        public void TestExtremeScore()
+        {
+            var wordlist = new Wordlist("Files/Ass2 - Test 4 - wordlist EXTREME.csv");
+            var crozzle = new CrozzleProject2(wordlist);
+            CrozzleGenerator gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Extreme);
+
+            Word word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
+            gen.PlaceWordsToGrid();
+
+            var tt = crozzle.CrozzleArrayOfChar();
+
+            var crozzleExt = new Crozzle(crozzle.CrozzleArrayOfChar(), wordlist);
+            Assert.IsTrue(crozzleExt.LogList.Count == 0);
+            var constraintsExtreme = new ExtremeConstraints(crozzleExt, wordlist);
+            Assert.IsTrue(constraintsExtreme.LogList.Count == 0);
+            var score4 = Score.PointsFactory(constraintsExtreme.WordsFromCrozzle, PointScheme.CustomWithBonusPerIntersection).TotalScore;
+
+
+            System.Diagnostics.Debug.WriteLine(crozzle.ToString());
+        }
+
+        [TestMethod]
         public void TestGenerator()
         {
             var wordlist = new Wordlist("Files/Ass2 - Test 1 - wordlist EASY.csv");
             var crozzle = new CrozzleProject2(wordlist);
             CrozzleGenerator gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Easy);
 
-
             Word word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
             gen.PlaceWordsToGrid();
 
-            List<Span> interectableWords = crozzle.InterectableWords();
-
-   
             System.Diagnostics.Debug.WriteLine(crozzle.ToString());
-
-
         }
         [TestMethod]
         public void TestSpanableAfterAddWordToGrid()
