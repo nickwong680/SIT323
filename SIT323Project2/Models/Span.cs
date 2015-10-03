@@ -16,6 +16,7 @@ namespace SIT323Project2.Models
         private Position _position;
 
 
+
         public Direction Direction
         {
             get { return _direction; }

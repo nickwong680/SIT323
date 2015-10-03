@@ -13,6 +13,13 @@ namespace SIT323Project2.Models
         private Word _horizontalWord;
         private Word _verticalWord;
         private char _character;
+        private Position _position;
+
+        public Position Position
+        {
+            get { return _position; }
+            set { _position = value; }
+        }
 
         public Direction SpannableDirection
         {

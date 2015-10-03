@@ -70,6 +70,11 @@ namespace SIT323Project2
 
             do
             {
+                if (Crozzle.Wordlist.LastOrDefault().ToString() == "EXPORT")
+                {
+                    int tt = 0;
+                }
+
                 List<Span> spans = Crozzle.InterectableWords();
                 var match = new MatchSpanToWord(spans, WordsNotAddedList);
                 List<WordMatch> matches = match.Match();
@@ -100,7 +105,7 @@ namespace SIT323Project2
                 Console.WriteLine(String.Join(",", Crozzle.Wordlist));
                 Console.WriteLine(Crozzle.ToString());
 
-                if (Crozzle.Wordlist.Count > 10) break;
+                if (Crozzle.Wordlist.Count > 20) break;
 
             } while (true);
 

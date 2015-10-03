@@ -65,32 +65,40 @@ namespace SIT323Project2
             _maxWordLength = wordsNotAddedList.FirstOrDefault().Count();
         }
 
-        private void ComplexMatches()
-        {
-            //Left 
-
-            //Center
-
-            //Right
-        }
-
         public List<WordMatch> Match()
         {
             List<WordMatch> matches = new List<WordMatch>();
             foreach (Span span in _spans)
             {
-                var simple = (String.Join("", span.PreCharacterPlaceable) + String.Join("", span.PostCharacterPlaceable)).Replace("\0","");
+                if (span.Character.ToString() == "DASH")
+                {
+                    var tt = 3;
+                }
+
+                var simple =
+                    (String.Join("", span.PreCharacterPlaceable) + String.Join("", span.PostCharacterPlaceable)).Replace
+                        ("\0", "");
                 if (String.IsNullOrEmpty(simple))
                 {
                     matches.AddRange(SimpleMatche(span));
                 }
                 else
                 {
-//ComplexMatches();
+                    matches.AddRange(ComplexMatches(span));
                 }
             }
 
             return matches;
+        }
+
+        private List<WordMatch> ComplexMatches(Span span)
+        {
+            List<WordMatch> matches = new List<WordMatch>();
+
+            string regexPattern;
+            MatchType matchType;
+
+
         }
 
         public List<WordMatch> SimpleMatche(Span span)
@@ -100,25 +108,7 @@ namespace SIT323Project2
             string regexPattern;
             MatchType matchType;
 
-            if (span.PreCharacterPlaceable.Count == 0)
-            {
-//                    matches.AddRange(
-//                        _wordsNotAddedList.Where(w => 
-//                            w.StartsWith(span.Character.ToString()) && 
-//                            w.Length < maxLength));
-                regexPattern = string.Format(@"^({0})\w{{{1}}}$",
-                    span.Character,
-                    span.PreCharacterPlaceable.Count);
-                matchType = MatchType.PreMatch;
-            }
-            else if (span.PostCharacterPlaceable.Count == 0)
-            {
-                regexPattern = string.Format(@"^\w{{{0}}}({1})$",
-                    span.Character,
-                    span.PostCharacterPlaceable.Count);
-                matchType = MatchType.PostMatch;
-            }
-            else
+            if (span.PreCharacterPlaceable.Count != 0 && span.PostCharacterPlaceable.Count != 0)
             {
                 regexPattern = string.Format(@"^\w{{0,{0}}}({1})\w{{0,{2}}}$",
                     span.PreCharacterPlaceable.Count,
@@ -126,6 +116,25 @@ namespace SIT323Project2
                     span.PostCharacterPlaceable.Count);
                 matchType = MatchType.CenterMatch;
             }
+            else if (span.PreCharacterPlaceable.Count != 0)
+            {
+//                    matches.AddRange(
+//                        _wordsNotAddedList.Where(w => 
+//                            w.StartsWith(span.Character.ToString()) && 
+//                            w.Length < maxLength));
+                regexPattern = string.Format(@"^\w{{0,{0}}}({1})$",
+                    span.PreCharacterPlaceable.Count,
+                    span.Character);
+                matchType = MatchType.PreMatch;
+            }
+            else
+            {
+                regexPattern = string.Format(@"^({0})\w{{0,{1}}}$",
+                    span.Character,
+                    span.PostCharacterPlaceable.Count);
+                matchType = MatchType.PostMatch;
+            }
+
 
             Regex regex = new Regex(regexPattern);
             foreach (string word in _wordsNotAddedList)

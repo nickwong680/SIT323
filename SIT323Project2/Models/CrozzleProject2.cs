@@ -52,7 +52,7 @@ namespace SIT323Project2.Models
                 _crozzleArray[i] = new Grid[wordlist.Width];
                 for (int j = 0; j < _crozzleArray[i].Length; j++)
                 {
-                    _crozzleArray[i][j] = new Grid();
+                    _crozzleArray[i][j] = new Grid(){Position = new Position(){Height = i, Width = j}};
                 }
             }
         }
@@ -76,9 +76,14 @@ namespace SIT323Project2.Models
 
                     if (grid.Character != '\0')
                     {
+                        if (grid.Character == 'P' && i == 3 && j == 11)
+                        {
+                            var tt = 0;
+                        }
+
                         bool exit = false;
-                        int back = i - 1;
-                        int next = i + 1;
+                        int back = (direction == Direction.Vertical) ? i - 1 : j - 1;
+                        int next = (direction == Direction.Vertical) ? i + 1 : j + 1;
 
                         if (direction == Direction.Vertical)
                         {
@@ -116,7 +121,7 @@ namespace SIT323Project2.Models
                                 back--;
                             }
                         }
-                        else
+                        else if (direction == Direction.Horizontal)
                         {
                             while (!exit)
                             {
@@ -141,7 +146,7 @@ namespace SIT323Project2.Models
                                 if (nextGrid == null) break;
                                 switch (this[i,back].SpannableDirection)
                                 {
-                                    case Direction.Vertical:
+                                    case Direction.Horizontal:
                                     case Direction.All:
                                         preCharacterPlaceable.Add(this[i,back].Character);
                                         break;
@@ -152,15 +157,19 @@ namespace SIT323Project2.Models
                                 back--;
                             }
                         }
-                        Span span = new Span()
+
+                        if (postCharacterPlaceable.Count + preCharacterPlaceable.Count > 0)
                         {
-                            Character = grid.Character,
-                            Direction = grid.SpannableDirection,
-                            Position = new Position() { Height = i, Width = j, },
-                            PostCharacterPlaceable = postCharacterPlaceable,
-                            PreCharacterPlaceable = preCharacterPlaceable,
-                        };
-                        spans.Add(span);
+                            Span span = new Span()
+                            {
+                                Character = grid.Character,
+                                Direction = grid.SpannableDirection,
+                                Position = new Position() { Height = i, Width = j, },
+                                PostCharacterPlaceable = postCharacterPlaceable,
+                                PreCharacterPlaceable = preCharacterPlaceable,
+                            };
+                            spans.Add(span);
+                        }
                     }
                 }
             }
