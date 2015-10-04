@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Timers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SIT323;
 using SIT323.Models;
@@ -219,6 +220,22 @@ namespace SIT323Test
     [TestClass]
     public class TestProject2
     {
+        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Time is up");
+        }
+
+        [TestMethod]
+        public void TestTimer()
+        {
+            System.Timers.Timer aTimer = new System.Timers.Timer();
+            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            aTimer.Interval = 5000;
+            aTimer.Enabled = true;
+
+            while (Console.Read() != 'q') ;
+
+        }
         [TestMethod]
         public void TestRegex()
         {
@@ -264,23 +281,31 @@ namespace SIT323Test
         [TestMethod]
         public void TestExtremeScore()
         {
-            var wordlist = new Wordlist("Files/Ass2 - Test 4 - wordlist EXTREME.csv");
-            var crozzle = new CrozzleProject2(wordlist);
-            CrozzleGenerator gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Extreme);
+            int highScore = 0;
+            do
+            {
+                var wordlist = new Wordlist("Files/Ass2 - Test 4 - wordlist EXTREME.csv");
+                var crozzle = new CrozzleProject2(wordlist);
+                CrozzleGenerator gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Extreme);
 
-            Word word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
-            gen.PlaceWordsToGrid();
+                Word word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
+                gen.PlaceWordsToGrid();
 
-            var tt = crozzle.CrozzleArrayOfChar();
+                var tt = crozzle.CrozzleArrayOfChar();
 
-            var crozzleExt = new Crozzle(crozzle.CrozzleArrayOfChar(), wordlist);
-            Assert.IsTrue(crozzleExt.LogList.Count == 0);
-            var constraintsExtreme = new ExtremeConstraints(crozzleExt, wordlist);
-            Assert.IsTrue(constraintsExtreme.LogList.Count == 0);
-            var score4 = Score.PointsFactory(constraintsExtreme.WordsFromCrozzle, PointScheme.CustomWithBonusPerIntersection).TotalScore;
+                var crozzleExt = new Crozzle(crozzle.CrozzleArrayOfChar(), wordlist);
+                Assert.IsTrue(crozzleExt.LogList.Count == 0);
+                var constraintsExtreme = new ExtremeConstraints(crozzleExt, wordlist);
+                Assert.IsTrue(constraintsExtreme.LogList.Count == 0);
+                var score = Score.PointsFactory(constraintsExtreme.WordsFromCrozzle, PointScheme.CustomWithBonusPerIntersection).TotalScore;
 
+                if (score > highScore)
+                {
+                    highScore = score;
+                }
+                System.Diagnostics.Debug.WriteLine(crozzle.ToString());
+            } while (true);
 
-            System.Diagnostics.Debug.WriteLine(crozzle.ToString());
         }
 
         [TestMethod]

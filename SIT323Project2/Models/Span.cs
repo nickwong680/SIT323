@@ -11,8 +11,8 @@ namespace SIT323Project2.Models
     {
         private Direction _direction;
         private Character _character;
-        private List<char> _preCharacterPlaceable;
-        private List<char> _postCharacterPlaceable;
+        private List<Character> _preCharacterPlaceable;
+        private List<Character> _postCharacterPlaceable;
         private Position _position;
 
 
@@ -35,13 +35,13 @@ namespace SIT323Project2.Models
             set { _position = value; }
         }
 
-        public List<char> PreCharacterPlaceable
+        public List<Character> PreCharacterPlaceable
         {
             get { return _preCharacterPlaceable; }
             set { _preCharacterPlaceable = value; }
         }
 
-        public List<char> PostCharacterPlaceable
+        public List<Character> PostCharacterPlaceable
         {
             get { return _postCharacterPlaceable; }
             set { _postCharacterPlaceable = value; }

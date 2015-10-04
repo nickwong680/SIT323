@@ -85,8 +85,8 @@ namespace SIT323Project2.Models
                     var direction = grid.SpannableDirection;
                     if (direction == Direction.None) continue;
 
-                    var preCharacterPlaceable = new List<char>();
-                    var postCharacterPlaceable = new List<char>();
+                    var preCharacterPlaceable = new List<Character>();
+                    var postCharacterPlaceable = new List<Character>();
 
                     if (!grid.IsCharacterNullOrSpaced())
                     {
@@ -109,7 +109,7 @@ namespace SIT323Project2.Models
                                 {
                                     case Direction.Vertical:
                                     case Direction.All:
-                                        postCharacterPlaceable.Add(nextGrid.Character.Alphabetic);
+                                        postCharacterPlaceable.Add(nextGrid.Character);
                                         break;
                                     default:
                                         exit = true;
@@ -126,7 +126,7 @@ namespace SIT323Project2.Models
                                 {
                                     case Direction.Vertical:
                                     case Direction.All:
-                                        preCharacterPlaceable.Add(this[back, j].Character.Alphabetic);
+                                        preCharacterPlaceable.Add(this[back, j].Character);
                                         break;
                                     default:
                                         exit = true;
@@ -145,7 +145,7 @@ namespace SIT323Project2.Models
                                 {
                                     case Direction.Horizontal:
                                     case Direction.All:
-                                        postCharacterPlaceable.Add(this[i, next].Character.Alphabetic);
+                                        postCharacterPlaceable.Add(this[i, next].Character);
                                         break;
                                     default:
                                         exit = true;
@@ -162,7 +162,7 @@ namespace SIT323Project2.Models
                                 {
                                     case Direction.Horizontal:
                                     case Direction.All:
-                                        preCharacterPlaceable.Add(this[i, back].Character.Alphabetic);
+                                        preCharacterPlaceable.Add(this[i, back].Character);
                                         break;
                                     default:
                                         exit = true;

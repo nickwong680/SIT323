@@ -11,6 +11,14 @@ namespace SIT323.Models
     /// </summary>
     public class Word
     {
+        public Word(string character)
+            : this(Direction.None)
+        {
+            foreach (char c in character)
+            {
+                CharacterList.Add(new Character(c));
+            }
+        } 
         /// <summary>
         ///     Default constructor
         /// </summary>

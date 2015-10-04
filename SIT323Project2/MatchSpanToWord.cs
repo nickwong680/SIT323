@@ -27,7 +27,12 @@ namespace SIT323Project2
         private string _word;
         private int _matchIndex;
         private string _regexMatched;
+        private int _point;
 
+        public int Point
+        {
+            get { return _point; }
+        }
 
         public string RegexMatched
         {
@@ -54,13 +59,14 @@ namespace SIT323Project2
             get { return _matchIndex; }
         }
 
-        public WordMatch(MatchType matchType, Span span, string word, int matchIndex, string regexMatched)
+        public WordMatch(MatchType matchType, Span span, string word, int matchIndex, string regexMatched, int point)
         {
             _matchIndex = matchIndex;
             _span = span;
             _word = word;
             _matchType = matchType;
             _regexMatched = regexMatched;
+            _point = point;
         }
     }
 
@@ -100,21 +106,30 @@ namespace SIT323Project2
             return matches;
         }
 
-        private List<string> _ComplexMatchRegexStringBuilder(List<Char> placeable)
+        private List<string> _ComplexMatchRegexStringAndPointBuilder(List<Character> placeable, ref int point)
         {
             List<string> strList = new List<string>();
 
             bool beginWithSpace = true;
-            foreach (char c in placeable)
+            foreach (Character c in placeable)
             {
-                if (beginWithSpace == true && c == default(char))
+                if (beginWithSpace == true && c.Alphabetic == default(char))
                 {
                     strList.Add(@"\w?");
                 }
                 else
                 {
                     beginWithSpace = false;
-                    strList.Add((c == '\0') ? @"\w" : c.ToString());
+//                    strList.Add((c == '\0') ? @"\w" : c.ToString());
+                    if (c.Alphabetic == '\0')
+                    {
+                        strList.Add(@"\w");
+                    }
+                    else
+                    {
+                        strList.Add(c.Alphabetic.ToString());
+                        point += c.Score;
+                    }
                 }
             }
             return strList;
@@ -122,17 +137,19 @@ namespace SIT323Project2
 
         private List<WordMatch> ComplexMatches(Span span)
         {
+            int point = 0;
             string regexPattern = "^";
             MatchType matchType;
             if (span.PreCharacterPlaceable.Count != 0 && span.PostCharacterPlaceable.Count != 0)
             {
-                regexPattern += String.Join("", _ComplexMatchRegexStringBuilder(span.PreCharacterPlaceable));
+                regexPattern += String.Join("", _ComplexMatchRegexStringAndPointBuilder(span.PreCharacterPlaceable, ref point));
 
                 regexPattern += string.Format("({0})", span.Character.Alphabetic);
+                point += span.Character.Score;
 
-                var reversedCopy = new List<char>(span.PostCharacterPlaceable);
+                var reversedCopy = new List<Character>(span.PostCharacterPlaceable);
                 reversedCopy.Reverse();
-                var reversedCopyBuilded = _ComplexMatchRegexStringBuilder(reversedCopy);
+                var reversedCopyBuilded = _ComplexMatchRegexStringAndPointBuilder(reversedCopy, ref point);
                 reversedCopyBuilded.Reverse();
                 var reversedString = String.Join("", reversedCopyBuilded);
                 regexPattern += reversedString;
@@ -142,18 +159,20 @@ namespace SIT323Project2
             }
             else if (span.PreCharacterPlaceable.Count != 0)
             {
-                regexPattern += String.Join("", _ComplexMatchRegexStringBuilder(span.PreCharacterPlaceable));
+                regexPattern += String.Join("", _ComplexMatchRegexStringAndPointBuilder(span.PreCharacterPlaceable, ref point));
                 regexPattern += string.Format("({0})", span.Character.Alphabetic);
-                
+                point += span.Character.Score;
+
                 matchType = MatchType.PreComplexMatch;
             }
             else
             {
                 regexPattern += string.Format("({0})", span.Character.Alphabetic);
+                point += span.Character.Score;
 
-                var reversedCopy = new List<char>(span.PostCharacterPlaceable);
+                var reversedCopy = new List<Character>(span.PostCharacterPlaceable);
                 reversedCopy.Reverse();
-                var reversedCopyBuilded = _ComplexMatchRegexStringBuilder(reversedCopy);
+                var reversedCopyBuilded = _ComplexMatchRegexStringAndPointBuilder(reversedCopy, ref point);
                 reversedCopyBuilded.Reverse();
                 var reversedString = String.Join("", reversedCopyBuilded);
                 regexPattern += reversedString;
@@ -161,7 +180,8 @@ namespace SIT323Project2
                 matchType = MatchType.PostComplexMatch;
             }
             regexPattern += "$";
-            return MatchRegex(span, regexPattern, matchType);
+         
+            return MatchRegex(span, regexPattern, matchType, point);
             
 
         }
@@ -170,6 +190,7 @@ namespace SIT323Project2
         {
             string regexPattern;
             MatchType matchType;
+            int point = 0;
 
             if (span.PreCharacterPlaceable.Count != 0 && span.PostCharacterPlaceable.Count != 0)
             {
@@ -178,6 +199,7 @@ namespace SIT323Project2
                     span.Character.Alphabetic,
                     span.PostCharacterPlaceable.Count);
                 matchType = MatchType.CenterMatch;
+                point += span.Character.Score;
             }
             else if (span.PreCharacterPlaceable.Count != 0)
             {
@@ -189,6 +211,8 @@ namespace SIT323Project2
                     span.PreCharacterPlaceable.Count,
                     span.Character.Alphabetic);
                 matchType = MatchType.PreMatch;
+                point += span.Character.Score;
+
             }
             else
             {
@@ -196,22 +220,15 @@ namespace SIT323Project2
                     span.Character.Alphabetic,
                     span.PostCharacterPlaceable.Count);
                 matchType = MatchType.PostMatch;
+                point += span.Character.Score;
+
             }
 
-            return MatchRegex(span, regexPattern, matchType);
+            return MatchRegex(span, regexPattern, matchType, point);
         }
 
-        public List<WordMatch> MatchRegex(Span span, string regexPattern, MatchType matchType)
+        public List<WordMatch> MatchRegex(Span span, string regexPattern, MatchType matchType, int point)
         {
-            if (regexPattern == @"^\\w?\\w?\\w?\\w?TO\\w?\\w?\\w?\\w?$")
-            {
-                var tt = 1;
-            }
-            if (matchType == MatchType.CenterComplexMatch)
-            {
-                var tt = 1;
-            }
-
             List<WordMatch> matchList = new List<WordMatch>();
 
             Regex regex = new Regex(regexPattern);
@@ -220,10 +237,15 @@ namespace SIT323Project2
                 var wordMatch = regex.Match(word);
                 if (wordMatch.Success)
                 {
-                    matchList.Add(new WordMatch(matchType, span, word, wordMatch.Groups[1].Index, regexPattern));
+                    matchList.Add(new WordMatch(matchType, span, word, wordMatch.Groups[1].Index, regexPattern, point));
                 }
             }
             return matchList;
+        }
+
+        public List<WordMatch> MatchAndOrderByPints()
+        {
+            return Match().OrderByDescending(m => m.Point).ToList();
         }
     }
 }

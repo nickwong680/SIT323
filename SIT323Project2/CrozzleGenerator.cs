@@ -20,7 +20,22 @@ namespace SIT323Project2
             this.Crozzle = crozzle;
             this._wordlist = wordlist;
             this._difficulty = difficulty;
-            this._wordsNotAddedList = new List<string>(wordlist.WordList.OrderByDescending(w => w.Count()));
+            this._wordsNotAddedList = OrderWordListByCountAndPoint(wordlist);
+        }
+
+        private List<string> OrderWordListByCountAndPoint(Wordlist wordlist)
+        {
+            List<string> str = new List<string>();
+            List<Word> words = new List<Word>();
+            foreach (string w in wordlist.WordList)
+            {
+                words.Add(CreateWordWithPoints(w));
+            }
+            foreach (Word word in words.OrderByDescending(w => w.CharacterList.Count).ThenBy( w => w.Score))
+            {
+                str.Add(word.ToString());
+            }
+            return str;
         }
 
         public List<string> WordsNotAddedList
@@ -54,7 +69,7 @@ namespace SIT323Project2
             return words;
         }
 
-        private Word CreateWordWithPoints(Direction dir, string wordStr)
+        private Word CreateWordWithPoints( string wordStr)
         {
             PointScheme pointScheme;
             switch (_difficulty)
@@ -74,11 +89,15 @@ namespace SIT323Project2
                     break;
             }
             List<Character> scores = Score.PointsMatrix(pointScheme);
-            Word word = new Word(dir, wordStr);
+            Word word = new Word(wordStr);
+            int wordScore = 0;
+
             foreach (Character character in word.CharacterList)
             {
                 character.Score = scores.First(c => c.Alphabetic == character.Alphabetic).Score;
+                wordScore += character.Score;
             }
+            word.Score = wordScore;
             return word;
         }
 
@@ -88,10 +107,11 @@ namespace SIT323Project2
         /// </summary>
         public void PlaceWordsToGrid()
         {
-            Word word;
+            Word word = null;
             if (Crozzle.Wordlist.Count == 0)
             {
-                word = CreateWordWithPoints(Direction.Horizontal, WordsNotAddedList.FirstOrDefault());
+                word = CreateWordWithPoints(WordsNotAddedList.FirstOrDefault());
+                word.Direction = Direction.Horizontal;
                 Adder = new AddWordToGrid(this, word, (_wordlist.Height/2),
                     (_wordlist.Width/2) - (word.CharacterList.Count/2));
                 WordsNotAddedList.Remove(word.ToString());
@@ -103,27 +123,35 @@ namespace SIT323Project2
                 {
                     int tt = 0;
                 }
-
+                if (_wordsNotAddedList.Count <= 186)
+                {
+                    int tt = 0;
+                }
                 List<Span> spans = Crozzle.InterectableWords();
 
                 var match = new MatchSpanToWord(spans, WordsNotAddedList);
-                List<WordMatch> matches = match.Match();
-                if(matches.Count == 0) break;
+                List<WordMatch> matches = match.MatchAndOrderByPints();
+                if (matches.Count == 0) break;
+
                 do
                 {
-                    WordMatch matched = null;
-                    foreach (WordMatch wordMatch in matches)
-                    {
-                        if (wordMatch.Span.Direction != Crozzle.Wordlist.LastOrDefault().Direction)
-                        {
-                            matched = wordMatch;
-                            break;
-                        }
-                    }
-                    if (matched == null) matched = matches.FirstOrDefault();
+                    if (matches.Count == 0) break;
+                    WordMatch matched = matches.FirstOrDefault();
+
+//                    foreach (WordMatch wordMatch in matches)
+//                    {
+//                        if (wordMatch.Span.Direction != Crozzle.Wordlist.LastOrDefault().Direction)
+//                        {
+//                            matched = wordMatch;
+//                            break;
+//                        }
+//                    }
+//                    if (matched == null) matched = matches.FirstOrDefault();
 
 
-                    word = CreateWordWithPoints(matched.Span.Direction, matched.Word);
+                    word = CreateWordWithPoints( matched.Word);
+                    word.Direction = matched.Span.Direction;
+
                     Position pos = matched.Span.Position;
                     if (matched.Span.Direction == Direction.Vertical)
                     {
