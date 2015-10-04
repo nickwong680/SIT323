@@ -93,6 +93,11 @@ namespace SIT323.Models
     /// </summary>
     public class Character
     {
+        public override string ToString()
+        {
+            return Alphabetic.ToString();
+        }
+
         /// <summary>
         ///     the alphabetic character in char
         /// </summary>
@@ -105,6 +110,7 @@ namespace SIT323.Models
 
         /// <summary>
         ///     Number of score this character is calculated from Score class based on Crozzle difficulty level
+        ///     Score are used as intersection points in Project 2
         /// </summary>
         public int Score;
 

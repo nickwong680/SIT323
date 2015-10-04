@@ -63,8 +63,8 @@ namespace SIT323Project2.Models
                 outArrayOfChar[i] = new char[_crozzleArrayOfGrid[i].Length];
                 for (var j = 0; j < _crozzleArrayOfGrid[i].Length; j++)
                 {
-                    char c = (_crozzleArrayOfGrid[i][j].Character == default(char)) ? default(char) : _crozzleArrayOfGrid[i][j].Character;
-                    outArrayOfChar[i][j] = _crozzleArrayOfGrid[i][j].Character;
+                    char c = (_crozzleArrayOfGrid[i][j].Character.Alphabetic == default(char)) ? default(char) : _crozzleArrayOfGrid[i][j].Character.Alphabetic;
+                    outArrayOfChar[i][j] = _crozzleArrayOfGrid[i][j].Character.Alphabetic;
                 }
             }
             return outArrayOfChar;
@@ -88,9 +88,9 @@ namespace SIT323Project2.Models
                     var preCharacterPlaceable = new List<char>();
                     var postCharacterPlaceable = new List<char>();
 
-                    if (grid.Character != '\0')
+                    if (!grid.IsCharacterNullOrSpaced())
                     {
-                        if (grid.Character == 'P' && i == 3 && j == 11)
+                        if (grid.Character.Alphabetic == 'P' && i == 3 && j == 11)
                         {
                             var tt = 0;
                         }
@@ -109,7 +109,7 @@ namespace SIT323Project2.Models
                                 {
                                     case Direction.Vertical:
                                     case Direction.All:
-                                        postCharacterPlaceable.Add(nextGrid.Character);
+                                        postCharacterPlaceable.Add(nextGrid.Character.Alphabetic);
                                         break;
                                     default:
                                         exit = true;
@@ -126,7 +126,7 @@ namespace SIT323Project2.Models
                                 {
                                     case Direction.Vertical:
                                     case Direction.All:
-                                        preCharacterPlaceable.Add(this[back, j].Character);
+                                        preCharacterPlaceable.Add(this[back, j].Character.Alphabetic);
                                         break;
                                     default:
                                         exit = true;
@@ -145,7 +145,7 @@ namespace SIT323Project2.Models
                                 {
                                     case Direction.Horizontal:
                                     case Direction.All:
-                                        postCharacterPlaceable.Add(this[i, next].Character);
+                                        postCharacterPlaceable.Add(this[i, next].Character.Alphabetic);
                                         break;
                                     default:
                                         exit = true;
@@ -162,7 +162,7 @@ namespace SIT323Project2.Models
                                 {
                                     case Direction.Horizontal:
                                     case Direction.All:
-                                        preCharacterPlaceable.Add(this[i, back].Character);
+                                        preCharacterPlaceable.Add(this[i, back].Character.Alphabetic);
                                         break;
                                     default:
                                         exit = true;
@@ -197,7 +197,7 @@ namespace SIT323Project2.Models
             {
                 foreach (var grid in rows)
                 {
-                    if (grid.Character != default(char))
+                    if (grid.Character.Alphabetic != default(char))
                     {
                         outString += grid.Character;
                     }
@@ -214,7 +214,7 @@ namespace SIT323Project2.Models
             {
                 foreach (var grid in rows)
                 {
-                    if (grid.Character == default(char))
+                    if (grid.Character.Alphabetic == default(char))
                     {
                         switch (grid.SpannableDirection)
                         {

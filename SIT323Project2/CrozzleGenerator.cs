@@ -54,6 +54,34 @@ namespace SIT323Project2
             return words;
         }
 
+        private Word CreateWordWithPoints(Direction dir, string wordStr)
+        {
+            PointScheme pointScheme;
+            switch (_difficulty)
+            {
+                 case Difficulty.Easy:
+                    pointScheme = PointScheme.OneEach;
+                    break;
+                case Difficulty.Medium:
+                    pointScheme = PointScheme.Incremental;
+                    break;
+                case Difficulty.Hard:
+                    pointScheme = PointScheme.IncrementalWithBonusPerWord;
+                    break;
+                case Difficulty.Extreme:
+                default:
+                    pointScheme = PointScheme.CustomWithBonusPerIntersection;
+                    break;
+            }
+            List<Character> scores = Score.PointsMatrix(pointScheme);
+            Word word = new Word(dir, wordStr);
+            foreach (Character character in word.CharacterList)
+            {
+                character.Score = scores.First(c => c.Alphabetic == character.Alphabetic).Score;
+            }
+            return word;
+        }
+
         /// <summary>
         /// Start by placing first word (the most longest word) to center of the crozzle
         /// 
@@ -63,7 +91,7 @@ namespace SIT323Project2
             Word word;
             if (Crozzle.Wordlist.Count == 0)
             {
-                word = new Word(Direction.Horizontal, WordsNotAddedList.FirstOrDefault());
+                word = CreateWordWithPoints(Direction.Horizontal, WordsNotAddedList.FirstOrDefault());
                 Adder = new AddWordToGrid(this, word, (_wordlist.Height/2),
                     (_wordlist.Width/2) - (word.CharacterList.Count/2));
                 WordsNotAddedList.Remove(word.ToString());
@@ -77,38 +105,44 @@ namespace SIT323Project2
                 }
 
                 List<Span> spans = Crozzle.InterectableWords();
+
                 var match = new MatchSpanToWord(spans, WordsNotAddedList);
                 List<WordMatch> matches = match.Match();
-                if (!matches.Any())
+                if(matches.Count == 0) break;
+                do
                 {
-                    break;
-                }
+                    WordMatch matched = null;
+                    foreach (WordMatch wordMatch in matches)
+                    {
+                        if (wordMatch.Span.Direction != Crozzle.Wordlist.LastOrDefault().Direction)
+                        {
+                            matched = wordMatch;
+                            break;
+                        }
+                    }
+                    if (matched == null) matched = matches.FirstOrDefault();
 
-                WordMatch matched = matches.FirstOrDefault();
 
-                word = new Word(matched.Span.Direction, matched.Word);
-
-                Position pos = matched.Span.Position;
-                if (matched.Span.Direction == Direction.Vertical)
-                {
-                    pos.Height -= matched.MatchIndex;
-                }
-                else
-                {
-                    pos.Width -= matched.MatchIndex;
-                }
-
-                if (word.ToString() == "LET")
-                {
-                    break;
-                }
-                Adder = new AddWordToGrid(this, word, pos);
+                    word = CreateWordWithPoints(matched.Span.Direction, matched.Word);
+                    Position pos = matched.Span.Position;
+                    if (matched.Span.Direction == Direction.Vertical)
+                    {
+                        pos.Height -= matched.MatchIndex;
+                    }
+                    else
+                    {
+                        pos.Width -= matched.MatchIndex;
+                    }
+                    Adder = new AddWordToGrid(this, word, pos);
+                    if (Adder.Added == false) matches.Remove(matched);
+                } while (Adder.Added == false);
                 WordsNotAddedList.Remove(word.ToString());
+
 
                 Console.WriteLine(String.Join(",", Crozzle.Wordlist));
                 Console.WriteLine(Crozzle.ToString());
 
-                if (Crozzle.Wordlist.Count > 20) break;
+                //if (Crozzle.Wordlist.Count > 20) break;
             } while (true);
 
             Console.WriteLine(Crozzle.ToString());

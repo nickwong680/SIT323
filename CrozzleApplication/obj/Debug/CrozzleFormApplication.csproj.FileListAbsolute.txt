@@ -12,7 +12,7 @@ C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\CrozzleApplication\ob
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\CrozzleApplication\obj\Debug\CrozzleApplication.pdb
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\CrozzleApplication\bin\Debug\CrozzleApplication.exe
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\CrozzleApplication\bin\Debug\CrozzleApplication.pdb
-C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\CrozzleApplication\obj\Debug\CrozzleFormApplication.csprojResolveAssemblyReference.cache
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\CrozzleApplication\obj\Debug\CrozzleApplication.SIT323AssignmentForm.resources
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\CrozzleApplication\obj\Debug\CrozzleApplication.Properties.Resources.resources
 C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\CrozzleApplication\obj\Debug\CrozzleFormApplication.csproj.GenerateResource.Cache
+C:\Users\Nick\documents\visual studio 2013\Projects\SIT323\CrozzleApplication\obj\Debug\CrozzleFormApplication.csprojResolveAssemblyReference.cache

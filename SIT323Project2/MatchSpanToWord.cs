@@ -82,10 +82,7 @@ namespace SIT323Project2
             List<WordMatch> matches = new List<WordMatch>();
             foreach (Span span in _spans)
             {
-                if (span.Character.ToString() == "LET")
-                {
-                    var tt = 3;
-                }
+        
 
                 var simple =
                     (String.Join("", span.PreCharacterPlaceable) + String.Join("", span.PostCharacterPlaceable)).Replace
@@ -131,7 +128,7 @@ namespace SIT323Project2
             {
                 regexPattern += String.Join("", _ComplexMatchRegexStringBuilder(span.PreCharacterPlaceable));
 
-                regexPattern += span.Character;
+                regexPattern += string.Format("({0})", span.Character.Alphabetic);
 
                 var reversedCopy = new List<char>(span.PostCharacterPlaceable);
                 reversedCopy.Reverse();
@@ -146,13 +143,13 @@ namespace SIT323Project2
             else if (span.PreCharacterPlaceable.Count != 0)
             {
                 regexPattern += String.Join("", _ComplexMatchRegexStringBuilder(span.PreCharacterPlaceable));
-                regexPattern += span.Character;
+                regexPattern += string.Format("({0})", span.Character.Alphabetic);
                 
                 matchType = MatchType.PreComplexMatch;
             }
             else
             {
-                regexPattern += span.Character;
+                regexPattern += string.Format("({0})", span.Character.Alphabetic);
 
                 var reversedCopy = new List<char>(span.PostCharacterPlaceable);
                 reversedCopy.Reverse();
@@ -178,7 +175,7 @@ namespace SIT323Project2
             {
                 regexPattern = string.Format(@"^\w{{0,{0}}}({1})\w{{0,{2}}}$",
                     span.PreCharacterPlaceable.Count,
-                    span.Character,
+                    span.Character.Alphabetic,
                     span.PostCharacterPlaceable.Count);
                 matchType = MatchType.CenterMatch;
             }
@@ -190,13 +187,13 @@ namespace SIT323Project2
 //                            w.Length < maxLength));
                 regexPattern = string.Format(@"^\w{{0,{0}}}({1})$",
                     span.PreCharacterPlaceable.Count,
-                    span.Character);
+                    span.Character.Alphabetic);
                 matchType = MatchType.PreMatch;
             }
             else
             {
                 regexPattern = string.Format(@"^({0})\w{{0,{1}}}$",
-                    span.Character,
+                    span.Character.Alphabetic,
                     span.PostCharacterPlaceable.Count);
                 matchType = MatchType.PostMatch;
             }
@@ -206,6 +203,15 @@ namespace SIT323Project2
 
         public List<WordMatch> MatchRegex(Span span, string regexPattern, MatchType matchType)
         {
+            if (regexPattern == @"^\\w?\\w?\\w?\\w?TO\\w?\\w?\\w?\\w?$")
+            {
+                var tt = 1;
+            }
+            if (matchType == MatchType.CenterComplexMatch)
+            {
+                var tt = 1;
+            }
+
             List<WordMatch> matchList = new List<WordMatch>();
 
             Regex regex = new Regex(regexPattern);

@@ -10,7 +10,7 @@ namespace SIT323Project2.Models
     public class Span
     {
         private Direction _direction;
-        private char _character;
+        private Character _character;
         private List<char> _preCharacterPlaceable;
         private List<char> _postCharacterPlaceable;
         private Position _position;
@@ -23,7 +23,7 @@ namespace SIT323Project2.Models
             set { _direction = value; }
         }
 
-        public char Character
+        public Character Character
         {
             get { return _character; }
             set { _character = value; }

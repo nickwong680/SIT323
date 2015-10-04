@@ -12,7 +12,7 @@ namespace SIT323Project2.Models
         private Direction _spannableDirection;
         private Word _horizontalWord;
         private Word _verticalWord;
-        private char _character;
+        private Character _character;
         private Position _position;
 
         public Position Position
@@ -39,14 +39,27 @@ namespace SIT323Project2.Models
             set { _verticalWord = value; }
         }
 
-        public char Character
+        public Character Character
         {
             get { return _character; }
             set { _character = value; }
         }
 
+        public bool IsCharacterNullOrSpaced()
+        {
+            if (Character != null)
+            {
+                if (Character.Alphabetic != default(char))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public Grid()
         {
+            _character = new Character(default(char));
             _spannableDirection = Direction.All;
         }
     }

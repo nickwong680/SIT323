@@ -95,14 +95,7 @@ namespace SIT323
             }
         }
 
-        /// <summary>
-        ///     Uses factory pattern for creating points base on alphabet character determined by scheme
-        ///     and constructs the Score class.
-        /// </summary>
-        /// <param name="wordlist">Generic List of Words</param>
-        /// <param name="point">Scheme of points</param>
-        /// <returns></returns>
-        public static Score PointsFactory(List<Word> wlist, PointScheme pointScheme)
+        public static List<Character> PointsMatrix(PointScheme pointScheme)
         {
             var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
             var points = new List<Character>();
@@ -124,10 +117,10 @@ namespace SIT323
                     break;
                 case PointScheme.Custom:
                 case PointScheme.CustomWithBonusPerIntersection:
-                    var customPoints = new[] {1, 2, 4, 8, 16, 32, 64};
+                    var customPoints = new[] { 1, 2, 4, 8, 16, 32, 64 };
                     for (var i = 0; i < customPoints.Length; i++)
                     {
-                        char[] chars = {};
+                        char[] chars = { };
                         switch (customPoints[i])
                         {
                             case 1:
@@ -156,7 +149,19 @@ namespace SIT323
                     }
                     break;
             }
-            return new Score(wlist, points, pointScheme);
+            return points;
+        }
+
+        /// <summary>
+        ///     Uses factory pattern for creating points base on alphabet character determined by scheme
+        ///     and constructs the Score class.
+        /// </summary>
+        /// <param name="wordlist">Generic List of Words</param>
+        /// <param name="point">Scheme of points</param>
+        /// <returns></returns>
+        public static Score PointsFactory(List<Word> wlist, PointScheme pointScheme)
+        {
+            return new Score(wlist, PointsMatrix(pointScheme), pointScheme);
         }
     }
 
