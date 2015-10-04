@@ -225,14 +225,13 @@ namespace SIT323Test
     [TestClass]
     public class TestProject2
     {
-
         [TestMethod]
-        public void TestHardCrozzle()
+        public void TestMediumCrozzle()
         {
             var score = 0;
-            var wordlist = new Wordlist("Files/Ass2 - Test 4 - wordlist EXTREME.csv");
+            var wordlist = new Wordlist("Files/Ass2 - Test 2 - wordlist MEDIUM.csv");
             var crozzle = new CrozzleProject2(wordlist);
-            var gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Extreme);
+            var gen = new CrozzleGenerator(crozzle, wordlist);
 
             var word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
             gen.PlaceWordsToGrid();
@@ -241,12 +240,36 @@ namespace SIT323Test
 
             var crozzleExt = new Crozzle(crozzle.CrozzleArrayOfChar(), wordlist);
             //Assert.IsTrue(crozzleExt.LogList.Count == 0);
-            var constraintsExtreme = new ExtremeConstraints(crozzleExt, wordlist);
-            //Assert.IsTrue(constraintsExtreme.LogList.Count == 0);
+            var constraints = new MediumConstraints(crozzleExt, wordlist);
+            //Assert.IsTrue(constraints.LogList.Count == 0);
             score =
-                Score.PointsFactory(constraintsExtreme.WordsFromCrozzle, PointScheme.CustomWithBonusPerIntersection)
+                Score.PointsFactory(constraints.WordsFromCrozzle, PointScheme.Incremental)
                     .TotalScore;
 
+            Debug.WriteLine(crozzle.ToString());
+        }
+
+
+        [TestMethod]
+        public void TestHardCrozzle()
+        {
+            var score = 0;
+            var wordlist = new Wordlist("Files/Ass2 - Test 3 - wordlist HARD.csv");
+            var crozzle = new CrozzleProject2(wordlist);
+            var gen = new CrozzleGenerator(crozzle, wordlist);
+
+            var word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
+            gen.PlaceWordsToGrid();
+
+            var tt = crozzle.CrozzleArrayOfChar();
+
+            var crozzleExt = new Crozzle(crozzle.CrozzleArrayOfChar(), wordlist);
+            Assert.IsTrue(crozzleExt.LogList.Count == 0);
+            var constraints = new HardConstraints(crozzleExt, wordlist);
+            Assert.IsTrue(constraints.LogList.Count == 0);
+            score =
+                Score.PointsFactory(constraints.WordsFromCrozzle, PointScheme.IncrementalWithBonusPerWord)
+                    .TotalScore;
 
             Debug.WriteLine(crozzle.ToString());
         }
@@ -296,7 +319,7 @@ namespace SIT323Test
         {
             var wordlist = new Wordlist("Files/Ass2 - Test 4 - wordlist EXTREME.csv");
             var crozzle = new CrozzleProject2(wordlist);
-            var gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Extreme);
+            var gen = new CrozzleGenerator(crozzle, wordlist);
 
             var word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
             var word2 = new Word(Direction.Horizontal, wordlist.WordList[2]);
@@ -314,7 +337,7 @@ namespace SIT323Test
             var score = 0;
             var wordlist = new Wordlist("Files/Ass2 - Test 4 - wordlist EXTREME.csv");
             var crozzle = new CrozzleProject2(wordlist);
-            var gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Extreme);
+            var gen = new CrozzleGenerator(crozzle, wordlist);
 
             var word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
             gen.PlaceWordsToGrid();
@@ -353,7 +376,7 @@ namespace SIT323Test
         {
             var wordlist = new Wordlist("Files/Ass2 - Test 1 - wordlist EASY.csv");
             var crozzle = new CrozzleProject2(wordlist);
-            var gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Easy);
+            var gen = new CrozzleGenerator(crozzle, wordlist);
 
             var word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
             gen.PlaceWordsToGrid();
@@ -366,7 +389,7 @@ namespace SIT323Test
         {
             var wordlist = new Wordlist("Files/Ass2 - Test 1 - wordlist EASY.csv");
             var crozzle = new CrozzleProject2(wordlist);
-            var gen = new CrozzleGenerator(crozzle, wordlist, Difficulty.Easy);
+            var gen = new CrozzleGenerator(crozzle, wordlist);
 
             var word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
 

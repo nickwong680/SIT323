@@ -171,11 +171,12 @@ namespace SIT323.Models
     ///     enum of Direction in Horizontal or Vertical
     /// </summary>
     [Flags]
-    public enum Direction
+    public enum Direction : byte
     {
         None = 0,
-        Horizontal = 1,
-        Vertical = 2,
+        Horizontal = 1 << 0,
+        Vertical = 1 << 1,
+
         All = Horizontal | Vertical,
     }
 

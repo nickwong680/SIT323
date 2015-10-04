@@ -13,11 +13,11 @@ namespace SIT323Project2
         private readonly Wordlist _wordlist;
         public readonly CrozzleProject2 Crozzle;
 
-        public CrozzleGenerator(CrozzleProject2 crozzle, Wordlist wordlist, Difficulty difficulty)
+        public CrozzleGenerator(CrozzleProject2 crozzle, Wordlist wordlist)
         {
             Crozzle = crozzle;
             _wordlist = wordlist;
-            _difficulty = difficulty;
+            _difficulty = crozzle.Level;
             WordsNotAddedList = OrderWordListByCountAndPoint(wordlist);
         }
 
@@ -38,7 +38,7 @@ namespace SIT323Project2
             {
                 words.Add(CreateWordWithPoints(w));
             }
-            foreach (var word in words.OrderByDescending(w => w.CharacterList.Count).ThenBy(w => w.Score))
+            foreach (var word in words.OrderByDescending(w => w.Score).ThenBy(w => w.CharacterList.Count))
             {
                 str.Add(word.ToString());
             }
@@ -108,27 +108,29 @@ namespace SIT323Project2
                 int height = random.Next(1, _wordlist.Height - 1);
                 word = CreateWordWithPoints(WordsNotAddedList.FirstOrDefault());
                 word.Direction = Direction.Horizontal;
+
                 Adder = new AddWordToGrid(this, word, (height),
                     (_wordlist.Width/2) - (word.CharacterList.Count/2));
                 WordsNotAddedList.Remove(word.ToString());
             }
-
             do
             {
-                if (Crozzle.Wordlist.LastOrDefault().ToString() == "EXPORT")
-                {
-                    var tt = 0;
-                }
-                if (WordsNotAddedList.Count <= 186)
-                {
-                    var tt = 0;
-                }
                 var spans = Crozzle.InterectableWords();
 
                 var match = new MatchSpanToWord(spans, WordsNotAddedList);
                 var matches = match.MatchAndOrderByPints();
-                if (matches.Count == 0) break;
 
+                if (matches.Count == 0)
+                {
+                    if (_difficulty == Difficulty.Extreme)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        if (!InsertNewWord()) break;
+                    }
+                }
                 do
                 {
                     if (matches.Count == 0) break;
@@ -170,6 +172,12 @@ namespace SIT323Project2
 
             Console.WriteLine(Crozzle.ToString());
         }
+
+        private bool InsertNewWord()
+        {
+            return false;
+        }
+
 
         private void Add(Word word, WordMatch match)
         {

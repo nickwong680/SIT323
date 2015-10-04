@@ -8,12 +8,14 @@ namespace SIT323
     /// <summary>
     ///     enum of Difficulty in Easy Medium Hard or Extreme
     /// </summary>
-    public enum Difficulty
+    /// 
+    [Flags]
+    public enum Difficulty : byte
     {
-        Easy,
-        Medium,
-        Hard,
-        Extreme
+        Easy = 1,
+        Medium = 2,
+        Hard = 4,
+        Extreme = 8,
     }
 
     /// <summary>

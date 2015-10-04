@@ -42,13 +42,17 @@ namespace SIT323Project2
 
             if (CheckHeadTail())
             {
-                if (Add()) _added = true;
+                
+                    if (Add()) _added = true;
+                
             }
             else
             {
                 var tt = 0;
             }
         }
+
+
 
         private bool CheckHeadTail()
         {
@@ -125,6 +129,13 @@ namespace SIT323Project2
                     Word.CharacterList[i].Position = new Position {Height = span, Width = Position.Width};
                     grid.VerticalWord = Word;
 
+                    if (grid.HorizontalWord != null)
+                    {
+                        grid.HorizontalWord.IntersectWords.Add(Word);
+                        Word.IntersectWords.Add(grid.HorizontalWord);
+                    }
+
+
 //                    grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
 //                        ? Direction.Horizontal
 //                        : Direction.None;
@@ -154,6 +165,12 @@ namespace SIT323Project2
                     grid.Character = Word.CharacterList[i];
                     Word.CharacterList[i].Position = new Position {Height = Position.Height, Width = span};
                     grid.HorizontalWord = Word;
+
+                    if (grid.VerticalWord != null)
+                    {
+                        grid.VerticalWord.IntersectWords.Add(Word);
+                        Word.IntersectWords.Add(grid.VerticalWord);
+                    }
 
 //                    grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
 //                        ? Direction.Vertical

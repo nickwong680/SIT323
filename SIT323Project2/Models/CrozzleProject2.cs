@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using SIT323;
 using SIT323.Models;
 
@@ -9,16 +11,29 @@ namespace SIT323Project2.Models
     {
         private readonly Grid[][] _crozzleArrayOfGrid;
         private readonly List<Word> _wordlist;
-        private int _height;
 
-        private int _width;
+        private Difficulty _level;
+
+        public Difficulty Level
+        {
+            get { return _level; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="wordlist"></param>
+        /// <param name="difficulty"></param>
+        public CrozzleProject2(Wordlist wordlist, Difficulty level) : this(wordlist)
+        {
+            _level = level;
+        }
 
         public CrozzleProject2(Wordlist wordlist)
         {
             //_wordlist = new List<string>(wordlist.WordList.OrderByDescending(w => w.Count()));
             _wordlist = new List<Word>();
-            _width = wordlist.Width;
-            _height = wordlist.Height;
+
+            _level = wordlist.Level;
 
             _crozzleArrayOfGrid = new Grid[wordlist.Height][];
             for (var i = 0; i < wordlist.Height; i++)
@@ -69,6 +84,22 @@ namespace SIT323Project2.Models
             return outArrayOfChar;
         }
 
+        private bool DoesWordIntersectCountMeetConstraintRequirement(Grid grid)
+        {
+            if (Level == Difficulty.Hard || Level == Difficulty.Extreme) return true;
+            if (grid.IsCharacterNullOrSpaced()) return true;
+            int hor = (grid.HorizontalWord != null) ? grid.HorizontalWord.IntersectWords.Count : 0;
+            int ver = (grid.VerticalWord != null) ? grid.VerticalWord.IntersectWords.Count : 0;
+            int count = Math.Max (hor,ver);
+
+            if (count >= 2)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
         /// <summary>
         ///     Pending refactoring
         /// </summary>
@@ -81,6 +112,8 @@ namespace SIT323Project2.Models
                 for (var j = 0; j < _crozzleArrayOfGrid[i].Length; j++)
                 {
                     var grid = this[i, j];
+                    if (!DoesWordIntersectCountMeetConstraintRequirement(grid)) continue;
+
                     var direction = grid.SpannableDirection;
                     if (direction == Direction.None) continue;
 
@@ -104,6 +137,8 @@ namespace SIT323Project2.Models
                             {
                                 var nextGrid = this[next, j];
                                 if (nextGrid == null) break;
+                                if (!DoesWordIntersectCountMeetConstraintRequirement(grid)) continue;
+
                                 switch (nextGrid.SpannableDirection)
                                 {
                                     case Direction.Vertical:
@@ -121,6 +156,8 @@ namespace SIT323Project2.Models
                             {
                                 var nextGrid = this[back, j];
                                 if (nextGrid == null) break;
+                                if (!DoesWordIntersectCountMeetConstraintRequirement(grid)) continue;
+
                                 switch (this[back, j].SpannableDirection)
                                 {
                                     case Direction.Vertical:
@@ -140,6 +177,8 @@ namespace SIT323Project2.Models
                             {
                                 var nextGrid = this[i, next];
                                 if (nextGrid == null) break;
+                                if (!DoesWordIntersectCountMeetConstraintRequirement(grid)) continue;
+
                                 switch (this[i, next].SpannableDirection)
                                 {
                                     case Direction.Horizontal:
@@ -157,6 +196,8 @@ namespace SIT323Project2.Models
                             {
                                 var nextGrid = this[i, back];
                                 if (nextGrid == null) break;
+                                if (!DoesWordIntersectCountMeetConstraintRequirement(grid)) continue;
+
                                 switch (this[i, back].SpannableDirection)
                                 {
                                     case Direction.Horizontal:
@@ -179,7 +220,7 @@ namespace SIT323Project2.Models
                                 Direction = grid.SpannableDirection,
                                 Position = new Position {Height = i, Width = j},
                                 PostCharacterPlaceable = postCharacterPlaceable,
-                                PreCharacterPlaceable = preCharacterPlaceable
+                                PreCharacterPlaceable = preCharacterPlaceable,
                             };
                             spans.Add(span);
                         }

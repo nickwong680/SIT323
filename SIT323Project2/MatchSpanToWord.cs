@@ -8,16 +8,19 @@ using SIT323Project2.Models;
 namespace SIT323Project2
 {
     [Flags]
-    internal enum MatchType
+    internal enum MatchType : byte
     {
-        PreMatch,
-        CenterMatch,
-        PostMatch,
-        PreComplexMatch,
-        CenterComplexMatch,
-        PostComplexMatch,
-        Simple = PreMatch | CenterMatch | PostMatch,
-        Complex = PreComplexMatch | CenterComplexMatch | PostComplexMatch
+        PreMatch = 0,
+        CenterMatch = 1 << 0,
+        PostMatch =1 << 1,
+        PreComplexMatch =1 << 2,
+        CenterComplexMatch =1 << 3,
+        PostComplexMatch=1 << 4,
+
+//        Simple = PreMatch | CenterMatch | PostMatch,
+//        Complex = PreComplexMatch | CenterComplexMatch | PostComplexMatch,
+//
+//   
     }
 
     internal class WordMatch
@@ -237,6 +240,10 @@ namespace SIT323Project2
                 var wordMatch = regex.Match(word);
                 if (wordMatch.Success)
                 {
+                    if (matchType.HasFlag(MatchType.CenterComplexMatch))
+                    {
+                        var tt = 0;
+                    }
                     matchList.Add(new WordMatch(matchType, span, word, wordMatch.Groups[1].Index, regexPattern, point));
                 }
             }
