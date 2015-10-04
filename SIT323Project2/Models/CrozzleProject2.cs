@@ -210,11 +210,7 @@ namespace SIT323Project2.Models
 
                     if (!grid.IsCharacterNullOrSpaced())
                     {
-                        if (grid.Character.Alphabetic == 'P' && i == 3 && j == 11)
-                        {
-                            var tt = 0;
-                        }
-
+     
                         var exit = false;
                         var back = (direction == Direction.Vertical) ? i - 1 : j - 1;
                         var next = (direction == Direction.Vertical) ? i + 1 : j + 1;

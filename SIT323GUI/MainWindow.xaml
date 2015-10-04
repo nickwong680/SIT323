@@ -9,6 +9,8 @@
                 <MenuItem Header="File">
                     <MenuItem Header="Open WordList" Name="MenuOpenWordList" Click="MenuOpenWordList_Click"/>
                     <MenuItem Header="Open Crozzle" Name="MenuOpenCrozzle" Click="MenuOpenCrozzle_Click" IsEnabled="False"/>
+                    <MenuItem Header="Save Crozzle" Name="MenuOpenSaveCrozzle" Click="MenuOptionSaveCrozzle_Click" IsEnabled="False"/>
+
                     <Separator/>
                     <MenuItem Header="Exit"  Name="MenuExit"/>
                 </MenuItem>

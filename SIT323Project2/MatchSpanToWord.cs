@@ -240,10 +240,7 @@ namespace SIT323Project2
                 var wordMatch = regex.Match(word);
                 if (wordMatch.Success)
                 {
-                    if (matchType.HasFlag(MatchType.CenterComplexMatch))
-                    {
-                        var tt = 0;
-                    }
+
                     matchList.Add(new WordMatch(matchType, spanWithCharater, word, wordMatch.Groups[1].Index, regexPattern, point));
                 }
             }

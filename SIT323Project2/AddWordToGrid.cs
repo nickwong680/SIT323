@@ -26,7 +26,7 @@ namespace SIT323Project2
             }
             else
             {
-                var tt = 0;
+
             }
         }
 
@@ -56,49 +56,7 @@ namespace SIT323Project2
             return true;
         }
 
-        private bool DoesWordFit()
-        {
-            if (Word.Direction == Direction.Horizontal)
-            {
-                var span = Position.Height;
-                for (var i = 0; i < Word.CharacterList.Count; i++)
-                {
-                    var grid = _crozzleGenerator.Crozzle[span, Position.Width];
-                    switch (grid.SpannableDirection)
-                    {
-                        case Direction.Vertical:
-                        case Direction.All:
-                            return false;
-                    }
-                    if (!grid.IsCharacterNullOrSpaced() && grid.Character.Alphabetic != Word.CharacterList[i].Alphabetic)
-                    {
-                        return false;
-                    }
-                    span++;
-                }
-            }
-            else
-            {
-                var span = Position.Width;
-                for (var i = 0; i < Word.CharacterList.Count; i++)
-                {
-                    var grid = _crozzleGenerator.Crozzle[Position.Height, Position.Width];
-                    switch (grid.SpannableDirection)
-                    {
-                        case Direction.Horizontal:
-                        case Direction.All:
-                            return false;
-                    }
-                    if (grid.Character.Alphabetic != default(char) &&
-                        grid.Character.Alphabetic != Word.CharacterList[i].Alphabetic)
-                    {
-                        return false;
-                    }
-                    span++;
-                }
-            }
-            return true;
-        }
+  
 
         private bool Add()
         {
@@ -214,10 +172,7 @@ namespace SIT323Project2
         /// </summary>
         private void UpdateSurroundedGrids()
         {
-            if (Word.ToString() == "DASH")
-            {
-                var tt = 0;
-            }
+ 
             for (var i = -1; i < 2; i++)
             {
                 if (i == 0) continue;

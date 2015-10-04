@@ -134,5 +134,26 @@ namespace SIT323.Models
             }
             return crozzle;
         }
+
+        public string PrintCharacter()
+        {
+            var outString = string.Empty;
+            foreach (var rows in _crozzleArray)
+            {
+                foreach (var grid in rows)
+                {
+                    if (grid != default(char))
+                    {
+                        outString += (grid == default(char)) ? " " : grid.ToString();
+                    }
+                    else
+                    {
+                        outString += " ";
+                    }
+                }
+                outString += Environment.NewLine;
+            }
+            return outString;
+        }
     }
 }

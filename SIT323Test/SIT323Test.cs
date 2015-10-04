@@ -233,10 +233,7 @@ namespace SIT323Test
             var crozzle = new CrozzleProject2(wordlist);
             var gen = new CrozzleGenerator(crozzle, wordlist);
 
-            var word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
             gen.PlaceWordsToGrid();
-
-            var tt = crozzle.CrozzleArrayOfChar();
 
             var crozzleExt = new Crozzle(crozzle.CrozzleArrayOfChar(), wordlist);
             Assert.IsTrue(crozzleExt.LogList.Count == 0);
@@ -257,10 +254,8 @@ namespace SIT323Test
             var crozzle = new CrozzleProject2(wordlist);
             var gen = new CrozzleGenerator(crozzle, wordlist);
 
-            var word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
             gen.PlaceWordsToGrid();
 
-            var tt = crozzle.CrozzleArrayOfChar();
 
             var crozzleExt = new Crozzle(crozzle.CrozzleArrayOfChar(), wordlist);
             Assert.IsTrue(crozzleExt.LogList.Count == 0);
@@ -281,11 +276,8 @@ namespace SIT323Test
             var wordlist = new Wordlist("Files/Ass2 - Test 3 - wordlist HARD.csv");
             var crozzle = new CrozzleProject2(wordlist);
             var gen = new CrozzleGenerator(crozzle, wordlist);
-
-            var word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
             gen.PlaceWordsToGrid();
 
-            var tt = crozzle.CrozzleArrayOfChar();
 
             var crozzleExt = new Crozzle(crozzle.CrozzleArrayOfChar(), wordlist);
             Assert.IsTrue(crozzleExt.LogList.Count == 0);
@@ -328,14 +320,6 @@ namespace SIT323Test
                 var tt = match.Groups[1].Index;
             }
 
-//            var matchs = Regex.Matches(s, regexPattern);
-//            foreach (Match match in matchs)
-//                    {
-//                        if (match.Success)
-//                        {
-//                            var tt = match.Groups[1].Index;
-//                        }
-//                    }
         }
 
         [TestMethod]

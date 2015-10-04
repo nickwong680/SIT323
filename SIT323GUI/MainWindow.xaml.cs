@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.IO;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,6 +11,8 @@ using System.Windows.Media;
 using Microsoft.Win32;
 using SIT323;
 using SIT323.Models;
+using SIT323Project2;
+using SIT323Project2.Models;
 
 namespace SIT323GUI
 {
@@ -20,6 +23,8 @@ namespace SIT323GUI
     {
         private Crozzle _crozzle;
         private Wordlist _wordlist;
+        private int _highScore;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -47,7 +52,8 @@ namespace SIT323GUI
                 dynamic row = new ExpandoObject();
                 for (int j = 0; j < _crozzle[i].Length; j++)
                 {
-                    ((IDictionary<String, Object>)row)[j.ToString()] = _crozzle[i][j];
+                    string str = (_crozzle[i][j] == default(char)) ? " " : _crozzle[i][j].ToString();
+                    ((IDictionary<String, Object>)row)[j.ToString()] = str;
 
                 }
                 CrozzleDataGrid.Items.Add(row);
@@ -57,6 +63,7 @@ namespace SIT323GUI
         {
             _crozzle = null;
             _wordlist = null;
+            _highScore = 0;
             MenuOpenCrozzle.IsEnabled = false;
             LevelBox.Text = string.Empty;
             RowsBox.Text = string.Empty;
@@ -68,6 +75,19 @@ namespace SIT323GUI
             CrozzleDataGrid.Columns.Clear();
             CrozzleDataGrid.Items.Clear();
         }
+
+        private void ClearPostGenerated()
+        {
+            
+            _crozzle = null;
+            ScoreBox.Text = string.Empty;
+            ScoreBox.Background = Brushes.White;
+            WordListBox.Items.Clear();
+            CrozzleDataGrid.Columns.Clear();
+            CrozzleDataGrid.Items.Clear();
+            MenuOpenSaveCrozzle.IsEnabled = true;
+        }
+
 
         private void MenuOpenWordList_Click(object sender, RoutedEventArgs e)
         {
@@ -106,7 +126,13 @@ namespace SIT323GUI
             if (saveFileDialog.ShowDialog() == true)
                 File.WriteAllText(saveFileDialog.FileName, TextBlockLog.Text);
         }
-
+        private void MenuOptionSaveCrozzle_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text file (*.txt)|*.txt";
+            if (saveFileDialog.ShowDialog() == true)
+                File.WriteAllText(saveFileDialog.FileName, _crozzle.PrintCharacter());
+        }
         private void MenuOpenCrozzle_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
@@ -118,10 +144,19 @@ namespace SIT323GUI
                 TextBlockLog.Text += "Processing" + openFileDialog.FileName + Environment.NewLine;
             }
             if (_crozzle == null) return;
+
+            UpdateGUIAndScore();
+
+        }
+
+        private int UpdateGUIAndScore()
+        {
+            int score = 0;
             if (_crozzle.LogList.Count == 0)
             {
                 Constraints con;
-                ScoreBox.Text = ApplyConstraintsAndGetScore(out con).ToString();
+                score = ApplyConstraintsAndGetScore(out con);
+                ScoreBox.Text = score.ToString();
                 if (con != null)
                 {
                     WordListBox.Items.Clear();
@@ -138,22 +173,46 @@ namespace SIT323GUI
                 TextBlockLog.Text += _crozzle.LogListInString();
                 ScoreBox.Background = Brushes.PaleVioletRed;
             }
+            return score;
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
+            TimeSpan timeout = TimeSpan.FromMinutes(5);
+            DateTime start_time = DateTime.Now;
+
+
             BackgroundWorker worker = sender as BackgroundWorker;
 
-            for (int i = 0; i < 101; i++)
+            while (DateTime.Now - start_time < timeout)
             {
-                worker.ReportProgress(i);
-                System.Threading.Thread.Sleep(1000);
+                var crozzleProject2 = new CrozzleProject2(_wordlist);
+                var gen = new CrozzleGenerator(crozzleProject2, _wordlist);
+                gen.PlaceWordsToGrid();
+
+                var crozzle = new Crozzle(crozzleProject2.CrozzleArrayOfChar(), _wordlist);
+                //TextBlockLog.AppendText("Processing Generated Crozzle" + Environment.NewLine);
+
+                if (crozzle == null) return;
+                int score;
+
+                Constraints con;
+                score = ApplyConstraintsAndGetScore(out con, crozzle);
+                if (score > _highScore)
+                {
+                    _highScore = score;
+                    _crozzle = crozzle;
+                    worker.ReportProgress(_highScore, crozzle);
+                }
             }
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            TextBlockLog.AppendText(String.Format("Progress: {0}%", e.ProgressPercentage) + Environment.NewLine);
+            ClearPostGenerated();
+            TextBlockLog.AppendText(String.Format("Current High Score: {0}%", e.ProgressPercentage) + Environment.NewLine);
+            _crozzle = (Crozzle) e.UserState;
+            UpdateGUIAndScore();
         }
 
         private void ShowGeneratorMessageBox()
@@ -170,30 +229,30 @@ namespace SIT323GUI
             }
             else if (result == MessageBoxResult.No)
             {
-                // No code here
+                
             }
         }
 
-        private int ApplyConstraintsAndGetScore(out Constraints con)
+        private int ApplyConstraintsAndGetScore(out Constraints con, Crozzle crozzle)
         {
             con = null;
             var pointScheme = default(PointScheme);
             switch (_wordlist.Level)
             {
                 case Difficulty.Easy:
-                    con = new EasyConstraints(_crozzle, _wordlist);
+                    con = new EasyConstraints(crozzle, _wordlist);
                     pointScheme = PointScheme.OneEach;
                     break;
                 case Difficulty.Medium:
-                    con = new MediumConstraints(_crozzle, _wordlist);
+                    con = new MediumConstraints(crozzle, _wordlist);
                     pointScheme = PointScheme.Incremental;
                     break;
                 case Difficulty.Hard:
-                    con = new HardConstraints(_crozzle, _wordlist);
+                    con = new HardConstraints(crozzle, _wordlist);
                     pointScheme = PointScheme.IncrementalWithBonusPerWord;
                     break;
                 case Difficulty.Extreme:
-                    con = new ExtremeConstraints(_crozzle, _wordlist);
+                    con = new ExtremeConstraints(crozzle, _wordlist);
                     pointScheme = PointScheme.CustomWithBonusPerIntersection;
                     break;
             }
@@ -201,8 +260,12 @@ namespace SIT323GUI
             {
                 return Score.PointsFactory(con.WordsFromCrozzle, pointScheme).TotalScore;
             }
-            TextBlockLog.Text += con.LogListInString();
             return 0;
+        }
+
+        private int ApplyConstraintsAndGetScore(out Constraints con )
+        {
+            return ApplyConstraintsAndGetScore(out con, _crozzle);
         }
     }
 }

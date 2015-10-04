@@ -45,10 +45,7 @@ namespace SIT323Project2
             return str;
         }
 
-        public void FindInterectableWords()
-        {
-            var spans = Crozzle.FindInterectableWords();
-        }
+
 
         private Dictionary<string, int> FindWordsInterectableWords(Word word)
         {
@@ -214,12 +211,5 @@ namespace SIT323Project2
         }
 
 
-        private void Add(Word word, WordMatch match)
-        {
-            Adder = new AddWordToGrid(this, word, (_wordlist.Height/2),
-                (_wordlist.Width/2) - (word.CharacterList.Count/2));
-            Crozzle.Wordlist.Add(word);
-            WordsNotAddedList.Remove(word.ToString());
-        }
     }
 }
