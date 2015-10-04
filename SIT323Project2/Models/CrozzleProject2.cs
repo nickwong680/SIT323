@@ -63,6 +63,15 @@ namespace SIT323Project2.Models
             }
         }
 
+        public void RemoveWord(Word word)
+        {
+            foreach (Character c in word.CharacterList)
+            {
+                _crozzleArrayOfGrid[c.Position.Height][c.Position.Width] = new Grid { Position = new Position { Height = c.Position.Height, Width = c.Position.Width } };
+            }
+            
+        }
+
         public List<Word> Wordlist
         {
             get { return _wordlist; }

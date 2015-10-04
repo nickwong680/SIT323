@@ -170,8 +170,26 @@ namespace SIT323Project2
 
             } while (true);
 
+            PostCheck();
+
             Console.WriteLine(Crozzle.ToString());
         }
+
+        private void PostCheck()
+        {
+            List<Word> wordsToBeRemoved = new List<Word>();
+            if (_difficulty == Difficulty.Easy || _difficulty == Difficulty.Medium)
+            {
+                wordsToBeRemoved.AddRange( Crozzle.Wordlist.Where(w => w.IntersectWords.Count == 0));
+                foreach (Word word in wordsToBeRemoved)
+                {
+                    Crozzle.RemoveWord(word);
+                    Crozzle.Wordlist.Remove(word);
+                }
+            }
+        }
+
+
 
         private bool InsertNewWord()
         {

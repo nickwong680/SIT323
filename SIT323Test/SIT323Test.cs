@@ -226,6 +226,30 @@ namespace SIT323Test
     public class TestProject2
     {
         [TestMethod]
+        public void TestEasyCrozzle()
+        {
+            var score = 0;
+            var wordlist = new Wordlist("Files/Ass2 - Test 1 - wordlist EASY.csv");
+            var crozzle = new CrozzleProject2(wordlist);
+            var gen = new CrozzleGenerator(crozzle, wordlist);
+
+            var word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
+            gen.PlaceWordsToGrid();
+
+            var tt = crozzle.CrozzleArrayOfChar();
+
+            var crozzleExt = new Crozzle(crozzle.CrozzleArrayOfChar(), wordlist);
+            Assert.IsTrue(crozzleExt.LogList.Count == 0);
+            var constraints = new EasyConstraints(crozzleExt, wordlist);
+            Assert.IsTrue(constraints.LogList.Count == 0);
+            score =
+                Score.PointsFactory(constraints.WordsFromCrozzle, PointScheme.OneEach)
+                    .TotalScore;
+
+            Debug.WriteLine(crozzle.ToString());
+        }
+
+        [TestMethod]
         public void TestMediumCrozzle()
         {
             var score = 0;

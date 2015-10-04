@@ -1,5 +1,3 @@
-using System;
-using System.Runtime.InteropServices;
 using SIT323;
 using SIT323.Models;
 using SIT323Project2.Models;
@@ -8,43 +6,23 @@ namespace SIT323Project2
 {
     public class AddWordToGrid
     {
-        private CrozzleGenerator _crozzleGenerator;
-        private Position _position;
-        private Word _word;
-        private bool _added;
-
-        public bool Added
-        {
-            get { return _added; }
-        }
-
-        public Position Position
-        {
-            get { return _position; }
-        }
-
-        public Word Word
-        {
-            get { return _word; }
-        }
+        private readonly CrozzleGenerator _crozzleGenerator;
 
         public AddWordToGrid(CrozzleGenerator crozzleGenerator, Word word, int height, int wdith) :
-            this(crozzleGenerator, word, new Position() {Height = height, Width = wdith})
+            this(crozzleGenerator, word, new Position {Height = height, Width = wdith})
         {
         }
 
         public AddWordToGrid(CrozzleGenerator crozzleGenerator, Word word, Position position)
         {
-            _word = word;
-            _position = position;
+            Word = word;
+            Position = position;
             _crozzleGenerator = crozzleGenerator;
-            _added = false;
+            Added = false;
 
             if (CheckHeadTail())
             {
-                
-                    if (Add()) _added = true;
-                
+                if (Add()) Added = true;
             }
             else
             {
@@ -52,6 +30,11 @@ namespace SIT323Project2
             }
         }
 
+        public bool Added { get; private set; }
+
+        public Position Position { get; private set; }
+
+        public Word Word { get; private set; }
 
 
         private bool CheckHeadTail()
@@ -72,7 +55,7 @@ namespace SIT323Project2
             if (tailGrid != null && !tailGrid.IsCharacterNullOrSpaced()) return false;
             return true;
         }
-        
+
         private bool DoesWordFit()
         {
             if (Word.Direction == Direction.Horizontal)
@@ -106,7 +89,8 @@ namespace SIT323Project2
                         case Direction.All:
                             return false;
                     }
-                    if (grid.Character.Alphabetic != default(char) && grid.Character.Alphabetic != Word.CharacterList[i].Alphabetic)
+                    if (grid.Character.Alphabetic != default(char) &&
+                        grid.Character.Alphabetic != Word.CharacterList[i].Alphabetic)
                     {
                         return false;
                     }
@@ -221,9 +205,9 @@ namespace SIT323Project2
 
         /// <summary>
         ///     EEEEEEEE
-        ///     EXXXXXXE
+        ///     EEXXXXEE
         ///     EEWORDEE
-        ///     EXXXXXXE
+        ///     EEXXXXEE
         ///     EEEEEEEE
         ///     E = Empty
         ///     X = To be Touched
@@ -232,7 +216,7 @@ namespace SIT323Project2
         {
             if (Word.ToString() == "DASH")
             {
-                int tt = 0;
+                var tt = 0;
             }
             for (var i = -1; i < 2; i++)
             {
@@ -297,7 +281,10 @@ namespace SIT323Project2
             switch (_crozzleGenerator.Wordlist.Level)
             {
                 case Difficulty.Easy:
+                    UpdateSurroundedGrids();
                     UpdateHeadAndTailGrid();
+                    UpdateLeftAndRightBorder();
+
                     break;
                 case Difficulty.Medium:
                 case Difficulty.Hard:
@@ -305,6 +292,63 @@ namespace SIT323Project2
                     UpdateSurroundedGrids();
                     UpdateHeadAndTailGrid();
                     break;
+            }
+        }
+
+        /// <summary>
+        ///     EXEEEEXE
+        ///     EEWORDEE
+        ///     EXEEEEXE
+        ///     E = Empty
+        ///     X = To be Touched
+        /// </summary>
+        private void UpdateLeftAndRightBorder()
+        {
+            for (var i = -1; i < 2; i++)
+            {
+                if (i == 0) continue;
+
+                Grid headGrid;
+                Grid tailGrid;
+
+                if (Word.Direction == Direction.Vertical)
+                {
+                    headGrid = _crozzleGenerator.Crozzle[Position.Height - 1, Position.Width + i];
+                    tailGrid = _crozzleGenerator.Crozzle[Position.Height + Word.CharacterList.Count, Position.Width + i];
+                }
+                else
+                {
+                    headGrid = _crozzleGenerator.Crozzle[Position.Height + i, Position.Width - 1];
+                    tailGrid = _crozzleGenerator.Crozzle[Position.Height + i, Position.Width + Word.CharacterList.Count];
+                }
+                if (Word.Direction == Direction.Vertical)
+                {
+                    if (headGrid != null)
+                        headGrid.SpannableDirection = (headGrid.SpannableDirection == Direction.All ||
+                                                       headGrid.SpannableDirection == Direction.Horizontal)
+                            ? Direction.Horizontal
+                            : Direction.None;
+
+                    if (tailGrid != null)
+                        tailGrid.SpannableDirection = (tailGrid.SpannableDirection == Direction.All ||
+                                                       tailGrid.SpannableDirection == Direction.Horizontal)
+                            ? Direction.Horizontal
+                            : Direction.None;
+                }
+                else
+                {
+                    if (headGrid != null)
+                        headGrid.SpannableDirection = (headGrid.SpannableDirection == Direction.All ||
+                                                       headGrid.SpannableDirection == Direction.Vertical)
+                            ? Direction.Vertical
+                            : Direction.None;
+
+                    if (tailGrid != null)
+                        tailGrid.SpannableDirection = (tailGrid.SpannableDirection == Direction.All ||
+                                                       tailGrid.SpannableDirection == Direction.Vertical)
+                            ? Direction.Vertical
+                            : Direction.None;
+                }
             }
         }
     }
