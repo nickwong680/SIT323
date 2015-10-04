@@ -12,10 +12,10 @@ namespace SIT323Project2
     {
         PreMatch = 0,
         CenterMatch = 1 << 0,
-        PostMatch =1 << 1,
-        PreComplexMatch =1 << 2,
-        CenterComplexMatch =1 << 3,
-        PostComplexMatch=1 << 4,
+        PostMatch = 1 << 1,
+        PreComplexMatch = 1 << 2,
+        CenterComplexMatch = 1 << 3,
+        PostComplexMatch = 1 << 4
 
 //        Simple = PreMatch | CenterMatch | PostMatch,
 //        Complex = PreComplexMatch | CenterComplexMatch | PostComplexMatch,
@@ -25,59 +25,35 @@ namespace SIT323Project2
 
     internal class WordMatch
     {
-        private MatchType _matchType;
-        private SpanWithCharater _spanWithCharater;
-        private string _word;
-        private int _matchIndex;
-        private string _regexMatched;
-        private int _point;
-
-        public int Point
+        public WordMatch(MatchType matchType, SpanWithCharater spanWithCharater, string word, int matchIndex,
+            string regexMatched, int point)
         {
-            get { return _point; }
+            MatchIndex = matchIndex;
+            SpanWithCharater = spanWithCharater;
+            Word = word;
+            MatchType = matchType;
+            RegexMatched = regexMatched;
+            Point = point;
         }
 
-        public string RegexMatched
-        {
-            get { return _regexMatched; }
-        }
+        public int Point { get; private set; }
 
-        public MatchType MatchType
-        {
-            get { return _matchType; }
-        }
+        public string RegexMatched { get; private set; }
 
-        public SpanWithCharater SpanWithCharater
-        {
-            get { return _spanWithCharater; }
-        }
+        public MatchType MatchType { get; private set; }
 
-        public string Word
-        {
-            get { return _word; }
-        }
+        public SpanWithCharater SpanWithCharater { get; private set; }
 
-        public int MatchIndex
-        {
-            get { return _matchIndex; }
-        }
+        public string Word { get; private set; }
 
-        public WordMatch(MatchType matchType, SpanWithCharater spanWithCharater, string word, int matchIndex, string regexMatched, int point)
-        {
-            _matchIndex = matchIndex;
-            _spanWithCharater = spanWithCharater;
-            _word = word;
-            _matchType = matchType;
-            _regexMatched = regexMatched;
-            _point = point;
-        }
+        public int MatchIndex { get; private set; }
     }
 
     internal class MatchSpanToWord
     {
-        private int _maxWordLength;
         private readonly List<SpanWithCharater> _spans;
         private readonly List<string> _wordsNotAddedList;
+        private int _maxWordLength;
 
         public MatchSpanToWord(List<SpanWithCharater> spans, List<string> wordsNotAddedList)
         {
@@ -88,15 +64,13 @@ namespace SIT323Project2
 
         public List<WordMatch> Match()
         {
-            List<WordMatch> matches = new List<WordMatch>();
-            foreach (SpanWithCharater span in _spans)
+            var matches = new List<WordMatch>();
+            foreach (var span in _spans)
             {
-        
-
                 var simple =
-                    (String.Join("", span.PreCharacterPlaceable) + String.Join("", span.PostCharacterPlaceable)).Replace
+                    (string.Join("", span.PreCharacterPlaceable) + string.Join("", span.PostCharacterPlaceable)).Replace
                         ("\0", "");
-                if (!String.IsNullOrEmpty(simple))
+                if (!string.IsNullOrEmpty(simple))
                 {
                     matches.AddRange(ComplexMatches(span));
                 }
@@ -111,12 +85,12 @@ namespace SIT323Project2
 
         private List<string> _ComplexMatchRegexStringAndPointBuilder(List<Character> placeable, ref int point)
         {
-            List<string> strList = new List<string>();
+            var strList = new List<string>();
 
-            bool beginWithSpace = true;
-            foreach (Character c in placeable)
+            var beginWithSpace = true;
+            foreach (var c in placeable)
             {
-                if (beginWithSpace == true && c.Alphabetic == default(char))
+                if (beginWithSpace && c.Alphabetic == default(char))
                 {
                     strList.Add(@"\w?");
                 }
@@ -140,12 +114,13 @@ namespace SIT323Project2
 
         private List<WordMatch> ComplexMatches(SpanWithCharater spanWithCharater)
         {
-            int point = 0;
-            string regexPattern = "^";
+            var point = 0;
+            var regexPattern = "^";
             MatchType matchType;
             if (spanWithCharater.PreCharacterPlaceable.Count != 0 && spanWithCharater.PostCharacterPlaceable.Count != 0)
             {
-                regexPattern += String.Join("", _ComplexMatchRegexStringAndPointBuilder(spanWithCharater.PreCharacterPlaceable, ref point));
+                regexPattern += string.Join("",
+                    _ComplexMatchRegexStringAndPointBuilder(spanWithCharater.PreCharacterPlaceable, ref point));
 
                 regexPattern += string.Format("({0})", spanWithCharater.Character.Alphabetic);
                 point += spanWithCharater.Character.Score;
@@ -154,15 +129,15 @@ namespace SIT323Project2
                 reversedCopy.Reverse();
                 var reversedCopyBuilded = _ComplexMatchRegexStringAndPointBuilder(reversedCopy, ref point);
                 reversedCopyBuilded.Reverse();
-                var reversedString = String.Join("", reversedCopyBuilded);
+                var reversedString = string.Join("", reversedCopyBuilded);
                 regexPattern += reversedString;
 
                 matchType = MatchType.CenterComplexMatch;
-
             }
             else if (spanWithCharater.PreCharacterPlaceable.Count != 0)
             {
-                regexPattern += String.Join("", _ComplexMatchRegexStringAndPointBuilder(spanWithCharater.PreCharacterPlaceable, ref point));
+                regexPattern += string.Join("",
+                    _ComplexMatchRegexStringAndPointBuilder(spanWithCharater.PreCharacterPlaceable, ref point));
                 regexPattern += string.Format("({0})", spanWithCharater.Character.Alphabetic);
                 point += spanWithCharater.Character.Score;
 
@@ -177,23 +152,21 @@ namespace SIT323Project2
                 reversedCopy.Reverse();
                 var reversedCopyBuilded = _ComplexMatchRegexStringAndPointBuilder(reversedCopy, ref point);
                 reversedCopyBuilded.Reverse();
-                var reversedString = String.Join("", reversedCopyBuilded);
+                var reversedString = string.Join("", reversedCopyBuilded);
                 regexPattern += reversedString;
 
                 matchType = MatchType.PostComplexMatch;
             }
             regexPattern += "$";
-         
-            return MatchRegex(spanWithCharater, regexPattern, matchType, point);
-            
 
+            return MatchRegex(spanWithCharater, regexPattern, matchType, point);
         }
 
         public List<WordMatch> SimpleMatch(SpanWithCharater spanWithCharater)
         {
             string regexPattern;
             MatchType matchType;
-            int point = 0;
+            var point = 0;
 
             if (spanWithCharater.PreCharacterPlaceable.Count != 0 && spanWithCharater.PostCharacterPlaceable.Count != 0)
             {
@@ -215,7 +188,6 @@ namespace SIT323Project2
                     spanWithCharater.Character.Alphabetic);
                 matchType = MatchType.PreMatch;
                 point += spanWithCharater.Character.Score;
-
             }
             else
             {
@@ -224,24 +196,24 @@ namespace SIT323Project2
                     spanWithCharater.PostCharacterPlaceable.Count);
                 matchType = MatchType.PostMatch;
                 point += spanWithCharater.Character.Score;
-
             }
 
             return MatchRegex(spanWithCharater, regexPattern, matchType, point);
         }
 
-        public List<WordMatch> MatchRegex(SpanWithCharater spanWithCharater, string regexPattern, MatchType matchType, int point)
+        public List<WordMatch> MatchRegex(SpanWithCharater spanWithCharater, string regexPattern, MatchType matchType,
+            int point)
         {
-            List<WordMatch> matchList = new List<WordMatch>();
+            var matchList = new List<WordMatch>();
 
-            Regex regex = new Regex(regexPattern);
-            foreach (string word in _wordsNotAddedList)
+            var regex = new Regex(regexPattern);
+            foreach (var word in _wordsNotAddedList)
             {
                 var wordMatch = regex.Match(word);
                 if (wordMatch.Success)
                 {
-
-                    matchList.Add(new WordMatch(matchType, spanWithCharater, word, wordMatch.Groups[1].Index, regexPattern, point));
+                    matchList.Add(new WordMatch(matchType, spanWithCharater, word, wordMatch.Groups[1].Index,
+                        regexPattern, point));
                 }
             }
             return matchList;

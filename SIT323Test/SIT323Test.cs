@@ -19,14 +19,10 @@ namespace SIT323Test
     [TestClass]
     public class TestValidator
     {
-        private readonly int _maxCrozzleHeightCount = 400;
-        private readonly int _maxWordCount = 1000;
-        private readonly int _minCrozzleWeightCount = 4;
-        private readonly int _minWordCount = 10;
+
 
         private List<LogMessage> _logger;
 
-        private IntValidator _validator;
 
         [TestInitialize]
         public void InitLogger()
@@ -309,8 +305,6 @@ namespace SIT323Test
         [TestMethod]
         public void TestRegex()
         {
-            var ttt = default(char);
-
             var s = "EXAMPLE";
             var regexPattern = @"^\w{0,5}(P)\w{0,4}$";
 
@@ -319,7 +313,6 @@ namespace SIT323Test
             {
                 var tt = match.Groups[1].Index;
             }
-
         }
 
         [TestMethod]
@@ -347,10 +340,8 @@ namespace SIT323Test
             var crozzle = new CrozzleProject2(wordlist);
             var gen = new CrozzleGenerator(crozzle, wordlist);
 
-            var word = new Word(Direction.Horizontal, wordlist.WordList.FirstOrDefault());
             gen.PlaceWordsToGrid();
 
-            var tt = crozzle.CrozzleArrayOfChar();
 
             var crozzleExt = new Crozzle(crozzle.CrozzleArrayOfChar(), wordlist);
             //Assert.IsTrue(crozzleExt.LogList.Count == 0);
@@ -371,7 +362,7 @@ namespace SIT323Test
             var highScore = 0;
             do
             {
-                int testScore = TestExtreme();
+                var testScore = TestExtreme();
                 if (testScore > highScore)
                 {
                     highScore = testScore;

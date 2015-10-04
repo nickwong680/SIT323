@@ -24,10 +24,6 @@ namespace SIT323Project2
             {
                 if (Add()) Added = true;
             }
-            else
-            {
-
-            }
         }
 
         public bool Added { get; private set; }
@@ -56,7 +52,6 @@ namespace SIT323Project2
             return true;
         }
 
-  
 
         private bool Add()
         {
@@ -172,7 +167,6 @@ namespace SIT323Project2
         /// </summary>
         private void UpdateSurroundedGrids()
         {
- 
             for (var i = -1; i < 2; i++)
             {
                 if (i == 0) continue;

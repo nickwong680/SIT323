@@ -46,7 +46,6 @@ namespace SIT323Project2
         }
 
 
-
         private Dictionary<string, int> FindWordsInterectableWords(Word word)
         {
             var words = new Dictionary<string, int>();
@@ -99,10 +98,10 @@ namespace SIT323Project2
         public void PlaceWordsToGrid()
         {
             Word word = null;
-            Random random = new Random();
+            var random = new Random();
             if (Crozzle.Wordlist.Count == 0)
             {
-                int height = random.Next(1, _wordlist.Height - 1);
+                var height = random.Next(1, _wordlist.Height - 1);
                 word = CreateWordWithPoints(WordsNotAddedList.FirstOrDefault());
                 word.Direction = Direction.Horizontal;
 
@@ -112,7 +111,7 @@ namespace SIT323Project2
             }
             do
             {
-                List<SpanWithCharater> spans = Crozzle.FindInterectableWords();
+                var spans = Crozzle.FindInterectableWords();
 
                 var match = new MatchSpanToWord(spans, WordsNotAddedList);
                 var matches = match.MatchAndOrderByPints();
@@ -123,16 +122,13 @@ namespace SIT323Project2
                     {
                         break;
                     }
-                    else
-                    {
-                        if (!InsertNewWord()) break;
-                    }
+                    if (!InsertNewWord()) break;
                 }
                 do
                 {
                     if (matches.Count == 0) break;
 
-                    int rint = random.Next(0, (int) (matches.Count * 0.10));
+                    var rint = random.Next(0, (int) (matches.Count*0.10));
                     var matched = matches[rint];
 
 //                    foreach (WordMatch wordMatch in matches)
@@ -164,7 +160,6 @@ namespace SIT323Project2
 
                 Console.WriteLine(string.Join(",", Crozzle.Wordlist));
                 Console.WriteLine(Crozzle.ToString());
-
             } while (true);
 
             PostCheck();
@@ -174,11 +169,11 @@ namespace SIT323Project2
 
         private void PostCheck()
         {
-            List<Word> wordsToBeRemoved = new List<Word>();
+            var wordsToBeRemoved = new List<Word>();
             if (_difficulty == Difficulty.Easy || _difficulty == Difficulty.Medium)
             {
-                wordsToBeRemoved.AddRange( Crozzle.Wordlist.Where(w => w.IntersectWords.Count == 0));
-                foreach (Word word in wordsToBeRemoved)
+                wordsToBeRemoved.AddRange(Crozzle.Wordlist.Where(w => w.IntersectWords.Count == 0));
+                foreach (var word in wordsToBeRemoved)
                 {
                     Crozzle.RemoveWord(word);
                     Crozzle.Wordlist.Remove(word);
@@ -187,29 +182,26 @@ namespace SIT323Project2
         }
 
 
-
         private bool InsertNewWord()
         {
-            List<Span> spans = Crozzle.FindEmptySpans();
-            if (spans == null) return false; 
+            var spans = Crozzle.FindEmptySpans();
+            if (spans == null) return false;
 
             Span span = null;
             string wordStr = null;
-            foreach (string wStr in WordsNotAddedList)
+            foreach (var wStr in WordsNotAddedList)
             {
                 span = spans.FirstOrDefault(s => s.Length >= wStr.Length - 1);
                 wordStr = wStr;
                 if (span != null) break;
             }
-            if (span == null) return false; 
-            Word word = CreateWordWithPoints(wordStr);
+            if (span == null) return false;
+            var word = CreateWordWithPoints(wordStr);
             word.Direction = span.Direction;
 
             Adder = new AddWordToGrid(this, word, span.Position);
-            if(Adder.Added == true) WordsNotAddedList.Remove(word.ToString());
+            if (Adder.Added) WordsNotAddedList.Remove(word.ToString());
             return true;
         }
-
-
     }
 }

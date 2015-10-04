@@ -1,49 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SIT323.Models;
+﻿using SIT323.Models;
 
 namespace SIT323Project2.Models
 {
     public class Grid
     {
-        private Direction _spannableDirection;
-        private Word _horizontalWord;
-        private Word _verticalWord;
-        private Character _character;
-        private Position _position;
-
-        public Position Position
+        public Grid()
         {
-            get { return _position; }
-            set { _position = value; }
+            Character = new Character(default(char));
+            SpannableDirection = Direction.All;
         }
 
-        public Direction SpannableDirection
-        {
-            get { return _spannableDirection; }
-            set { _spannableDirection = value; }
-        }
+        public Position Position { get; set; }
 
-        public Word HorizontalWord
-        {
-            get { return _horizontalWord; }
-            set { _horizontalWord = value; }
-        }
+        public Direction SpannableDirection { get; set; }
 
-        public Word VerticalWord
-        {
-            get { return _verticalWord; }
-            set { _verticalWord = value; }
-        }
+        public Word HorizontalWord { get; set; }
 
-        public Character Character
-        {
-            get { return _character; }
-            set { _character = value; }
-        }
+        public Word VerticalWord { get; set; }
+
+        public Character Character { get; set; }
 
         public bool IsCharacterNullOrSpaced()
         {
@@ -55,12 +30,6 @@ namespace SIT323Project2.Models
                 }
             }
             return true;
-        }
-
-        public Grid()
-        {
-            _character = new Character(default(char));
-            _spannableDirection = Direction.All;
         }
     }
 }

@@ -94,7 +94,7 @@ namespace SIT323.Models
                 {
                     c = _crozzleArray[w][h];
                 }
-                catch (IndexOutOfRangeException e)
+                catch (IndexOutOfRangeException)
                 {
                     c = ' ';
                 }

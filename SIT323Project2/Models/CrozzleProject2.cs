@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using SIT323;
 using SIT323.Models;
 
@@ -12,20 +10,13 @@ namespace SIT323Project2.Models
         private readonly Grid[][] _crozzleArrayOfGrid;
         private readonly List<Word> _wordlist;
 
-        private Difficulty _level;
-
-        public Difficulty Level
-        {
-            get { return _level; }
-        }
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="wordlist"></param>
         /// <param name="difficulty"></param>
         public CrozzleProject2(Wordlist wordlist, Difficulty level) : this(wordlist)
         {
-            _level = level;
+            Level = level;
         }
 
         public CrozzleProject2(Wordlist wordlist)
@@ -33,7 +24,7 @@ namespace SIT323Project2.Models
             //_wordlist = new List<string>(wordlist.WordList.OrderByDescending(w => w.Count()));
             _wordlist = new List<Word>();
 
-            _level = wordlist.Level;
+            Level = wordlist.Level;
 
             _crozzleArrayOfGrid = new Grid[wordlist.Height][];
             for (var i = 0; i < wordlist.Height; i++)
@@ -46,6 +37,8 @@ namespace SIT323Project2.Models
             }
         }
 
+        public Difficulty Level { get; private set; }
+
         public Grid this[int w, int h]
         {
             get
@@ -55,7 +48,7 @@ namespace SIT323Project2.Models
                 {
                     c = _crozzleArrayOfGrid[w][h];
                 }
-                catch (IndexOutOfRangeException e)
+                catch (IndexOutOfRangeException )
                 {
                     c = null;
                 }
@@ -63,18 +56,20 @@ namespace SIT323Project2.Models
             }
         }
 
-        public void RemoveWord(Word word)
-        {
-            foreach (Character c in word.CharacterList)
-            {
-                _crozzleArrayOfGrid[c.Position.Height][c.Position.Width] = new Grid { Position = new Position { Height = c.Position.Height, Width = c.Position.Width } };
-            }
-            
-        }
-
         public List<Word> Wordlist
         {
             get { return _wordlist; }
+        }
+
+        public void RemoveWord(Word word)
+        {
+            foreach (var c in word.CharacterList)
+            {
+                _crozzleArrayOfGrid[c.Position.Height][c.Position.Width] = new Grid
+                {
+                    Position = new Position {Height = c.Position.Height, Width = c.Position.Width}
+                };
+            }
         }
 
         public char[][] CrozzleArrayOfChar()
@@ -85,7 +80,9 @@ namespace SIT323Project2.Models
                 outArrayOfChar[i] = new char[_crozzleArrayOfGrid[i].Length];
                 for (var j = 0; j < _crozzleArrayOfGrid[i].Length; j++)
                 {
-                    char c = (_crozzleArrayOfGrid[i][j].Character.Alphabetic == default(char)) ? default(char) : _crozzleArrayOfGrid[i][j].Character.Alphabetic;
+                    var c = (_crozzleArrayOfGrid[i][j].Character.Alphabetic == default(char))
+                        ? default(char)
+                        : _crozzleArrayOfGrid[i][j].Character.Alphabetic;
                     outArrayOfChar[i][j] = _crozzleArrayOfGrid[i][j].Character.Alphabetic;
                 }
             }
@@ -96,9 +93,9 @@ namespace SIT323Project2.Models
         {
             if (Level == Difficulty.Hard || Level == Difficulty.Extreme) return true;
             if (grid.IsCharacterNullOrSpaced()) return true;
-            int hor = (grid.HorizontalWord != null) ? grid.HorizontalWord.IntersectWords.Count : 0;
-            int ver = (grid.VerticalWord != null) ? grid.VerticalWord.IntersectWords.Count : 0;
-            int count = Math.Max (hor,ver);
+            var hor = (grid.HorizontalWord != null) ? grid.HorizontalWord.IntersectWords.Count : 0;
+            var ver = (grid.VerticalWord != null) ? grid.VerticalWord.IntersectWords.Count : 0;
+            var count = Math.Max(hor, ver);
 
             if (count >= 2)
             {
@@ -109,24 +106,24 @@ namespace SIT323Project2.Models
 
         public List<Span> FindEmptySpans()
         {
-            List<Span> spans = new List<Span>();
-            List<Grid> gridVer = new List<Grid>();
-            List<Grid> gridHor = new List<Grid>();
+            var spans = new List<Span>();
+            var gridVer = new List<Grid>();
+            var gridHor = new List<Grid>();
 
             for (var i = 0; i < _crozzleArrayOfGrid.Length; i++)
             {
                 for (var j = 0; j < _crozzleArrayOfGrid[i].Length; j++)
                 {
-                    Grid grid = this[i, j];
+                    var grid = this[i, j];
 
                     if (!grid.IsCharacterNullOrSpaced()) continue;
                     if (grid.SpannableDirection != Direction.All) continue;
 
-                    int ver = i + 1;
-                    int hor = j + 1;
+                    var ver = i + 1;
+                    var hor = j + 1;
 
-                    Span spanV = new Span();
-                    spanV.Position = new Position() { Height = i, Width = j };
+                    var spanV = new Span();
+                    spanV.Position = new Position {Height = i, Width = j};
 
                     do
                     {
@@ -145,9 +142,8 @@ namespace SIT323Project2.Models
                                 gridVer.Add(nextGrid);
                                 continue;
                             }
-                        } 
+                        }
                         break;
-                        
                     } while (true);
 
                     if (spanV.Length > 1)
@@ -155,8 +151,8 @@ namespace SIT323Project2.Models
                         spans.Add(spanV);
                     }
 
-                    Span spanH = new Span();
-                    spanH.Position = new Position() { Height = i, Width = j };
+                    var spanH = new Span();
+                    spanH.Position = new Position {Height = i, Width = j};
                     do
                     {
                         var nextGrid = this[ver, j];
@@ -185,8 +181,7 @@ namespace SIT323Project2.Models
                 }
             }
             return spans;
-
-        } 
+        }
 
         /// <summary>
         ///     Pending refactoring
@@ -210,7 +205,6 @@ namespace SIT323Project2.Models
 
                     if (!grid.IsCharacterNullOrSpaced())
                     {
-     
                         var exit = false;
                         var back = (direction == Direction.Vertical) ? i - 1 : j - 1;
                         var next = (direction == Direction.Vertical) ? i + 1 : j + 1;
@@ -304,7 +298,7 @@ namespace SIT323Project2.Models
                                 Direction = grid.SpannableDirection,
                                 Position = new Position {Height = i, Width = j},
                                 PostCharacterPlaceable = postCharacterPlaceable,
-                                PreCharacterPlaceable = preCharacterPlaceable,
+                                PreCharacterPlaceable = preCharacterPlaceable
                             };
                             spans.Add(span);
                         }
