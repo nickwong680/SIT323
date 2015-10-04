@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Dynamic;
 using System.IO;
 using System.Windows;
@@ -85,6 +86,7 @@ namespace SIT323GUI
                 LevelBox.Text = _wordlist.Level.ToString();
                 RowsBox.Text = _wordlist.Width.ToString();
                 ColumnsBox.Text = _wordlist.Height.ToString();
+                ShowGeneratorMessageBox();
             }
             else
             {
@@ -135,6 +137,40 @@ namespace SIT323GUI
             {
                 TextBlockLog.Text += _crozzle.LogListInString();
                 ScoreBox.Background = Brushes.PaleVioletRed;
+            }
+        }
+
+        private void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            for (int i = 0; i < 101; i++)
+            {
+                worker.ReportProgress(i);
+                System.Threading.Thread.Sleep(1000);
+            }
+        }
+
+        private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            TextBlockLog.AppendText(String.Format("Progress: {0}%", e.ProgressPercentage) + Environment.NewLine);
+        }
+
+        private void ShowGeneratorMessageBox()
+        {
+            MessageBoxResult result = MessageBox.Show("Do you want to Generate Crozzle?",
+              "Generate Crozzle", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.WorkerReportsProgress = true;
+                worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+                worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
+                worker.RunWorkerAsync();
+            }
+            else if (result == MessageBoxResult.No)
+            {
+                // No code here
             }
         }
 

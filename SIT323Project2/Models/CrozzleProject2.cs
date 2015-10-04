@@ -31,7 +31,6 @@ namespace SIT323Project2.Models
             }
         }
 
-
         public Grid this[int w, int h]
         {
             get

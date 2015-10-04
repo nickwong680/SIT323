@@ -48,7 +48,6 @@ namespace SIT323Project2
             {
                 var tt = 0;
             }
-            
         }
 
         private bool CheckHeadTail()
@@ -65,7 +64,6 @@ namespace SIT323Project2
                 headGrid = _crozzleGenerator.Crozzle[Position.Height, Position.Width - 1];
                 tailGrid = _crozzleGenerator.Crozzle[Position.Height, Position.Width + Word.CharacterList.Count];
             }
-
             if (headGrid != null && !headGrid.IsCharacterNullOrSpaced()) return false;
             if (tailGrid != null && !tailGrid.IsCharacterNullOrSpaced()) return false;
             return true;
