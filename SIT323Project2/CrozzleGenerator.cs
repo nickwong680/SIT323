@@ -47,7 +47,7 @@ namespace SIT323Project2
 
         public void FindInterectableWords()
         {
-            var spans = Crozzle.InterectableWords();
+            var spans = Crozzle.FindInterectableWords();
         }
 
         private Dictionary<string, int> FindWordsInterectableWords(Word word)
@@ -115,7 +115,7 @@ namespace SIT323Project2
             }
             do
             {
-                var spans = Crozzle.InterectableWords();
+                List<SpanWithCharater> spans = Crozzle.FindInterectableWords();
 
                 var match = new MatchSpanToWord(spans, WordsNotAddedList);
                 var matches = match.MatchAndOrderByPints();
@@ -149,10 +149,10 @@ namespace SIT323Project2
                     if (matched == null) matched = matches.FirstOrDefault();
 
                     word = CreateWordWithPoints(matched.Word);
-                    word.Direction = matched.Span.Direction;
+                    word.Direction = matched.SpanWithCharater.Direction;
 
-                    var pos = matched.Span.Position;
-                    if (matched.Span.Direction == Direction.Vertical)
+                    var pos = matched.SpanWithCharater.Position;
+                    if (matched.SpanWithCharater.Direction == Direction.Vertical)
                     {
                         pos.Height -= matched.MatchIndex;
                     }
@@ -175,7 +175,24 @@ namespace SIT323Project2
 
         private bool InsertNewWord()
         {
-            return false;
+            List<Span> spans = Crozzle.FindEmptySpans();
+            if (spans == null) return false; 
+
+            Span span = null;
+            string wordStr = null;
+            foreach (string wStr in WordsNotAddedList)
+            {
+                span = spans.FirstOrDefault(s => s.Length >= wStr.Length - 1);
+                wordStr = wStr;
+                if (span != null) break;
+            }
+            if (span == null) return false; 
+            Word word = CreateWordWithPoints(wordStr);
+            word.Direction = span.Direction;
+
+            Adder = new AddWordToGrid(this, word, span.Position);
+            if(Adder.Added == true) WordsNotAddedList.Remove(word.ToString());
+            return true;
         }
 
 

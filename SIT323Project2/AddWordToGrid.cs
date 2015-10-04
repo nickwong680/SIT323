@@ -136,21 +136,21 @@ namespace SIT323Project2
                     }
 
 
-//                    grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
-//                        ? Direction.Horizontal
-//                        : Direction.None;
-
-                    if (grid.HorizontalWord == null && grid.SpannableDirection == Direction.Vertical)
-                    {
-                        grid.SpannableDirection = Direction.Horizontal;
-                    }
-                    else
-                    {
-                       grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
+                    grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
                         ? Direction.Horizontal
                         : Direction.None;
-                    
-                    }
+
+//                    if (grid.HorizontalWord == null && grid.SpannableDirection == Direction.Vertical)
+//                    {
+//                        grid.SpannableDirection = Direction.Horizontal;
+//                    }
+//                    else
+//                    {
+//                       grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
+//                        ? Direction.Horizontal
+//                        : Direction.None;
+//                    
+//                    }
                     span++;
                 }
             }
@@ -172,20 +172,20 @@ namespace SIT323Project2
                         Word.IntersectWords.Add(grid.VerticalWord);
                     }
 
-//                    grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
-//                        ? Direction.Vertical
-//                        : Direction.None;
+                    grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
+                        ? Direction.Vertical
+                        : Direction.None;
 
-                    if (grid.VerticalWord == null && grid.SpannableDirection == Direction.Horizontal)
-                    {
-                        grid.SpannableDirection = Direction.Vertical;
-                    }
-                    else
-                    {
-                        grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
-                            ? Direction.Vertical
-                            : Direction.None;
-                    }
+//                    if (grid.VerticalWord == null && grid.SpannableDirection == Direction.Horizontal)
+//                    {
+//                        grid.SpannableDirection = Direction.Vertical;
+//                    }
+//                    else
+//                    {
+//                        grid.SpannableDirection = (grid.SpannableDirection == Direction.All)
+//                            ? Direction.Vertical
+//                            : Direction.None;
+//                    }
                     span++;
                 }
             }
@@ -244,49 +244,49 @@ namespace SIT323Project2
                         var grid = _crozzleGenerator.Crozzle[Position.Height + i, Position.Width + j];
                         if (grid == null) continue;
 
-//                        grid.SpannableDirection = (grid.SpannableDirection == Direction.All ||
-//                                                   grid.SpannableDirection == Direction.Vertical)
-//                            ? Direction.Vertical
-//                            : Direction.None;
+                        grid.SpannableDirection = (grid.SpannableDirection == Direction.All ||
+                                                   grid.SpannableDirection == Direction.Vertical)
+                            ? Direction.Vertical
+                            : Direction.None;
 
-                        if (grid.VerticalWord != null && 
-                            grid.HorizontalWord == null &&
-                            grid.SpannableDirection == Direction.Horizontal
-                            )
-                        {
-                            grid.SpannableDirection = Direction.Horizontal;
-                        }
-                        else
-                        {
-                            grid.SpannableDirection = (grid.SpannableDirection == Direction.All ||
-                                                       grid.SpannableDirection == Direction.Vertical)
-                                ? Direction.Vertical
-                                : Direction.None;
-                        }
+//                        if (grid.VerticalWord != null && 
+//                            grid.HorizontalWord == null &&
+//                            grid.SpannableDirection == Direction.Horizontal
+//                            )
+//                        {
+//                            grid.SpannableDirection = Direction.Horizontal;
+//                        }
+//                        else
+//                        {
+//                            grid.SpannableDirection = (grid.SpannableDirection == Direction.All ||
+//                                                       grid.SpannableDirection == Direction.Vertical)
+//                                ? Direction.Vertical
+//                                : Direction.None;
+//                        }
                     }
                     else
                     {
                         var grid = _crozzleGenerator.Crozzle[Position.Height + j, Position.Width + i];
                         if (grid == null) continue;
-//                        grid.SpannableDirection = (grid.SpannableDirection == Direction.All ||
-//                                                   grid.SpannableDirection == Direction.Horizontal)
-//                            ? Direction.Horizontal
-//                            : Direction.None;
-
-                        if (grid.HorizontalWord != null &&
-                            grid.VerticalWord == null &&
-                            grid.SpannableDirection == Direction.Vertical
-                            )
-                        {
-                            grid.SpannableDirection = Direction.Vertical;
-                        }
-                        else
-                        {
-                            grid.SpannableDirection = (grid.SpannableDirection == Direction.All ||
-                                                       grid.SpannableDirection == Direction.Horizontal)
-                                ? Direction.Horizontal
-                                : Direction.None;
-                        }
+                        grid.SpannableDirection = (grid.SpannableDirection == Direction.All ||
+                                                   grid.SpannableDirection == Direction.Horizontal)
+                            ? Direction.Horizontal
+                            : Direction.None;
+//
+//                        if (grid.HorizontalWord != null &&
+//                            grid.VerticalWord == null &&
+//                            grid.SpannableDirection == Direction.Vertical
+//                            )
+//                        {
+//                            grid.SpannableDirection = Direction.Vertical;
+//                        }
+//                        else
+//                        {
+//                            grid.SpannableDirection = (grid.SpannableDirection == Direction.All ||
+//                                                       grid.SpannableDirection == Direction.Horizontal)
+//                                ? Direction.Horizontal
+//                                : Direction.None;
+//                        }
                     }
                 }
             }

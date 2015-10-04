@@ -239,9 +239,9 @@ namespace SIT323Test
             var tt = crozzle.CrozzleArrayOfChar();
 
             var crozzleExt = new Crozzle(crozzle.CrozzleArrayOfChar(), wordlist);
-            //Assert.IsTrue(crozzleExt.LogList.Count == 0);
+            Assert.IsTrue(crozzleExt.LogList.Count == 0);
             var constraints = new MediumConstraints(crozzleExt, wordlist);
-            //Assert.IsTrue(constraints.LogList.Count == 0);
+            Assert.IsTrue(constraints.LogList.Count == 0);
             score =
                 Score.PointsFactory(constraints.WordsFromCrozzle, PointScheme.Incremental)
                     .TotalScore;
@@ -395,7 +395,7 @@ namespace SIT323Test
 
             var addie = new AddWordToGrid(gen, word, 0, 0);
 
-            var interectableWords = crozzle.InterectableWords();
+            var interectableWords = crozzle.FindInterectableWords();
 
             Assert.IsTrue(interectableWords.Count == word.CharacterList.Count);
             Assert.IsTrue(interectableWords.FirstOrDefault().PostCharacterPlaceable.Count == wordlist.Height - 1);

@@ -49,7 +49,7 @@
     <Compile Include="MatchSpanToWord.cs" />
     <Compile Include="Models\CrozzleProject2.cs" />
     <Compile Include="Models\Grid.cs" />
-    <Compile Include="Models\Span.cs" />
+    <Compile Include="Models\SpanWithCharater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -63,7 +63,6 @@ namespace SIT323Project2.Models
             }
         }
 
-
         public List<Word> Wordlist
         {
             get { return _wordlist; }
@@ -99,14 +98,94 @@ namespace SIT323Project2.Models
             return true;
         }
 
+        public List<Span> FindEmptySpans()
+        {
+            List<Span> spans = new List<Span>();
+            List<Grid> gridVer = new List<Grid>();
+            List<Grid> gridHor = new List<Grid>();
+
+            for (var i = 0; i < _crozzleArrayOfGrid.Length; i++)
+            {
+                for (var j = 0; j < _crozzleArrayOfGrid[i].Length; j++)
+                {
+                    Grid grid = this[i, j];
+
+                    if (!grid.IsCharacterNullOrSpaced()) continue;
+                    if (grid.SpannableDirection != Direction.All) continue;
+
+                    int ver = i + 1;
+                    int hor = j + 1;
+
+                    Span spanV = new Span();
+                    spanV.Position = new Position() { Height = i, Width = j };
+
+                    do
+                    {
+                        var nextGrid = this[i, hor];
+                        if (nextGrid == null) break;
+                        if (!grid.IsCharacterNullOrSpaced()) break;
+
+                        var direction = nextGrid.SpannableDirection;
+                        if (direction == Direction.All)
+                        {
+                            if (!gridVer.Contains(nextGrid))
+                            {
+                                hor++;
+                                spanV.Length++;
+                                spanV.Direction = Direction.Horizontal;
+                                gridVer.Add(nextGrid);
+                                continue;
+                            }
+                        } 
+                        break;
+                        
+                    } while (true);
+
+                    if (spanV.Length > 1)
+                    {
+                        spans.Add(spanV);
+                    }
+
+                    Span spanH = new Span();
+                    spanH.Position = new Position() { Height = i, Width = j };
+                    do
+                    {
+                        var nextGrid = this[ver, j];
+                        if (nextGrid == null) break;
+                        if (!grid.IsCharacterNullOrSpaced()) break;
+
+                        var direction = nextGrid.SpannableDirection;
+                        if (direction == Direction.All)
+                        {
+                            if (!gridHor.Contains(nextGrid))
+                            {
+                                ver++;
+                                spanH.Length++;
+                                spanH.Direction = Direction.Vertical;
+                                gridHor.Add(nextGrid);
+                                continue;
+                            }
+                        }
+                        break;
+                    } while (true);
+
+                    if (spanH.Length > 1)
+                    {
+                        spans.Add(spanH);
+                    }
+                }
+            }
+            return spans;
+
+        } 
 
         /// <summary>
         ///     Pending refactoring
         /// </summary>
         /// <returns></returns>
-        public List<Span> InterectableWords()
+        public List<SpanWithCharater> FindInterectableWords()
         {
-            var spans = new List<Span>();
+            var spans = new List<SpanWithCharater>();
             for (var i = 0; i < _crozzleArrayOfGrid.Length; i++)
             {
                 for (var j = 0; j < _crozzleArrayOfGrid[i].Length; j++)
@@ -214,7 +293,7 @@ namespace SIT323Project2.Models
 
                         if (postCharacterPlaceable.Count + preCharacterPlaceable.Count > 0)
                         {
-                            var span = new Span
+                            var span = new SpanWithCharater
                             {
                                 Character = grid.Character,
                                 Direction = grid.SpannableDirection,
